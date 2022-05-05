@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  database: 
+    image: postgres
+    container_name: iffolha_database
+    restart: always
+    ports: 
+      - 8888:8888
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=ignite
+      - POSTGRES_DB=rentx
+    volumes:
+      - pgdata:/data/postgres
+
+
+  app:
+    build: .
+    container_name: iffolha
+    restart: always
+    ports: 
+      - 9999:9999
+      - 8081:8081 
+    volumes: 
+      - .:/usr/app
+    links: 
+      - database
+    depends_on:
+      - database
+
+
+
+volumes:
+  pgdata:
+    driver: local

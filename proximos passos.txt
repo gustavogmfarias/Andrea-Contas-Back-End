@@ -1,0 +1,6 @@
+Próximos passos:
+
+1- fzer o servidor funcionar 
+2- criar model usuários
+3- criar model 
+3- criar seed admin 

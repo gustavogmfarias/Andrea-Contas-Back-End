@@ -7,6 +7,7 @@ import { User } from "@prisma/client";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 
 export class UsersRepository implements IUsersRepository {
+    
     async create({
         name,
         password,

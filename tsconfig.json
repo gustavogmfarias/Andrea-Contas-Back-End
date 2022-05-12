@@ -4,6 +4,13 @@
       "outDir": "dist",
       "strict": true,
       "lib": ["esnext"],
-      "esModuleInterop": true
-    }
+      "esModuleInterop": true,
+    },
+    "paths": {
+        "@modules/*": ["modules/*"],
+        "@config/*": ["config/*"],
+        "@shared/*": ["shared/*"],
+        "@errors/*": ["errors/*"],
+        "@utils/*": ["utils/*"]
+      },
   }

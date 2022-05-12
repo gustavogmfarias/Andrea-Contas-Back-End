@@ -16,7 +16,6 @@ enum Role {
     EDITOR
     AUTHOR
 
-    @@map("roles")
 }
 
 model User {
@@ -26,8 +25,8 @@ model User {
     password   String
     email      String   @unique
     created_at DateTime @default(now())
-    avatar_url String
-    roles      Role     @default(USER)
+    avatar_url String?
+    role       Role     @default(USER)
 
     user_token UserToken[]
     @@map("users")

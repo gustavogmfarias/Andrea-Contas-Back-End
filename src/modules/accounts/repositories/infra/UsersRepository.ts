@@ -15,14 +15,13 @@ export class UsersRepository implements IUsersRepository {
         avatar_url?,
         role?,
     }: ICreateUserDTO): Promise<void> {
-        const user = this.repository.create({
+        const user = await prisma.user.create({
             name,
             password,
             email,
-            avatar_url?,
-            role?
+            avatar_url,
+            role
         });
-        await prisma.user.create(user);
     }
 
 

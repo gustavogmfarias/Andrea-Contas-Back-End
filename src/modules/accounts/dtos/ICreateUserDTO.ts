@@ -5,5 +5,5 @@ export interface ICreateUserDTO {
     password: string;
     email: string;
     avatar_url?: string;
-    role: Role;
+    role?: Role;
 }

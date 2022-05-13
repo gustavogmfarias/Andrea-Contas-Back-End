@@ -7,20 +7,20 @@ import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepositor
 import { prisma } from "@shared/database/prismaClient";
 
 export class UsersRepository implements IUsersRepository {
-    findByEmail(email: string): Promise<User> {
+    async findByEmail(email: string): Promise<User | null> {
         const user = await prisma.user.findUnique({
             where: {
-                email: email,
+                email,
             },
         });
 
         return user;
     }
 
-    async findById(id: string): Promise<User> {
+    async findById(id: string): Promise<User | null> {
         const user = await prisma.user.findUnique({
             where: {
-                id: id,
+                id,
             },
         });
 

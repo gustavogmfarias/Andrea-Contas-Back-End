@@ -20,7 +20,9 @@ const userData: Prisma.UserCreateInput[] = [
 async function main() {
     console.log(`Start seeding ...`);
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const u of userData) {
+        // eslint-disable-next-line no-await-in-loop
         const user = await prisma.user.create({
             data: u,
         });
@@ -32,6 +34,7 @@ async function main() {
 
 main()
     .catch((e) => {
+        // eslint-disable-next-line no-console
         console.error(e);
         process.exit(1);
     })

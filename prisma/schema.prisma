@@ -40,7 +40,7 @@ model UserToken {
     user_id       String
     user          User     @relation(fields: [user_id], references: [id])
     created_at    DateTime @default(now())
-    end_at        DateTime @default(now())
+    expires_date  DateTime
 
 
     @@map("user_tokens")

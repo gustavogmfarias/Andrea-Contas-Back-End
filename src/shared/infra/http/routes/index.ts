@@ -1,6 +1,7 @@
 import { Router } from "express";
+import { usersRoutes } from "./users.routes";
 
 const router = Router();
+router.use("/users", usersRoutes);
 
-// eslint-disable-next-line import/prefer-default-export
 export { router };

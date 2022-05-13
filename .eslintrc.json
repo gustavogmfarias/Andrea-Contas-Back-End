@@ -16,7 +16,9 @@
     "plugins": ["prettier",
         "@typescript-eslint"
     ],
-    "rules": {"prettier/prettier": "error",
+    "rules": {
+        "no-useless-constructor": "off",
+        "prettier/prettier": "error",
 			"no-use-before-define": "off",
 			"@typescript-eslint/no-use-before-define": [
 				"error"

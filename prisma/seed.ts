@@ -1,23 +1,26 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const userData: Prisma.UserCreateInput[] = [
-    {
-        name: "Admin",
-        email: "admin@admin.com",
-        password: "admin",
-        role: "ADMIN",
-    },
-    {
-        name: "Gustavo",
-        email: "gustavo@gmail.com",
-        password: "gustavo",
-        role: "USER",
-    },
-];
-
 async function main() {
+    const passwordAdmin = await hash("admin", 12);
+    const passwordUser = await hash("gustavo", 12);
+
+    const userData: Prisma.UserCreateInput[] = [
+        {
+            name: "Admin",
+            email: "admin@admin.com",
+            password: passwordAdmin,
+            role: "ADMIN",
+        },
+        {
+            name: "Gustavo",
+            email: "gustavo@gmail.com",
+            password: passwordUser,
+            role: "USER",
+        },
+    ];
     console.log(`Start seeding ...`);
 
     // eslint-disable-next-line no-restricted-syntax

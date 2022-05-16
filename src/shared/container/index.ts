@@ -13,7 +13,3 @@ container.registerSingleton<IUsersTokensRepository>(
     "UsersTokensRepository",
     UsersTokensRepository
 );
-container.registerSingleton<IUsersTokensRepository>(
-    "UsersTokensRepository",
-    UsersTokensRepository
-);

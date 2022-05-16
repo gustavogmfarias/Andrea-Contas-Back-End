@@ -20,10 +20,10 @@ interface IResponse {
 }
 
 @injectable()
-class AuthenticateUserUserCase {
+class AuthenticateUserUseCase {
     constructor(
         @inject("UsersRepository")
-        private UsersRepository: IUsersRepository,
+        private usersRepository: IUsersRepository,
         @inject("UsersTokensRepository")
         private usersTokensRepository: IUsersTokensRepository,
         @inject("DayjsDateProvider")
@@ -32,7 +32,7 @@ class AuthenticateUserUserCase {
 
     async execute({ email, password }: IRequest): Promise<IResponse> {
         // verificar se o usuario existe
-        const user = await this.UsersRepository.findByEmail(email);
+        const user = await this.usersRepository.findByEmail(email);
         const {
             expires_in_token,
             secret_refresh_token,
@@ -71,6 +71,7 @@ class AuthenticateUserUserCase {
             expires_date: refresh_token_expires_date,
             refresh_token,
             user_id: user.id,
+            token,
         });
 
         const tokenReturn: IResponse = {
@@ -86,4 +87,4 @@ class AuthenticateUserUserCase {
     }
 }
 
-export { AuthenticateUserUserCase };
+export { AuthenticateUserUseCase };

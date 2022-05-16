@@ -8,11 +8,10 @@ class UsersTokensRepository implements IUsersTokensRepository {
         expires_date,
         user_id,
         refresh_token,
+        token,
     }: ICreateUserTokenDTO): Promise<UserToken> {
         const userToken = await prisma.userToken.create({
-            expires_date,
-            refresh_token,
-            user_id,
+            data: { expires_date, user_id, refresh_token, token },
         });
 
         return userToken;
@@ -22,7 +21,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
         user_id: string,
         refresh_token: string
     ): Promise<UserToken> {
-        const userTokens = await prisma.userToken.findUnique({
+        const userTokens = await prisma.userToken.findFirst({
             where: { user_id, refresh_token },
         });
 
@@ -30,11 +29,11 @@ class UsersTokensRepository implements IUsersTokensRepository {
     }
 
     async deleteById(id: string): Promise<void> {
-        prisma.userToken.delete({ id });
+        prisma.userToken.delete({ where: { id } });
     }
 
     async findByRefreshToken(refresh_token: string): Promise<UserToken> {
-        const userToken = await prisma.userToken.findUnique({
+        const userToken = await prisma.userToken.findFirst({
             where: { refresh_token },
         });
         return userToken;

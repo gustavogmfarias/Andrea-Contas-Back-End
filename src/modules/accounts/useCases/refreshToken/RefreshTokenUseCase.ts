@@ -58,6 +58,7 @@ class RefreshTokenUseCase {
             expires_date,
             refresh_token,
             user_id,
+            token,
         });
 
         const newToken = sign({}, auth.secret_token, {

@@ -29,7 +29,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
     }
 
     async deleteById(id: string): Promise<void> {
-        prisma.userToken.delete({ where: { id } });
+        await prisma.userToken.delete({ where: { id } });
     }
 
     async findByRefreshToken(refresh_token: string): Promise<UserToken> {

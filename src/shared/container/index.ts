@@ -1,4 +1,5 @@
 import { container } from "tsyringe";
+import "./providers";
 import { UsersRepository } from "@modules/accounts/repositories/infra/UsersRepository";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";

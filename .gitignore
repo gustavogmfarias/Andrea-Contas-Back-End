@@ -1,2 +1,11 @@
 node_modules/
 .env
+credentials.json
+node_modules/
+coverage/
+.env
+tmp/*
+iffolha.pem
+!tmp/.gitkeep
+dist/
+ormconfig.json

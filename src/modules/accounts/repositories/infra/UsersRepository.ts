@@ -44,4 +44,17 @@ export class UsersRepository implements IUsersRepository {
             },
         });
     }
+
+    async update(user: User): Promise<void> {
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                name: user.name,
+                password: user.password,
+                email: user.email,
+                avatar_url: user.avatar_url,
+                role: user.role,
+            },
+        });
+    }
 }

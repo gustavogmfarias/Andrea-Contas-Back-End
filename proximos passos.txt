@@ -1,6 +1,19 @@
 Próximos passos:
 
-1- fzer o servidor funcionar 
-2- criar model usuários
-3- criar model 
-3- criar seed admin 
+1- avatar
+- testar web
+- criar test memoria
+- criar teste do controller 
+
+
+2- CreateUser
+- criar test memoria
+- criar teste do controller 
+
+3- token
+- criar test memoria
+- criar teste do controller 
+
+3- AuthenticateUser/Token
+- criar test memoria
+- criar teste do controller 

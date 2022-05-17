@@ -57,4 +57,15 @@ export class UsersRepository implements IUsersRepository {
             },
         });
     }
+
+    async avatarUrl(user): Promise<string> {
+        switch (process.env.DISK) {
+            case "local":
+                return `${process.env.APP_API_URL}/avatar/${user.avatar_url}`;
+            case "s3":
+                return `${process.env.AWS_BUCKET_URL}/avatar/${user.avatar_url}`;
+            default:
+                return null;
+        }
+    }
 }

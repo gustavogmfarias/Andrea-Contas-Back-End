@@ -28,7 +28,7 @@ class RefreshTokenUseCase {
     ) {}
 
     async execute(token: string): Promise<ITokenResponse> {
-        const { email, sub } = verify(
+        const { email, sub, role } = verify(
             token,
             auth.secret_refresh_token
         ) as IPayload;

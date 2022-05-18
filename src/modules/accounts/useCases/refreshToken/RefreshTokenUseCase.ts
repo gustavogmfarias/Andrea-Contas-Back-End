@@ -10,6 +10,7 @@ import { IDateProvider } from "@shared/container/providers/DateProvider/IDatePro
 interface IPayload {
     sub: string;
     email: string;
+    role: string;
 }
 
 interface ITokenResponse {

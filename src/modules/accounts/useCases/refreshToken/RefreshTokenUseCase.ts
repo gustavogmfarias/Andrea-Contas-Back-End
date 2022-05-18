@@ -50,7 +50,7 @@ class RefreshTokenUseCase {
             auth.expires_in_refresh_days
         );
 
-        const refresh_token = sign({ email }, auth.secret_refresh_token, {
+        const refresh_token = sign({ email, role }, auth.secret_refresh_token, {
             subject: sub,
             expiresIn: auth.expires_in_refresh_token,
         });

@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@prisma/client": "^3.14.0",
-        "aws-sdk": "^2.1135.0",
+        "aws-sdk": "^2.1137.0",
         "bcryptjs": "^2.4.3",
         "class-transformer": "^0.5.1",
         "dayjs": "^1.11.2",

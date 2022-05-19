@@ -62,7 +62,7 @@ class RefreshTokenUseCase {
             token,
         });
 
-        const newToken = sign({}, auth.secret_token, {
+        const newToken = sign({ email, role }, auth.secret_token, {
             subject: user_id,
             expiresIn: auth.expires_in_token,
         });

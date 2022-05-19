@@ -53,15 +53,19 @@ class AuthenticateUserUseCase {
         }
 
         // gerar jswonwebtoken
-        const token = sign({}, secret_token, {
+        const token = sign({ email, role: user.role }, secret_token, {
             subject: user.id,
             expiresIn: expires_in_token,
         });
 
-        const refresh_token = sign({ email }, secret_refresh_token, {
-            subject: user.id,
-            expiresIn: expires_in_refresh_token,
-        });
+        const refresh_token = sign(
+            { email, role: user.role },
+            secret_refresh_token,
+            {
+                subject: user.id,
+                expiresIn: expires_in_refresh_token,
+            }
+        );
 
         const refresh_token_expires_date = this.dateProvider.addDays(
             expires_in_refresh_days

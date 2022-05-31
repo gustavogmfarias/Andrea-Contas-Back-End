@@ -4,6 +4,7 @@ import multer from "multer";
 import { UpdateUserAvatarController } from "@modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import uploadConfig from "@config/upload";
 import { ProfileUserController } from "@modules/accounts/useCases/profileUserUseCase/ProfileUserController";
+import { ListUsersController } from "@modules/accounts/useCases/ListUsers/ListUsersController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 
@@ -14,6 +15,7 @@ const uploadAvatar = multer(uploadConfig);
 
 const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
+const listUsersController = new ListUsersController();
 
 usersRoutes.post(
     "/",
@@ -30,5 +32,11 @@ usersRoutes.patch(
 );
 
 usersRoutes.get("/profile", ensureAuthenticated, profileUserController.handle);
+usersRoutes.get(
+    "/",
+    ensureAuthenticated,
+    ensureAdmin,
+    listUsersController.handle
+);
 
 export { usersRoutes };

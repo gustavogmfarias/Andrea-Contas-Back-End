@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { User } from "@prisma/client";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";

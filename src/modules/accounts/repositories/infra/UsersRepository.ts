@@ -5,6 +5,7 @@ import { User } from "@prisma/client";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 
 import { prisma } from "@shared/database/prismaClient";
+import { IUpdateUserDTO } from "@modules/accounts/dtos/IUpdateUserDTO";
 
 export class UsersRepository implements IUsersRepository {
     async findByEmail(email: string): Promise<User | null> {
@@ -29,31 +30,38 @@ export class UsersRepository implements IUsersRepository {
 
     async create({
         name,
+        last_name,
         password,
         email,
-        avatar_url,
         role,
     }: ICreateUserDTO): Promise<void> {
         await prisma.user.create({
             data: {
                 name,
+                last_name,
                 password,
                 email,
-                avatar_url,
                 role,
             },
         });
     }
 
-    async update(user: User): Promise<void> {
+    async update({
+        name,
+        last_name,
+        password,
+        email,
+        id,
+        role,
+    }: IUpdateUserDTO): Promise<void> {
         await prisma.user.update({
-            where: { id: user.id },
+            where: { id },
             data: {
-                name: user.name,
-                password: user.password,
-                email: user.email,
-                avatar_url: user.avatar_url,
-                role: user.role,
+                name,
+                last_name,
+                password,
+                email,
+                role,
             },
         });
     }
@@ -77,5 +85,11 @@ export class UsersRepository implements IUsersRepository {
         });
 
         return users;
+    }
+
+    async delete(id: string): Promise<void> {
+        await prisma.user.delete({
+            where: { id },
+        });
     }
 }

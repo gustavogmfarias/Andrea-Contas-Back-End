@@ -10,12 +10,14 @@ async function main() {
     const userData: Prisma.UserCreateInput[] = [
         {
             name: "Admin",
+            last_name: "Administrator",
             email: "admin@admin.com",
             password: passwordAdmin,
             role: "ADMIN",
         },
         {
             name: "Gustavo",
+            last_name: "Goulart",
             email: "gustavo@gmail.com",
             password: passwordUser,
             role: "USER",

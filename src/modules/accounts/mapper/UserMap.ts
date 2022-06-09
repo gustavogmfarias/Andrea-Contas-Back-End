@@ -6,6 +6,7 @@ class UserMap {
     static toDTO({
         email,
         name,
+        last_name,
         id,
         avatar_url,
         role,
@@ -13,6 +14,7 @@ class UserMap {
         const user = instanceToInstance({
             email,
             name,
+            last_name,
             id,
             avatar_url,
             role,

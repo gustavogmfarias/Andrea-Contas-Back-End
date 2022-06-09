@@ -13,10 +13,10 @@ class ListUsersUseCase {
     async execute(): Promise<IUserResponseDTO[]> {
         const users = await this.usersRepository.listUsers();
 
-        users.map((user) => {
+        const usersDTO = users.map((user) => {
             return UserMap.toDTO(user);
         });
-        return users;
+        return usersDTO;
     }
 }
 export { ListUsersUseCase };

@@ -7,6 +7,7 @@ import { ProfileUserController } from "@modules/accounts/useCases/profileUserUse
 import { ListUsersController } from "@modules/accounts/useCases/ListUsers/ListUsersController";
 import { DeleteUserController } from "@modules/accounts/useCases/deleteUser/DeleteUserController";
 import { UpdateUserController } from "@modules/accounts/useCases/updateUser/UpdateUserController";
+import { ChangeOwnPasswordController } from "@modules/accounts/useCases/ChangeOwnPassword/ChangeOwnPasswordController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { ensureAdmin } from "../middlewares/ensureAdmin";
 
@@ -20,6 +21,7 @@ const updateUserAvatarController = new UpdateUserAvatarController();
 const listUsersController = new ListUsersController();
 const deleteUserController = new DeleteUserController();
 const updateUserController = new UpdateUserController();
+const changeOwnPasswordController = new ChangeOwnPasswordController();
 
 usersRoutes.post(
     "/",
@@ -33,6 +35,12 @@ usersRoutes.patch(
     ensureAuthenticated,
     uploadAvatar.single("avatar"),
     updateUserAvatarController.handle
+);
+
+usersRoutes.patch(
+    "/change-password",
+    ensureAuthenticated,
+    changeOwnPasswordController.handle
 );
 
 usersRoutes.get("/profile", ensureAuthenticated, profileUserController.handle);

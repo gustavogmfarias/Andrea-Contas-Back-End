@@ -16,9 +16,9 @@ class UpdateUserController {
             role,
         } = request.body;
 
-        const updateUserUseCae = container.resolve(UpdateUserUseCase);
+        const updateUserUseCase = container.resolve(UpdateUserUseCase);
 
-        await updateUserUseCae.execute({
+        await updateUserUseCase.execute({
             name,
             last_name,
             password,

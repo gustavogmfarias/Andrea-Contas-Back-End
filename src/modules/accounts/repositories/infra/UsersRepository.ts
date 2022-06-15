@@ -66,6 +66,15 @@ export class UsersRepository implements IUsersRepository {
         });
     }
 
+    async changeOwnPassword({ password, id }: IUpdateUserDTO): Promise<void> {
+        await prisma.user.update({
+            where: { id },
+            data: {
+                password,
+            },
+        });
+    }
+
     async avatarUrl(user): Promise<string> {
         switch (process.env.DISK) {
             case "local":

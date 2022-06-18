@@ -3,33 +3,34 @@ version: "3.7"
 services:
   database: 
     image: postgres
-    container_name: iffolha_database
+    container_name: andrea-contas-database
     restart: always
     ports: 
-      - 8081:5432
+      - 8083:5432
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=ignite
-      - POSTGRES_DB=iffolha
+      - POSTGRES_DB=andrea-contas
     volumes:
       - pgdata:/data/postgres
 
 
   app:
     build: .
-    container_name: iffolha
+    container_name: andrea-contas
     restart: always
     environment:
-      - DATABASE_URL=postgresql://docker:ignite@iffolha_database:5432/iffolha
+      - DATABASE_URL=postgresql://docker:ignite@andrea-contas-database:5432/andrea-contas
     ports: 
-      - 9999:9999
-      - 5000:5000
+      - 8888:8888
+      - 6000:6000
     volumes: 
       - .:/usr/app
     links: 
       - database
     depends_on:
       - database
+
 
 
 

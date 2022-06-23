@@ -9,12 +9,7 @@ class ListUsersController {
         const page = request.params;
         const per_page = request.params;
 
-        let all;
-        if (page && per_page) {
-            all = await listUsersUseCase.execute({ page, per_page });
-        } else {
-            all = await listUsersUseCase.execute();
-        }
+        const all = await listUsersUseCase.execute({ page, per_page });
 
         return response.json(all);
     }

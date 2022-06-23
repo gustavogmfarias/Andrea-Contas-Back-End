@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 
 import { User } from "@prisma/client";
@@ -75,7 +76,7 @@ export class UsersRepository implements IUsersRepository {
         });
     }
 
-    async avatarUrl(user): Promise<string> {
+    async avatarUrl(user: User): Promise<string> {
         switch (process.env.DISK) {
             case "local":
                 return `${process.env.APP_API_URL}/avatar/${user.avatar_url}`;
@@ -86,13 +87,32 @@ export class UsersRepository implements IUsersRepository {
         }
     }
 
-    async listUsers(): Promise<User[]> {
-        const users = await prisma.user.findMany({
-            orderBy: {
-                id: "desc",
-            },
-        });
+    async listUsers({ page, per_page }): Promise<User[]> {
+        let users;
+        let exist = true;
+        const number_pages = (await prisma.user.count()) / per_page;
 
+        if (page && per_page) {
+            while (exist) {
+                const result = await prisma.user.findMany({
+                    take: per_page,
+                    skip: (page - 1) * per_page,
+                    orderBy: {
+                        id: "desc",
+                    },
+                });
+
+                if (result.length <= 0) {
+                    exist = false;
+                }
+            }
+        } else {
+            users = await prisma.user.findMany({
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        }
         return users;
     }
 

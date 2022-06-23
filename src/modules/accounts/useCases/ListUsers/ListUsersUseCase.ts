@@ -10,8 +10,8 @@ class ListUsersUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    async execute(): Promise<IUserResponseDTO[]> {
-        const users = await this.usersRepository.listUsers();
+    async execute({ page, per_page }): Promise<IUserResponseDTO[]> {
+        const users = await this.usersRepository.listUsers({ page, per_page });
 
         const usersDTO = users.map((user) => {
             return UserMap.toDTO(user);

@@ -44,6 +44,7 @@ usersRoutes.patch(
 );
 
 usersRoutes.get("/profile", ensureAuthenticated, profileUserController.handle);
+
 usersRoutes.get(
     "/",
     ensureAuthenticated,

@@ -19,19 +19,16 @@ enum Role {
 
 }
 
-model User {
+model Lojista {
 
-    id         String   @id @default(uuid())
-    name       String
-    last_name  String
-    password   String
-    email      String   @unique
-    created_at DateTime @default(now())
-    avatar_url String?
-    role       Role     @default(USER)
+    id       String @id @default(uuid())
+    username String @unique
+    password String
+    role     Role   @default(ADMIN)
 
     user_token UserToken[]
-    @@map("users")
+    Pagamentos Pagamento[]
+    @@map("lojistas")
 }
 
 model UserToken {
@@ -39,11 +36,64 @@ model UserToken {
     id            String   @id @default(uuid())
     token         String
     refresh_token String
-    user_id       String
-    user          User     @relation(fields: [user_id], references: [id])
+    lojista_id    String
+    lojista       Lojista  @relation(fields: [lojista_id], references: [id])
     created_at    DateTime @default(now())
     expires_date  DateTime
 
 
     @@map("user_tokens")
+}
+
+model Cliente {
+    id          String   @id @default(uuid())
+    sobrenome   String
+    cpf         String
+    email       String
+    telefone    String
+    foto        String
+    observacoes String
+    avatar_url  String
+    endereco    Endereco @relation(fields: [fk_id_endereco], references: [id])
+
+
+    fk_id_endereco String @unique
+    @@map("clientes")
+}
+
+model Endereco {
+    id     String @id @default(uuid())
+    rua    String
+    bairro String
+    numero String
+    cidade String
+    estado String
+
+    cliente Cliente?
+    @@map("enderecos")
+}
+
+model Conta {
+    id             String      @id @default(uuid())
+    observacoes    String
+    numeroParcelas Int
+    valor_parcela  Float
+    valor_inicial  Float
+    valor_atual    Float
+    dataVencimento DateTime
+    Pagamentos     Pagamento[]
+    ativo          Boolean     @default(true)
+
+}
+
+model Pagamento {
+    id             String   @id @default(uuid())
+    conta          Conta    @relation(fields: [fk_id_conta], references: [id])
+    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
+    dataPagamento  DateTime @default(now())
+    fk_id_conta    String
+    fk_id_lojista  String
+    valorPagamento Float
+
+    @@map("pagamentos")
 }

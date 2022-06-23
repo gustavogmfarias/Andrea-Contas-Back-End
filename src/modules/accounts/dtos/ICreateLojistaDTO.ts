@@ -1,6 +1,6 @@
 import { Role } from "@prisma/client";
 
-export interface ICreateUserDTO {
+export interface ICreateLojistaDTO {
     name: string;
     last_name: string;
     password: string;

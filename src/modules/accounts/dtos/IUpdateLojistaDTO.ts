@@ -1,6 +1,6 @@
 import { Role } from "@prisma/client";
 
-export interface IUpdateUserDTO {
+export interface IUpdateLojistaDTO {
     id: string;
     name?: string;
     last_name?: string;

@@ -1,4 +1,4 @@
-interface IUserResponseDTO {
+interface ILojistaResponseDTO {
     email: string;
     name: string;
     last_name: string;
@@ -7,4 +7,4 @@ interface IUserResponseDTO {
     role: string;
 }
 
-export { IUserResponseDTO };
+export { ILojistaResponseDTO };

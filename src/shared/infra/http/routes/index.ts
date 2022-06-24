@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { authenticateRoutes } from "./authenticate.routes";
-import { usersRoutes } from "./users.routes";
+import { lojistasRoutes } from "./lojistas.routes";
 
 const router = Router();
-router.use("/users", usersRoutes);
+router.use("/lojistas", lojistasRoutes);
 router.use(authenticateRoutes);
 
 export { router };

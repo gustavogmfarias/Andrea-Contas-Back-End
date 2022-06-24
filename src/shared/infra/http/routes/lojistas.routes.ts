@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateUserController } from "@modules/accounts/useCases/createUser/CreateUserController";
+import { CreateUserController } from "@modules/accounts/useCases/createLojista/CreateUserController";
 import multer from "multer";
 import { UpdateUserAvatarController } from "@modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController";
 import uploadConfig from "@config/upload";
@@ -13,7 +13,7 @@ import { ensureAdmin } from "../middlewares/ensureAdmin";
 
 const profileUserController = new ProfileUserController();
 
-const usersRoutes = Router();
+const lojistasRoutes = Router();
 const uploadAvatar = multer(uploadConfig);
 
 const createUserController = new CreateUserController();
@@ -23,47 +23,51 @@ const deleteUserController = new DeleteUserController();
 const updateUserController = new UpdateUserController();
 const changeOwnPasswordController = new ChangeOwnPasswordController();
 
-usersRoutes.post(
+lojistasRoutes.post(
     "/",
     ensureAuthenticated,
     ensureAdmin,
     createUserController.handle
 );
 
-usersRoutes.patch(
+lojistasRoutes.patch(
     "/avatar",
     ensureAuthenticated,
     uploadAvatar.single("avatar"),
     updateUserAvatarController.handle
 );
 
-usersRoutes.patch(
+lojistasRoutes.patch(
     "/change-password",
     ensureAuthenticated,
     changeOwnPasswordController.handle
 );
 
-usersRoutes.get("/profile", ensureAuthenticated, profileUserController.handle);
+lojistasRoutes.get(
+    "/profile",
+    ensureAuthenticated,
+    profileUserController.handle
+);
 
-usersRoutes.get(
+lojistasRoutes.get(
     "/",
     ensureAuthenticated,
     ensureAdmin,
     listUsersController.handle
 );
 
-usersRoutes.delete(
+lojistasRoutes.delete(
     "/delete/:id",
     ensureAuthenticated,
     ensureAdmin,
     deleteUserController.handle
 );
 
-usersRoutes.patch(
+lojistasRoutes.patch(
     "/update/:id",
     ensureAuthenticated,
     ensureAdmin,
     updateUserController.handle
 );
 
-export { usersRoutes };
+export { lojistasRoutes };

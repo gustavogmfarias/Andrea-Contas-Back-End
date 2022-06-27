@@ -3,10 +3,10 @@ import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRep
 import { Lojista } from "@prisma/client";
 import { AppError } from "@shared/errors/AppError";
 import { compare, hash } from "bcryptjs";
-import { inject, injectable } from "tsyringe";
+import { injectable, inject } from "tsyringe";
 
 @injectable()
-class ChangeOwnPasswordUseCase {
+class UpdateLojistaUseCase {
     constructor(
         @inject("LojistasRepository")
         private lojistasRepository: ILojistasRepository
@@ -14,12 +14,21 @@ class ChangeOwnPasswordUseCase {
 
     async execute({
         id,
+        username,
         password,
         old_password,
         confirm_password,
     }: IUpdateLojistaDTO): Promise<Lojista> {
         const lojista = await this.lojistasRepository.findById(id);
         let passwordHash;
+
+        if (!lojista) {
+            throw new AppError("Lojista doesn't exist", 404);
+        }
+
+        if (username) {
+            lojista.username = username;
+        }
 
         if (old_password) {
             const passwordMatch = await compare(old_password, lojista.password);
@@ -37,6 +46,7 @@ class ChangeOwnPasswordUseCase {
 
         this.lojistasRepository.update({
             id,
+            username,
             password: passwordHash,
         });
 
@@ -44,4 +54,4 @@ class ChangeOwnPasswordUseCase {
     }
 }
 
-export { ChangeOwnPasswordUseCase };
+export { UpdateLojistaUseCase };

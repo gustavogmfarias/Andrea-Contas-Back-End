@@ -1,5 +1,5 @@
 interface ICreateLojistaTokenDTO {
-    user_id: string;
+    lojista_id: string;
     expires_date: Date;
     refresh_token: string;
     token: string;

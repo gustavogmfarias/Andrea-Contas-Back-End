@@ -1,10 +1,5 @@
 interface ILojistaResponseDTO {
-    email: string;
-    name: string;
-    last_name: string;
-    id: string;
-    avatar_url: string;
-    role: string;
+    username: string;
 }
 
 export { ILojistaResponseDTO };

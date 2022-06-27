@@ -11,27 +11,19 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-enum Role {
-    USER
-    ADMIN
-    EDITOR
-    AUTHOR
-
-}
-
 model Lojista {
 
     id       String @id @default(uuid())
     username String @unique
     password String
-    role     Role   @default(ADMIN)
 
-    user_token UserToken[]
-    Pagamentos Pagamento[]
+    lojista_token LojistaToken[]
+    pagamentos    Pagamento[]
+    Conta         Conta[]
     @@map("lojistas")
 }
 
-model UserToken {
+model LojistaToken {
 
     id            String   @id @default(uuid())
     token         String
@@ -42,22 +34,24 @@ model UserToken {
     expires_date  DateTime
 
 
-    @@map("user_tokens")
+    @@map("lojista_tokens")
 }
 
 model Cliente {
-    id          String   @id @default(uuid())
+    id         String   @id @default(uuid())
+    created_at DateTime @default(now())
+
     sobrenome   String
     cpf         String
     email       String
     telefone    String
-    foto        String
     observacoes String
     avatar_url  String
     endereco    Endereco @relation(fields: [fk_id_endereco], references: [id])
 
 
-    fk_id_endereco String @unique
+    fk_id_endereco String  @unique
+    Conta          Conta[]
     @@map("clientes")
 }
 
@@ -68,22 +62,29 @@ model Endereco {
     numero String
     cidade String
     estado String
+    cep    String
+
 
     cliente Cliente?
     @@map("enderecos")
 }
 
 model Conta {
-    id             String      @id @default(uuid())
+    id         String   @id @default(uuid())
+    created_at DateTime @default(now())
+
     observacoes    String
     numeroParcelas Int
     valor_parcela  Float
     valor_inicial  Float
     valor_atual    Float
     dataVencimento DateTime
-    Pagamentos     Pagamento[]
+    pagamentos     Pagamento[]
     ativo          Boolean     @default(true)
-
+    lojista        Lojista     @relation(fields: [fk_id_lojista], references: [id])
+    cliente        Cliente     @relation(fields: [fk_id_cliente], references: [id])
+    fk_id_lojista  String
+    fk_id_cliente  String
 }
 
 model Pagamento {

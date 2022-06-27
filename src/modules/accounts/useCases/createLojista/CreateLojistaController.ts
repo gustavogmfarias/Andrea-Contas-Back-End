@@ -5,9 +5,9 @@ import { CreateLojistaUseCase } from "@modules/accounts/useCases/createLojista/C
 class CreateLojistaController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { username, password } = request.body;
-        const createUserUseCase = container.resolve(CreateLojistaUseCase);
+        const createLojistaUseCase = container.resolve(CreateLojistaUseCase);
 
-        await createUserUseCase.execute({
+        await createLojistaUseCase.execute({
             username,
             password,
         });

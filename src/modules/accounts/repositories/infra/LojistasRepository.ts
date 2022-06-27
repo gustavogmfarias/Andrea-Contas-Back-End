@@ -60,32 +60,13 @@ export class LojistasRepository implements ILojistasRepository {
         });
     }
 
-    async listLojistas({ page, per_page }): Promise<Lojista[]> {
-        let lojistas;
-        let exist = true;
-        const number_pages = (await prisma.lojista.count()) / per_page;
+    async listLojistas(): Promise<Lojista[]> {
+        const lojistas = await prisma.lojista.findMany({
+            orderBy: {
+                id: "desc",
+            },
+        });
 
-        if (page && per_page) {
-            while (exist) {
-                const result = await prisma.lojista.findMany({
-                    take: per_page,
-                    skip: (page - 1) * per_page,
-                    orderBy: {
-                        id: "desc",
-                    },
-                });
-
-                if (result.length <= 0) {
-                    exist = false;
-                }
-            }
-        } else {
-            lojistas = await prisma.lojista.findMany({
-                orderBy: {
-                    id: "desc",
-                },
-            });
-        }
         return lojistas;
     }
 

@@ -1,10 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import "reflect-metadata";
-import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { AppError } from "@shared/errors/AppError";
-import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";
+import { ILojistasTokensRepository } from "@modules/accounts/repositories/ILojistasTokensRepository";
 import auth from "@config/auth";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 
@@ -14,25 +14,25 @@ interface IRequest {
 }
 
 interface IResponse {
-    user: { name: string; email: string; role: string };
+    lojista: { name: string; email: string; role: string };
     token: string;
     refresh_token: string;
 }
 
 @injectable()
-class AuthenticateUserUseCase {
+class AuthenticateLojistaUseCase {
     constructor(
-        @inject("UsersRepository")
-        private usersRepository: IUsersRepository,
-        @inject("UsersTokensRepository")
-        private usersTokensRepository: IUsersTokensRepository,
+        @inject("LojistasRepository")
+        private lojistasRepository: ILojistasRepository,
+        @inject("LojistasTokensRepository")
+        private lojistasTokensRepository: ILojistasTokensRepository,
         @inject("DayjsDateProvider")
         private dateProvider: IDateProvider
     ) {}
 
     async execute({ email, password }: IRequest): Promise<IResponse> {
         // verificar se o usuario existe
-        const user = await this.usersRepository.findByEmail(email);
+        const lojista = await this.lojistasRepository.findByEmail(email);
         const {
             expires_in_token,
             secret_refresh_token,
@@ -41,28 +41,28 @@ class AuthenticateUserUseCase {
             expires_in_refresh_days,
         } = auth;
 
-        if (!user) {
+        if (!lojista) {
             throw new AppError("Email or password incorrect", 401);
         }
 
         // senha está correta?
-        const passwordMatch = await compare(password, user.password);
+        const passwordMatch = await compare(password, lojista.password);
 
         if (!passwordMatch) {
             throw new AppError("Email or password incorrect", 401);
         }
 
         // gerar jswonwebtoken
-        const token = sign({ email, role: user.role }, secret_token, {
-            subject: user.id,
+        const token = sign({ email, role: lojista.role }, secret_token, {
+            subject: lojista.id,
             expiresIn: expires_in_token,
         });
 
         const refresh_token = sign(
-            { email, role: user.role },
+            { email, role: lojista.role },
             secret_refresh_token,
             {
-                subject: user.id,
+                subject: lojista.id,
                 expiresIn: expires_in_refresh_token,
             }
         );
@@ -71,19 +71,19 @@ class AuthenticateUserUseCase {
             expires_in_refresh_days
         );
 
-        this.usersTokensRepository.create({
+        this.lojistasTokensRepository.create({
             expires_date: refresh_token_expires_date,
             refresh_token,
-            user_id: user.id,
+            lojista_id: lojista.id,
             token,
         });
 
         const tokenReturn: IResponse = {
             token,
-            user: {
-                name: user.name,
-                email: user.email,
-                role: user.role,
+            lojista: {
+                name: lojista.name,
+                email: lojista.email,
+                role: lojista.role,
             },
             refresh_token,
         };
@@ -92,4 +92,4 @@ class AuthenticateUserUseCase {
     }
 }
 
-export { AuthenticateUserUseCase };
+export { AuthenticateLojistaUseCase };

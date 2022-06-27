@@ -4,7 +4,7 @@ import { ChangeOwnPasswordUseCase } from "./ChangeOwnPasswordUseCase";
 
 class ChangeOwnPasswordController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { id } = request.user;
+        const { id } = request.lojista;
 
         const { password, old_password, confirm_password } = request.body;
 

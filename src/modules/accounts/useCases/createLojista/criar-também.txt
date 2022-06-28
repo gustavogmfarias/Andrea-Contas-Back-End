@@ -1,3 +1,0 @@
-* criar avatar
-* criar token
-* criar ensure authenticate

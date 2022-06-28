@@ -7,7 +7,6 @@ import { DeleteLojistaController } from "@modules/accounts/useCases/deleteLojist
 import { UpdateLojistaController } from "@modules/accounts/useCases/updateLojista/UpdateLojistaController";
 import { ChangeOwnPasswordController } from "@modules/accounts/useCases/ChangeOwnPassword/ChangeOwnPasswordController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { ensureAdmin } from "../middlewares/ensureAdmin";
 
 const lojistasRoutes = Router();
 const uploadAvatar = multer(uploadConfig);
@@ -18,12 +17,7 @@ const deleteLojistaController = new DeleteLojistaController();
 const updateLojistaController = new UpdateLojistaController();
 const changeOwnPasswordController = new ChangeOwnPasswordController();
 
-lojistasRoutes.post(
-    "/",
-    ensureAuthenticated,
-    ensureAdmin,
-    createLojistaController.handle
-);
+lojistasRoutes.post("/", ensureAuthenticated, createLojistaController.handle);
 
 lojistasRoutes.patch(
     "/change-password",
@@ -31,24 +25,17 @@ lojistasRoutes.patch(
     changeOwnPasswordController.handle
 );
 
-lojistasRoutes.get(
-    "/",
-    ensureAuthenticated,
-    ensureAdmin,
-    listLojistasController.handle
-);
+lojistasRoutes.get("/", ensureAuthenticated, listLojistasController.handle);
 
 lojistasRoutes.delete(
     "/delete/:id",
     ensureAuthenticated,
-    ensureAdmin,
     deleteLojistaController.handle
 );
 
 lojistasRoutes.patch(
     "/update/:id",
     ensureAuthenticated,
-    ensureAdmin,
     updateLojistaController.handle
 );
 

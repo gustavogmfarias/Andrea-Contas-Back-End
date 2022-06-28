@@ -2,15 +2,14 @@ import { inject, injectable } from "tsyringe";
 
 import { verify, sign } from "jsonwebtoken";
 
-import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";
+import { ILojistasTokensRepository } from "@modules/accounts/repositories/ILojistasTokensRepository";
 import auth from "@config/auth";
 import { AppError } from "@shared/errors/AppError";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 
 interface IPayload {
     sub: string;
-    email: string;
-    role: string;
+    username: string;
 }
 
 interface ITokenResponse {
@@ -22,48 +21,48 @@ interface ITokenResponse {
 class RefreshTokenUseCase {
     constructor(
         @inject("UsersTokensRepository")
-        private usersTokensRepository: IUsersTokensRepository,
+        private lojistasTokensRepository: ILojistasTokensRepository,
         @inject("DayjsDateProvider")
         private dateProvider: IDateProvider
     ) {}
 
     async execute(token: string): Promise<ITokenResponse> {
-        const { email, sub, role } = verify(
+        const { username, sub } = verify(
             token,
             auth.secret_refresh_token
         ) as IPayload;
-        const user_id = sub;
+        const lojista_id = sub;
 
-        const userToken =
-            await this.usersTokensRepository.findByUserIdAndRefreshToken(
-                user_id,
+        const lojistaToken =
+            await this.lojistasTokensRepository.findByLojistaIdAndRefreshToken(
+                lojista_id,
                 token
             );
 
-        if (!userToken) {
+        if (!lojistaToken) {
             throw new AppError("Refresh Token doesn't Exists", 401);
         }
 
-        await this.usersTokensRepository.deleteById(userToken.id);
+        await this.lojistasTokensRepository.deleteById(lojistaToken.id);
 
         const expires_date = this.dateProvider.addDays(
             auth.expires_in_refresh_days
         );
 
-        const refresh_token = sign({ email, role }, auth.secret_refresh_token, {
+        const refresh_token = sign({ username }, auth.secret_refresh_token, {
             subject: sub,
             expiresIn: auth.expires_in_refresh_token,
         });
 
-        await this.usersTokensRepository.create({
+        await this.lojistasTokensRepository.create({
             expires_date,
             refresh_token,
-            user_id,
+            lojista_id,
             token,
         });
 
-        const newToken = sign({ email, role }, auth.secret_token, {
-            subject: user_id,
+        const newToken = sign({ username }, auth.secret_token, {
+            subject: lojista_id,
             expiresIn: auth.expires_in_token,
         });
 

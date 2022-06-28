@@ -6,16 +6,17 @@ class UpdateLojistaController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { id } = request.params;
 
-        const { username, password, old_password, confirm_password } =
+        const { username, senha, senha_antiga, confirma_senha, nome } =
             request.body;
 
         const updateLojistaUseCase = container.resolve(UpdateLojistaUseCase);
 
         await updateLojistaUseCase.execute({
             username,
-            password,
-            old_password,
-            confirm_password,
+            nome,
+            senha,
+            senha_antiga,
+            confirma_senha,
             id,
         });
 

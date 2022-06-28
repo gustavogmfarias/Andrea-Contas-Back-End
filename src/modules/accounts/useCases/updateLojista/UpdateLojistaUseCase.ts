@@ -14,10 +14,11 @@ class UpdateLojistaUseCase {
 
     async execute({
         id,
+        nome,
         username,
-        password,
-        old_password,
-        confirm_password,
+        senha,
+        senha_antiga,
+        confirma_senha,
     }: IUpdateLojistaDTO): Promise<Lojista> {
         const lojista = await this.lojistasRepository.findById(id);
         let passwordHash;
@@ -30,24 +31,29 @@ class UpdateLojistaUseCase {
             lojista.username = username;
         }
 
-        if (old_password) {
-            const passwordMatch = await compare(old_password, lojista.password);
+        if (nome) {
+            lojista.nome = nome;
+        }
+
+        if (senha_antiga) {
+            const passwordMatch = await compare(senha_antiga, lojista.senha);
 
             if (!passwordMatch) {
                 throw new AppError("Last Password doesn't match", 401);
             }
         }
 
-        if (password === confirm_password) {
-            passwordHash = await hash(password, 12);
+        if (senha === confirma_senha) {
+            passwordHash = await hash(senha, 12);
         } else {
             throw new AppError("Passwords don't match", 401);
         }
 
         this.lojistasRepository.update({
             id,
+            nome,
             username,
-            password: passwordHash,
+            senha: passwordHash,
         });
 
         return lojista;

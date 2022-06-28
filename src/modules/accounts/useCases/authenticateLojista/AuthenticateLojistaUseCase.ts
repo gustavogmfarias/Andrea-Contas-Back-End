@@ -9,12 +9,12 @@ import auth from "@config/auth";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 
 interface IRequest {
-    email: string;
-    password: string;
+    username: string;
+    senha: string;
 }
 
 interface IResponse {
-    lojista: { name: string; email: string; role: string };
+    lojista: { nome: string; username: string };
     token: string;
     refresh_token: string;
 }
@@ -30,9 +30,9 @@ class AuthenticateLojistaUseCase {
         private dateProvider: IDateProvider
     ) {}
 
-    async execute({ email, password }: IRequest): Promise<IResponse> {
+    async execute({ username, senha }: IRequest): Promise<IResponse> {
         // verificar se o usuario existe
-        const lojista = await this.lojistasRepository.findByEmail(email);
+        const lojista = await this.lojistasRepository.findByUserName(username);
         const {
             expires_in_token,
             secret_refresh_token,
@@ -46,26 +46,22 @@ class AuthenticateLojistaUseCase {
         }
 
         // senha está correta?
-        const passwordMatch = await compare(password, lojista.password);
+        const passwordMatch = await compare(senha, lojista.senha);
 
         if (!passwordMatch) {
             throw new AppError("Email or password incorrect", 401);
         }
 
         // gerar jswonwebtoken
-        const token = sign({ email, role: lojista.role }, secret_token, {
+        const token = sign({ username }, secret_token, {
             subject: lojista.id,
             expiresIn: expires_in_token,
         });
 
-        const refresh_token = sign(
-            { email, role: lojista.role },
-            secret_refresh_token,
-            {
-                subject: lojista.id,
-                expiresIn: expires_in_refresh_token,
-            }
-        );
+        const refresh_token = sign({ username }, secret_refresh_token, {
+            subject: lojista.id,
+            expiresIn: expires_in_refresh_token,
+        });
 
         const refresh_token_expires_date = this.dateProvider.addDays(
             expires_in_refresh_days
@@ -81,9 +77,8 @@ class AuthenticateLojistaUseCase {
         const tokenReturn: IResponse = {
             token,
             lojista: {
-                name: lojista.name,
-                email: lojista.email,
-                role: lojista.role,
+                nome: lojista.nome,
+                username: lojista.username,
             },
             refresh_token,
         };

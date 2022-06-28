@@ -10,13 +10,13 @@ async function main() {
     const lojistaData: Prisma.LojistaCreateManyInput[] = [
         {
             username: "admin",
-            password: passwordAdmin,
-            role: "ADMIN",
+            nome: "admin",
+            senha: passwordAdmin,
         },
         {
             username: "gustavo",
-            password: passwordLojista,
-            role: "USER",
+            nome: "gustavo",
+            senha: "passwordLojista",
         },
     ];
     console.log(`Start seeding ...`);

@@ -4,15 +4,15 @@ import { AuthenticateLojistaUseCase } from "@modules/accounts/useCases/authentic
 
 class AuthenticateLojistaController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { password, email } = request.body;
+        const { senha, username } = request.body;
 
         const authenticateLojistaUseCase = container.resolve(
             AuthenticateLojistaUseCase
         );
 
         const token = await authenticateLojistaUseCase.execute({
-            password,
-            email,
+            senha,
+            username,
         });
 
         return response.json(token);

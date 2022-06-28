@@ -1,4 +1,5 @@
 export interface ICreateLojistaDTO {
     username: string;
-    password: string;
+    nome: string;
+    senha: string;
 }

@@ -1,7 +1,8 @@
 export interface IUpdateLojistaDTO {
     id: string;
+    nome?: string;
     username?: string;
-    password?: string;
-    confirm_password?: string;
-    old_password?: string;
+    senha?: string;
+    confirma_senha?: string;
+    senha_antiga?: string;
 }

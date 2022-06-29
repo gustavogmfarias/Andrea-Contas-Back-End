@@ -29,33 +29,37 @@ export class LojistasRepository implements ILojistasRepository {
         return lojista;
     }
 
-    async create({ username, password }: ICreateLojistaDTO): Promise<void> {
+    async create({ username, senha, nome }: ICreateLojistaDTO): Promise<void> {
         await prisma.lojista.create({
             data: {
                 username,
-                password,
+                nome,
+                senha,
             },
         });
     }
 
-    async update({ username, password, id }: IUpdateLojistaDTO): Promise<void> {
-        await prisma.lojista.update({
-            where: { id },
-            data: {
-                username,
-                password,
-            },
-        });
-    }
-
-    async changeOwnPassword({
-        password,
+    async update({
+        username,
+        senha,
+        nome,
         id,
     }: IUpdateLojistaDTO): Promise<void> {
         await prisma.lojista.update({
             where: { id },
             data: {
-                password,
+                username,
+                senha,
+                nome,
+            },
+        });
+    }
+
+    async changeOwnPassword({ senha, id }: IUpdateLojistaDTO): Promise<void> {
+        await prisma.lojista.update({
+            where: { id },
+            data: {
+                senha,
             },
         });
     }

@@ -10,7 +10,7 @@ import { IUpdateLojistaDTO } from "@modules/accounts/dtos/IUpdateLojistaDTO";
 
 export class LojistasRepository implements ILojistasRepository {
     async findByUserName(username: string): Promise<Lojista | null> {
-        const lojista = await prisma.lojista.findUnique({
+        const lojista = await prisma.lojista.findFirst({
             where: {
                 username,
             },

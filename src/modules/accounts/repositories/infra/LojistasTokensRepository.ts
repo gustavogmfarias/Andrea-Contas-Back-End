@@ -10,11 +10,15 @@ class LojistasTokensRepository implements ILojistasTokensRepository {
         refresh_token,
         token,
     }: ICreateLojistaTokenDTO): Promise<LojistaToken> {
-        const lojistaToken = await prisma.lojistaToken.create({
-            data: { expires_date, lojista_id, refresh_token, token },
-        });
+        try {
+            const lojistaToken = await prisma.lojistaToken.create({
+                data: { expires_date, lojista_id, refresh_token, token },
+            });
 
-        return lojistaToken;
+            return lojistaToken;
+        } catch (err) {
+            return err.message;
+        }
     }
 
     async findByLojistaIdAndRefreshToken(

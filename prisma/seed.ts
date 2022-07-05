@@ -16,7 +16,7 @@ async function main() {
         {
             username: "gustavo",
             nome: "gustavo",
-            senha: "passwordLojista",
+            senha: passwordLojista,
         },
     ];
     console.log(`Start seeding ...`);

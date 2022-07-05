@@ -64,12 +64,24 @@ export class LojistasRepository implements ILojistasRepository {
         });
     }
 
-    async listLojistas(): Promise<Lojista[]> {
-        const lojistas = await prisma.lojista.findMany({
-            orderBy: {
-                id: "desc",
-            },
-        });
+    async listLojistas({ page, per_page }): Promise<Lojista[]> {
+        let lojistas: Lojista[];
+
+        if (!page || !per_page) {
+            lojistas = await prisma.lojista.findMany({
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        } else {
+            lojistas = await prisma.lojista.findMany({
+                take: Number(per_page),
+                skip: (Number(page) - 1) * Number(per_page),
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        }
 
         return lojistas;
     }

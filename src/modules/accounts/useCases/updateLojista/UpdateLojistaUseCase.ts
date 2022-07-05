@@ -2,7 +2,7 @@ import { IUpdateLojistaDTO } from "@modules/accounts/dtos/IUpdateLojistaDTO";
 import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
 import { Lojista } from "@prisma/client";
 import { AppError } from "@shared/errors/AppError";
-import { compare, hash } from "bcryptjs";
+import { hash } from "bcryptjs";
 import { injectable, inject } from "tsyringe";
 
 @injectable()
@@ -17,7 +17,6 @@ class UpdateLojistaUseCase {
         nome,
         username,
         senha,
-        senha_antiga,
         confirma_senha,
     }: IUpdateLojistaDTO): Promise<Lojista> {
         const lojista = await this.lojistasRepository.findById(id);
@@ -33,14 +32,6 @@ class UpdateLojistaUseCase {
 
         if (nome) {
             lojista.nome = nome;
-        }
-
-        if (senha_antiga) {
-            const passwordMatch = await compare(senha_antiga, lojista.senha);
-
-            if (!passwordMatch) {
-                throw new AppError("Last Password doesn't match", 401);
-            }
         }
 
         if (senha === confirma_senha) {

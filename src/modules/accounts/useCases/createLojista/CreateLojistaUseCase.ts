@@ -11,7 +11,7 @@ class CreateLojistaUseCase {
         private lojistasRepository: ILojistasRepository
     ) {}
 
-    async execute({ username, password }: ICreateLojistaDTO): Promise<void> {
+    async execute({ username, senha, nome }: ICreateLojistaDTO): Promise<void> {
         const lojistaAlreadyExists =
             await this.lojistasRepository.findByUserName(username);
 
@@ -19,11 +19,12 @@ class CreateLojistaUseCase {
             throw new AppError("Lojista already exists");
         }
 
-        const passwordHash = await hash(password, 12);
+        const passwordHash = await hash(senha, 12);
 
         await this.lojistasRepository.create({
             username,
-            password: passwordHash,
+            senha: passwordHash,
+            nome,
         });
     }
 }

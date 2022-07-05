@@ -30,7 +30,7 @@ model LojistaToken {
     token         String
     refresh_token String
     lojista_id    String
-    lojista       Lojista  @relation(fields: [lojista_id], references: [id])
+    lojista       Lojista  @relation(fields: [lojista_id], references: [id], onDelete: Cascade)
     created_at    DateTime @default(now())
     expires_date  DateTime
 
@@ -48,7 +48,7 @@ model Cliente {
     telefone    String
     observacoes String
     avatarUrl   String
-    endereco    Endereco @relation(fields: [fk_id_endereco], references: [id])
+    endereco    Endereco @relation(fields: [fk_id_endereco], references: [id], onDelete: Cascade)
 
 
     fk_id_endereco String  @unique
@@ -82,8 +82,8 @@ model Conta {
     dataVencimento      DateTime
     pagamentos          Pagamento[]
     ativo               Boolean     @default(true)
-    lojista             Lojista     @relation(fields: [fk_id_lojista], references: [id])
-    cliente             Cliente     @relation(fields: [fk_id_cliente], references: [id])
+    lojista             Lojista     @relation(fields: [fk_id_lojista], references: [id], onDelete: SetNull)
+    cliente             Cliente     @relation(fields: [fk_id_cliente], references: [id], onDelete: SetNull)
     fk_id_lojista       String
     fk_id_cliente       String
 }
@@ -91,7 +91,7 @@ model Conta {
 model Pagamento {
     id             String   @id @default(uuid())
     conta          Conta    @relation(fields: [fk_id_conta], references: [id])
-    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
+    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id], onDelete: SetNull)
     dataPagamento  DateTime @default(now())
     fk_id_conta    String
     fk_id_lojista  String

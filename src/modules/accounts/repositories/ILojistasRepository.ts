@@ -1,8 +1,7 @@
 import { Lojista } from "@prisma/client";
-
 import { ICreateLojistaDTO } from "@modules/accounts/dtos/ICreateLojistaDTO";
+import { IPaginationRequestDTO } from "@shared/dtos/IPaginationRequestDTO";
 import { IUpdateLojistaDTO } from "../dtos/IUpdateLojistaDTO";
-import { IPaginationRequestDTO } from "../dtos/IPaginationRequestDTO";
 
 export interface ILojistasRepository {
     create(data: ICreateLojistaDTO): Promise<void>;

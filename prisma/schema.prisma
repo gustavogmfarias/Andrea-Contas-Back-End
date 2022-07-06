@@ -82,8 +82,8 @@ model Conta {
     dataVencimento      DateTime
     pagamentos          Pagamento[]
     ativo               Boolean     @default(true)
-    lojista             Lojista     @relation(fields: [fk_id_lojista], references: [id], onDelete: SetNull)
-    cliente             Cliente     @relation(fields: [fk_id_cliente], references: [id], onDelete: SetNull)
+    lojista             Lojista     @relation(fields: [fk_id_lojista], references: [id])
+    cliente             Cliente     @relation(fields: [fk_id_cliente], references: [id])
     fk_id_lojista       String
     fk_id_cliente       String
 }
@@ -91,7 +91,7 @@ model Conta {
 model Pagamento {
     id             String   @id @default(uuid())
     conta          Conta    @relation(fields: [fk_id_conta], references: [id])
-    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id], onDelete: SetNull)
+    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
     dataPagamento  DateTime @default(now())
     fk_id_conta    String
     fk_id_lojista  String

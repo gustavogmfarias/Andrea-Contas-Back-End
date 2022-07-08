@@ -14,7 +14,7 @@ export class ClientesRepository implements IClientesRepository {
         observacoes,
         endereco,
         avatarUrl,
-    }: ICreateClienteDTO): Promise<void> {
+    }): Promise<void> {
         prisma.cliente.create({
             data: {
                 nome,

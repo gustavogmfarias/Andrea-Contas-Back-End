@@ -7,6 +7,6 @@ export interface ICreateClienteDTO {
     email: string;
     telefone: string;
     observacoes: string;
-    avatarUrl?: string;
-    endereco?: Endereco;
+    avatarUrl: string;
+    endereco: string;
 }

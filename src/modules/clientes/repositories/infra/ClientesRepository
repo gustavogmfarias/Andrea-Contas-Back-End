@@ -1,0 +1,54 @@
+import { Cliente } from "@prisma/client";
+import { prisma } from "../../../../shared/database/prismaClient";
+import { IPaginationRequestDTO } from "../../../../shared/dtos/IPaginationRequestDTO";
+import { ICreateClienteDTO } from "../../dtos/ICreateClienteDTO";
+import { IClientesRepository } from "../IClientesRepository";
+
+export class ClientesRepository implements IClientesRepository {
+    async create({
+        nome,
+        sobrenome,
+        cpf,
+        email,
+        telefone,
+        observacoes,
+        endereco,
+        avatarUrl,
+    }: ICreateClienteDTO): Promise<void> {
+        prisma.cliente.create({
+            data: {
+                nome,
+                sobrenome,
+                cpf,
+                email,
+                telefone,
+                observacoes,
+                endereco,
+                avatarUrl,
+            },
+        });
+    }
+
+    async delete(id: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+    async listClientes({
+        page,
+        per_page,
+    }: IPaginationRequestDTO): Promise<Cliente[] | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async findByName(nome: string): Promise<Cliente[] | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async findById(id: string): Promise<Cliente | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async update(data: ICreateClienteDTO): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+}

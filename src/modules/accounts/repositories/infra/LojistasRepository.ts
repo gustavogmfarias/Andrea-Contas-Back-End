@@ -9,26 +9,6 @@ import { prisma } from "@shared/database/prismaClient";
 import { IUpdateLojistaDTO } from "@modules/accounts/dtos/IUpdateLojistaDTO";
 
 export class LojistasRepository implements ILojistasRepository {
-    async findByUserName(username: string): Promise<Lojista | null> {
-        const lojista = await prisma.lojista.findFirst({
-            where: {
-                username,
-            },
-        });
-
-        return lojista;
-    }
-
-    async findById(id: string): Promise<Lojista | null> {
-        const lojista = await prisma.lojista.findUnique({
-            where: {
-                id,
-            },
-        });
-
-        return lojista;
-    }
-
     async create({ username, senha, nome }: ICreateLojistaDTO): Promise<void> {
         await prisma.lojista.create({
             data: {
@@ -90,5 +70,25 @@ export class LojistasRepository implements ILojistasRepository {
         await prisma.lojista.delete({
             where: { id },
         });
+    }
+
+    async findById(id: string): Promise<Lojista | null> {
+        const lojista = await prisma.lojista.findUnique({
+            where: {
+                id,
+            },
+        });
+
+        return lojista;
+    }
+
+    async findByUserName(username: string): Promise<Lojista | null> {
+        const lojista = await prisma.lojista.findFirst({
+            where: {
+                username,
+            },
+        });
+
+        return lojista;
     }
 }

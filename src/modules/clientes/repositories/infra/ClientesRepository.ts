@@ -1,21 +1,28 @@
-import { Cliente } from "@prisma/client";
+import { ICreateEnderecoDTO } from "@modules/clientes/dtos/ICreateEnderecoDTO";
+import { Cliente, Endereco } from "@prisma/client";
 import { prisma } from "../../../../shared/database/prismaClient";
 import { IPaginationRequestDTO } from "../../../../shared/dtos/IPaginationRequestDTO";
 import { ICreateClienteDTO } from "../../dtos/ICreateClienteDTO";
 import { IClientesRepository } from "../IClientesRepository";
 
 export class ClientesRepository implements IClientesRepository {
-    async create({
-        nome,
-        sobrenome,
-        cpf,
-        email,
-        telefone,
-        observacoes,
-        endereco,
-        avatarUrl,
-    }): Promise<void> {
-        prisma.cliente.create({
+    async create(
+        {
+            nome,
+            sobrenome,
+            cpf,
+            email,
+            telefone,
+            observacoes,
+            avatarUrl,
+        }: ICreateClienteDTO,
+        { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
+    ): Promise<void> {
+        const endereco = await prisma.endereco.create({
+            data: { bairro, rua, cep, cidade, estado, numero },
+        });
+
+        await prisma.cliente.create({
             data: {
                 nome,
                 sobrenome,
@@ -23,7 +30,7 @@ export class ClientesRepository implements IClientesRepository {
                 email,
                 telefone,
                 observacoes,
-                endereco,
+                fk_id_endereco: endereco.id,
                 avatarUrl,
             },
         });
@@ -45,6 +52,10 @@ export class ClientesRepository implements IClientesRepository {
     }
 
     async findById(id: string): Promise<Cliente | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    findByCpf(cpf: string): Promise<Cliente> {
         throw new Error("Method not implemented.");
     }
 

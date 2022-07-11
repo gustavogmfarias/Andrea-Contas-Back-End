@@ -47,7 +47,7 @@ model Cliente {
     email       String
     telefone    String
     observacoes String
-    avatarUrl   String
+    avatarUrl   String?
     endereco    Endereco @relation(fields: [fk_id_endereco], references: [id], onDelete: Cascade)
 
 

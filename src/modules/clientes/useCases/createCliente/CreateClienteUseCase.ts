@@ -23,11 +23,11 @@ class CreateClienteUseCase {
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
     ): Promise<void> {
-        // const clienteExists = await this.clientesRepository.findByCpf(cpf);
+        const clienteExists = await this.clientesRepository.findByCpf(cpf);
 
-        // if (clienteExists) {
-        //     throw new AppError("Cliente already exists", 409);
-        // }
+        if (clienteExists) {
+            throw new AppError("Cliente already exists", 409);
+        }
 
         await this.clientesRepository.create(
             { nome, sobrenome, cpf, email, telefone, observacoes, avatarUrl },

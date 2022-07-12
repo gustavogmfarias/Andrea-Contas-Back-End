@@ -36,8 +36,12 @@ export class ClientesRepository implements IClientesRepository {
         });
     }
 
-    async delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(cpf: string): Promise<void> {
+        const cliente = await prisma.cliente.findFirst({ where: { cpf } });
+
+        await prisma.endereco.delete({
+            where: { id: cliente.fk_id_endereco },
+        });
     }
 
     async listClientes({
@@ -55,8 +59,14 @@ export class ClientesRepository implements IClientesRepository {
         throw new Error("Method not implemented.");
     }
 
-    findByCpf(cpf: string): Promise<Cliente> {
-        throw new Error("Method not implemented.");
+    async findByCpf(cpf: string): Promise<Cliente> {
+        const cliente = await prisma.cliente.findFirst({
+            where: {
+                cpf,
+            },
+        });
+
+        return cliente;
     }
 
     async update(data: ICreateClienteDTO): Promise<void> {

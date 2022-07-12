@@ -43,7 +43,7 @@ model Cliente {
     criadoEm    DateTime @default(now())
     nome        String
     sobrenome   String
-    cpf         String
+    cpf         String   @unique
     email       String
     telefone    String
     observacoes String

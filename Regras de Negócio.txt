@@ -1,16 +1,15 @@
 1- Cliente
-[ ] Deve ser capaz de criar um cliente
-[ ] O Cliente deve ter Endereço
-[ ] O Endereço é criado no mesmo momento
-[ ] O cliente só pode ter um endereço e endereço só pode ter um cliente 
-[ ] Somente administradores podem cadastrar um cliente
-[ ] Deve ser capaz de deletar um cliente
-[ ] Ao deletar um cliente, deve apagar o endereço junto
-[ ] Somente administradores podem deletar um cliente
+[ x] Deve ser capaz de criar um cliente
+[x ] O Cliente deve ter Endereço
+[x ] O Endereço é criado no mesmo momento
+[x ] O cliente só pode ter um endereço e endereço só pode ter um cliente 
+[ x] Somente administradores podem cadastrar um cliente
+[x ] Deve ser capaz de deletar um cliente
+[ x] Ao deletar um cliente, deve apagar o endereço junto
+[ x] Somente administradores podem deletar um cliente
 [ ] Deve ser capaz de editar clientes
-[ ] Somente administradores devem ser capazes de editar cliente
+[ x] Somente administradores devem ser capazes de editar cliente
 [ ] Deve ser capaz de listar os clientes
-
 
 2- Conta
 [ ] Deve ser capaz de criar uma conta

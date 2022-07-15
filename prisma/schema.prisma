@@ -41,6 +41,7 @@ model LojistaToken {
 model Cliente {
     id          String   @id @default(uuid())
     criadoEm    DateTime @default(now())
+    editadoEm   DateTime @default(now())
     nome        String
     sobrenome   String
     cpf         String   @unique

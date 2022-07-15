@@ -137,7 +137,15 @@ export class ClientesRepository implements IClientesRepository {
 
         await prisma.cliente.update({
             where: { cpf },
-            data: { nome, sobrenome, cpf, email, telefone, observacoes },
+            data: {
+                nome,
+                sobrenome,
+                cpf,
+                email,
+                telefone,
+                observacoes,
+                editadoEm: new Date(),
+            },
         });
 
         await prisma.endereco.update({

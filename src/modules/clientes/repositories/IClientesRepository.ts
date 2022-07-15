@@ -13,5 +13,8 @@ export interface IClientesRepository {
     findByName(nome: string): Promise<Cliente[] | null>;
     findById(id: string): Promise<Cliente | null>;
     findByCpf(cpf: string): Promise<Cliente | null>;
-    update(data: ICreateClienteDTO): Promise<void>;
+    update(
+        data: ICreateClienteDTO,
+        endereco: ICreateEnderecoDTO
+    ): Promise<void>;
 }

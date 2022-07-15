@@ -7,9 +7,10 @@
 [x ] Deve ser capaz de deletar um cliente
 [ x] Ao deletar um cliente, deve apagar o endereço junto
 [ x] Somente administradores podem deletar um cliente
+[ x] Deve ser capaz de listar os clientes
 [ ] Deve ser capaz de editar clientes
+[ ] Deve ser capaz de adicionar avatar
 [ x] Somente administradores devem ser capazes de editar cliente
-[ ] Deve ser capaz de listar os clientes
 
 2- Conta
 [ ] Deve ser capaz de criar uma conta

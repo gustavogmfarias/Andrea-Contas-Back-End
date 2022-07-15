@@ -48,7 +48,25 @@ export class ClientesRepository implements IClientesRepository {
         page,
         per_page,
     }: IPaginationRequestDTO): Promise<Cliente[] | null> {
-        throw new Error("Method not implemented.");
+        let clientes: Cliente[];
+
+        if (!page || !per_page) {
+            clientes = await prisma.cliente.findMany({
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        } else {
+            clientes = await prisma.cliente.findMany({
+                take: Number(per_page),
+                skip: (Number(page) - 1) * Number(per_page),
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        }
+
+        return clientes;
     }
 
     async findByName(nome: string): Promise<Cliente[] | null> {
@@ -69,7 +87,27 @@ export class ClientesRepository implements IClientesRepository {
         return cliente;
     }
 
-    async update(data: ICreateClienteDTO): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(
+        {
+            nome,
+            sobrenome,
+            cpf,
+            email,
+            telefone,
+            observacoes,
+        }: ICreateClienteDTO,
+        { rua, bairro, numero, cidade, estado, cep }: ICreateEnderecoDTO
+    ): Promise<void> {
+        const cliente = await prisma.cliente.findUnique({ where: { cpf } });
+
+        await prisma.cliente.update({
+            where: { cpf },
+            data: { nome, sobrenome, cpf, email, telefone, observacoes },
+        });
+
+        await prisma.endereco.update({
+            where: { id: cliente.fk_id_endereco },
+            data: { rua, bairro, numero, cidade, estado, cep },
+        });
     }
 }

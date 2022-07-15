@@ -69,12 +69,47 @@ export class ClientesRepository implements IClientesRepository {
         return clientes;
     }
 
-    async findByName(nome: string): Promise<Cliente[] | null> {
-        throw new Error("Method not implemented.");
+    async findByName(
+        nome: string,
+        { page, per_page }: IPaginationRequestDTO
+    ): Promise<Cliente[] | null> {
+        let clientes: Cliente[];
+
+        if (!page || !per_page) {
+            clientes = await prisma.cliente.findMany({
+                where: {
+                    nome: {
+                        contains: nome,
+                        mode: "insensitive",
+                    },
+                },
+                orderBy: { nome: "desc" },
+            });
+        } else {
+            clientes = await prisma.cliente.findMany({
+                where: {
+                    nome: {
+                        contains: nome,
+                        mode: "insensitive",
+                    },
+                },
+                orderBy: { nome: "desc" },
+                take: Number(per_page),
+                skip: (Number(page) - 1) * Number(per_page),
+            });
+        }
+
+        return clientes;
     }
 
     async findById(id: string): Promise<Cliente | null> {
-        throw new Error("Method not implemented.");
+        const cliente = await prisma.cliente.findUnique({
+            where: {
+                id,
+            },
+        });
+
+        return cliente;
     }
 
     async findByCpf(cpf: string): Promise<Cliente> {

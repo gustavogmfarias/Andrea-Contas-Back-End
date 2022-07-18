@@ -20,9 +20,9 @@ class UpdateClienteController {
             cep,
         } = request.body;
 
-        const updateLojistaUseCase = container.resolve(UpdateClienteUseCase);
+        const updateClienteUseCase = container.resolve(UpdateClienteUseCase);
 
-        await updateLojistaUseCase.execute(
+        await updateClienteUseCase.execute(
             { nome, sobrenome, cpf, email, telefone, observacoes },
             { rua, bairro, numero, cidade, estado, cep }
         );

@@ -16,9 +16,15 @@ class ListClientesUseCase {
             per_page,
         });
 
-        const clientesDTO = clientes.map((cliente) => {
-            return ClienteMap.toDTO(cliente);
+        const clientesDTO = clientes.map(async (cliente) => {
+            cliente.avatarUrl = this.clientesRepository.avatarUrl(cliente);
+            const endereco = await this.clientesRepository.findEnderecoById(
+                cliente.fk_id_endereco
+            );
+
+            return ClienteMap.toDTO(cliente, endereco);
         });
+
         return clientesDTO;
     }
 }

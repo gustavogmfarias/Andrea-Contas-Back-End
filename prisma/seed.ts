@@ -19,6 +19,7 @@ async function main() {
             senha: passwordLojista,
         },
     ];
+
     console.log(`Start seeding ...`);
 
     // eslint-disable-next-line no-restricted-syntax
@@ -30,6 +31,53 @@ async function main() {
 
         console.log(`Created lojista with id: ${lojista.id}`);
     }
+
+    const endereco1 = await prisma.endereco.create({
+        data: {
+            bairro: "cehab",
+            rua: "rua da casa",
+            cep: "4444",
+            cidade: "minha cidade",
+            estado: "rj",
+            numero: "222",
+        },
+    });
+
+    const endereco2 = await prisma.endereco.create({
+        data: {
+            bairro: "bairro da mae",
+            rua: "rua da mae",
+            cep: "989898",
+            cidade: "minha cidade",
+            estado: "sp",
+            numero: "333",
+        },
+    });
+
+    const cliente1 = await prisma.cliente.create({
+        data: {
+            nome: "Gustavo",
+            sobrenome: "TEste 1",
+            cpf: "222",
+            email: "d@d.com",
+            telefone: "2299",
+            observacoes: "teste teste",
+            fk_id_endereco: endereco1.id,
+        },
+    });
+
+    const cliente2 = await prisma.cliente.create({
+        data: {
+            nome: "Andrea",
+            sobrenome: "TEste 2",
+            cpf: "164156165",
+            email: "e@e.com",
+            telefone: "55555",
+            observacoes: "teste mae",
+            fk_id_endereco: endereco2.id,
+        },
+    });
+
     console.log(`Seeding finished.`);
 }
 

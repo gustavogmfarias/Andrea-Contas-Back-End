@@ -1,4 +1,4 @@
-import { Cliente } from "@prisma/client";
+import { Cliente, Endereco } from "@prisma/client";
 import { IPaginationRequestDTO } from "@shared/dtos/IPaginationRequestDTO";
 import { ICreateClienteDTO } from "../dtos/ICreateClienteDTO";
 import { ICreateEnderecoDTO } from "../dtos/ICreateEnderecoDTO";
@@ -17,7 +17,10 @@ export interface IClientesRepository {
     findById(id: string): Promise<Cliente | null>;
     findByCpf(cpf: string): Promise<Cliente | null>;
     update(
-        data: ICreateClienteDTO,
-        endereco: ICreateEnderecoDTO
+        data?: ICreateClienteDTO,
+        endereco?: ICreateEnderecoDTO
     ): Promise<void>;
+
+    avatarUrl(cliente: Cliente): string;
+    findEnderecoById(id: string): Promise<Endereco | null>;
 }

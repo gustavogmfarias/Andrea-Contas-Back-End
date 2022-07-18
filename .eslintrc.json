@@ -17,6 +17,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-param-reassign": "off",
         "no-useless-constructor": "off",
         "prettier/prettier": "error",
 			"no-use-before-define": "off",

@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { ICreateLojistaDTO } from "@modules/accounts/dtos/ICreateLojistaDTO";
 
-import { Lojista } from "@prisma/client";
+import { Cliente, Lojista } from "@prisma/client";
 
 import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
 
@@ -90,5 +90,16 @@ export class LojistasRepository implements ILojistasRepository {
         });
 
         return lojista;
+    }
+
+    async avatarUrl(cliente: Cliente): Promise<string> {
+        switch (process.env.DISK) {
+            case "local":
+                return `${process.env.APP_API_URL}/avatar/${cliente.avatarUrl}`;
+            case "s3":
+                return `${process.env.AWS_BUCKET_URL}/avatar/${cliente.avatarUrl}`;
+            default:
+                return null;
+        }
     }
 }

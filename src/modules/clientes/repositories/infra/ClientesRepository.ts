@@ -122,6 +122,16 @@ export class ClientesRepository implements IClientesRepository {
         return cliente;
     }
 
+    async findEnderecoById(id: string): Promise<Endereco> {
+        const endereco = await prisma.endereco.findUnique({
+            where: {
+                id,
+            },
+        });
+
+        return endereco;
+    }
+
     async update(
         {
             nome,
@@ -130,6 +140,7 @@ export class ClientesRepository implements IClientesRepository {
             email,
             telefone,
             observacoes,
+            avatarUrl,
         }: ICreateClienteDTO,
         { rua, bairro, numero, cidade, estado, cep }: ICreateEnderecoDTO
     ): Promise<void> {
@@ -145,6 +156,7 @@ export class ClientesRepository implements IClientesRepository {
                 telefone,
                 observacoes,
                 editadoEm: new Date(),
+                avatarUrl,
             },
         });
 
@@ -152,5 +164,16 @@ export class ClientesRepository implements IClientesRepository {
             where: { id: cliente.fk_id_endereco },
             data: { rua, bairro, numero, cidade, estado, cep },
         });
+    }
+
+    avatarUrl(cliente: Cliente): string {
+        switch (process.env.DISK) {
+            case "local":
+                return `${process.env.APP_API_URL}/avatar/${cliente.avatarUrl}`;
+            case "s3":
+                return `${process.env.AWS_BUCKET_URL}/avatar/${cliente.avatarUrl}`;
+            default:
+                return null;
+        }
     }
 }

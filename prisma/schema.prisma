@@ -72,21 +72,23 @@ model Endereco {
 }
 
 model Conta {
-    id                  String      @id @default(uuid())
-    criadoEm            DateTime    @default(now())
-    observacoes         String
-    numeroParcelas      Int
-    numeroParcelasAtual Int
-    valorParcela        Float
-    valorInicial        Float
-    valorAtual          Float
-    dataVencimento      DateTime
-    pagamentos          Pagamento[]
-    ativo               Boolean     @default(true)
-    lojista             Lojista     @relation(fields: [fk_id_lojista], references: [id])
-    cliente             Cliente     @relation(fields: [fk_id_cliente], references: [id])
-    fk_id_lojista       String
-    fk_id_cliente       String
+    id                    String      @id @default(uuid())
+    criadoEm              DateTime    @default(now())
+    editadoEm             DateTime    @default(now())
+    observacoes           String
+    numeroParcelas        Int
+    numeroParcelasAtual   Int
+    valorParcela          Float
+    valorInicial          Float
+    valorAtual            Float
+    dataVencimentoInicial DateTime
+    dataVencimentoFinal   DateTime
+    pagamentos            Pagamento[]
+    ativo                 Boolean     @default(true)
+    lojista               Lojista     @relation(fields: [fk_id_lojista], references: [id])
+    cliente               Cliente     @relation(fields: [fk_id_cliente], references: [id])
+    fk_id_lojista         String
+    fk_id_cliente         String
 }
 
 model Pagamento {

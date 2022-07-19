@@ -6,6 +6,8 @@ import { IClientesRepository } from "@modules/clientes/repositories/IClientesRep
 import { ClientesRepository } from "@modules/clientes/repositories/infra/ClientesRepository";
 import { ILojistasTokensRepository } from "@modules/accounts/repositories/ILojistasTokensRepository";
 import { LojistasTokensRepository } from "@modules/accounts/repositories/infra/LojistasTokensRepository";
+import { IContasRepository } from "@modules/contas/repositories/IContasRepository";
+import { ContasRepository } from "@modules/contas/repositories/infra/ContasRepository";
 
 container.registerSingleton<ILojistasRepository>(
     "LojistasRepository",
@@ -20,4 +22,9 @@ container.registerSingleton<ILojistasTokensRepository>(
 container.registerSingleton<IClientesRepository>(
     "ClientesRepository",
     ClientesRepository
+);
+
+container.registerSingleton<IContasRepository>(
+    "ContasRepository",
+    ContasRepository
 );

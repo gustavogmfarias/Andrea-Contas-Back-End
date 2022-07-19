@@ -4,12 +4,13 @@ import { CreateContasUseCase } from "./CreateContasUseCase";
 
 class CreateContasController {
     async handle(request: Request, response: Response): Promise<Response> {
+        const { id } = request.lojista;
+
         const {
             observacoes,
             numeroParcelas,
             valorInicial,
             dataVencimentoInicial,
-            fk_id_lojista,
             fk_id_cliente,
         } = request.body;
 
@@ -20,7 +21,7 @@ class CreateContasController {
             numeroParcelas,
             valorInicial,
             dataVencimentoInicial,
-            fk_id_lojista,
+            fk_id_lojista: id,
             fk_id_cliente,
         });
 

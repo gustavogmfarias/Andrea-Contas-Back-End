@@ -90,6 +90,7 @@ export class ClientesRepository implements IClientesRepository {
                         mode: "insensitive",
                     },
                 },
+                include: { endereco: true },
                 orderBy: { nome: "desc" },
             });
         } else {
@@ -100,6 +101,7 @@ export class ClientesRepository implements IClientesRepository {
                         mode: "insensitive",
                     },
                 },
+                include: { endereco: true },
                 orderBy: { nome: "desc" },
                 take: Number(per_page),
                 skip: (Number(page) - 1) * Number(per_page),

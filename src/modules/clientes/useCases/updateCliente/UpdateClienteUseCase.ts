@@ -27,62 +27,6 @@ class UpdateClienteUseCase {
     ): Promise<Cliente> {
         const cliente = await this.clientesRepository.findByCpf(cpf);
 
-        // if (!cliente) {
-        //     throw new AppError("Cliente doesn't exist", 404);
-        // }
-
-        // if (nome) {
-        //     cliente.nome = nome;
-        // }
-
-        // if (sobrenome) {
-        //     cliente.sobrenome = sobrenome;
-        // }
-
-        // if (cpf) {
-        //     cliente.cpf = cpf;
-        // }
-
-        // if (email) {
-        //     cliente.email = email;
-        // }
-
-        // if (telefone) {
-        //     cliente.telefone = telefone;
-        // }
-        // if (observacoes) {
-        //     cliente.observacoes = observacoes;
-        // }
-
-        // const endereco = await prisma.endereco.findUnique({
-        //     where: {
-        //         id: cliente.fk_id_endereco,
-        //     },
-        // });
-
-        // if (rua) {
-        //     endereco.rua = email;
-        // }
-        // if (bairro) {
-        //     endereco.bairro = bairro;
-        // }
-
-        // if (numero) {
-        //     endereco.numero = numero;
-        // }
-
-        // if (cidade) {
-        //     endereco.cidade = cidade;
-        // }
-
-        // if (estado) {
-        //     endereco.estado = estado;
-        // }
-
-        // if (cep) {
-        //     endereco.cep = cep;
-        // }
-
         await this.clientesRepository.update(
             { nome, sobrenome, cpf, email, telefone, observacoes },
             { rua, bairro, numero, cidade, estado, cep }

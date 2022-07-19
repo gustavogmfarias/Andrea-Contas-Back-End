@@ -32,28 +32,6 @@ async function main() {
         console.log(`Created lojista with id: ${lojista.id}`);
     }
 
-    const endereco1 = await prisma.endereco.create({
-        data: {
-            bairro: "cehab",
-            rua: "rua da casa",
-            cep: "4444",
-            cidade: "minha cidade",
-            estado: "rj",
-            numero: "222",
-        },
-    });
-
-    const endereco2 = await prisma.endereco.create({
-        data: {
-            bairro: "bairro da mae",
-            rua: "rua da mae",
-            cep: "989898",
-            cidade: "minha cidade",
-            estado: "sp",
-            numero: "333",
-        },
-    });
-
     const cliente1 = await prisma.cliente.create({
         data: {
             nome: "Gustavo",
@@ -62,7 +40,16 @@ async function main() {
             email: "d@d.com",
             telefone: "2299",
             observacoes: "teste teste",
-            fk_id_endereco: endereco1.id,
+            endereco: {
+                create: {
+                    bairro: "cehab",
+                    rua: "rua da casa",
+                    cep: "4444",
+                    cidade: "minha cidade",
+                    estado: "rj",
+                    numero: "222",
+                },
+            },
         },
     });
 
@@ -74,7 +61,16 @@ async function main() {
             email: "e@e.com",
             telefone: "55555",
             observacoes: "teste mae",
-            fk_id_endereco: endereco2.id,
+            endereco: {
+                create: {
+                    bairro: "bairro da mae",
+                    rua: "rua da mae",
+                    cep: "989898",
+                    cidade: "minha cidade",
+                    estado: "sp",
+                    numero: "333",
+                },
+            },
         },
     });
 

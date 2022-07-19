@@ -18,10 +18,6 @@ export class ClientesRepository implements IClientesRepository {
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
     ): Promise<void> {
-        const endereco = await prisma.endereco.create({
-            data: { bairro, rua, cep, cidade, estado, numero },
-        });
-
         await prisma.cliente.create({
             data: {
                 nome,
@@ -30,8 +26,17 @@ export class ClientesRepository implements IClientesRepository {
                 email,
                 telefone,
                 observacoes,
-                fk_id_endereco: endereco.id,
                 avatarUrl,
+                endereco: {
+                    create: {
+                        bairro,
+                        rua,
+                        cep,
+                        cidade,
+                        estado,
+                        numero,
+                    },
+                },
             },
         });
     }
@@ -55,6 +60,7 @@ export class ClientesRepository implements IClientesRepository {
                 orderBy: {
                     id: "desc",
                 },
+                include: { endereco: true },
             });
         } else {
             clientes = await prisma.cliente.findMany({
@@ -63,6 +69,7 @@ export class ClientesRepository implements IClientesRepository {
                 orderBy: {
                     id: "desc",
                 },
+                include: { endereco: true },
             });
         }
 

@@ -1,6 +1,6 @@
-import { Cliente, Endereco } from "@prisma/client";
 import { instanceToInstance } from "class-transformer";
 import { IClienteResponseDTO } from "../dtos/IClienteResponseDTO";
+import { IEnderecoResponseDTO } from "../dtos/IEnderecoResponseDTO";
 
 class ClienteMap {
     static toDTO(
@@ -12,9 +12,9 @@ class ClienteMap {
             telefone,
             observacoes,
             avatarUrl,
-        }: Cliente,
-        { rua, bairro, numero, cidade, estado, cep }: Endereco
-    ): IClienteResponseDTO {
+        }: IClienteResponseDTO,
+        { rua, bairro, numero, cidade, estado, cep }: IEnderecoResponseDTO
+    ) {
         const cliente = instanceToInstance({
             nome,
             sobrenome,
@@ -23,14 +23,7 @@ class ClienteMap {
             telefone,
             observacoes,
             avatarUrl,
-            endereco: {
-                rua,
-                bairro,
-                numero,
-                cidade,
-                estado,
-                cep,
-            },
+            endereco: { rua, bairro, numero, cidade, estado, cep },
         });
         return cliente;
     }

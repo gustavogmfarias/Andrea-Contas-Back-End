@@ -12,7 +12,6 @@ datasource db {
 }
 
 model Lojista {
-
     id       String @id @default(uuid())
     username String @unique
     nome     String
@@ -21,11 +20,12 @@ model Lojista {
     lojista_token LojistaToken[]
     pagamentos    Pagamento[]
     Conta         Conta[]
+    Log           Log[]
+
     @@map("lojistas")
 }
 
 model LojistaToken {
-
     id            String   @id @default(uuid())
     token         String
     refresh_token String
@@ -33,7 +33,6 @@ model LojistaToken {
     lojista       Lojista  @relation(fields: [lojista_id], references: [id], onDelete: Cascade)
     created_at    DateTime @default(now())
     expires_date  DateTime
-
 
     @@map("lojista_tokens")
 }
@@ -51,9 +50,9 @@ model Cliente {
     avatarUrl   String?
     endereco    Endereco @relation(fields: [fk_id_endereco], references: [id], onDelete: Cascade)
 
-
     fk_id_endereco String  @unique
     Conta          Conta[]
+
     @@map("clientes")
 }
 
@@ -66,8 +65,8 @@ model Endereco {
     estado String
     cep    String
 
-
     cliente Cliente?
+
     @@map("enderecos")
 }
 
@@ -89,6 +88,7 @@ model Conta {
     cliente               Cliente     @relation(fields: [fk_id_cliente], references: [id])
     fk_id_lojista         String
     fk_id_cliente         String
+    Log                   Log[]
 }
 
 model Pagamento {
@@ -101,4 +101,25 @@ model Pagamento {
     valorPagamento Float
 
     @@map("pagamentos")
+}
+
+model Log {
+    id               String        @id @default(uuid())
+    logRepository    LogRepository
+    descricao        String
+    criadoEm         DateTime      @default(now())
+    lojista          Lojista       @relation(fields: [lojistaId], references: [id])
+    conta            Conta?        @relation(fields: [contaId], references: [id])
+    conteudoAnterior String        @default("Sem conteúdo Anterior")
+    conteudoNovo     String
+    lojistaId        String
+    contaId          String?
+
+    @@map("logs")
+}
+
+enum LogRepository {
+    CLIENTE
+    CONTA
+    LOJISTA
 }

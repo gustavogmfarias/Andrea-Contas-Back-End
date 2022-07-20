@@ -152,10 +152,8 @@ export class ClientesRepository implements IClientesRepository {
             avatarUrl,
         }: ICreateClienteDTO,
         { rua, bairro, numero, cidade, estado, cep }: ICreateEnderecoDTO
-    ): Promise<void> {
-        const cliente = await prisma.cliente.findUnique({ where: { cpf } });
-
-        await prisma.cliente.update({
+    ): Promise<Cliente> {
+        const cliente = await prisma.cliente.update({
             where: { cpf },
             data: {
                 nome,
@@ -173,6 +171,8 @@ export class ClientesRepository implements IClientesRepository {
             where: { id: cliente.fk_id_endereco },
             data: { rua, bairro, numero, cidade, estado, cep },
         });
+
+        return cliente;
     }
 
     avatarUrl(cliente: Cliente): string {

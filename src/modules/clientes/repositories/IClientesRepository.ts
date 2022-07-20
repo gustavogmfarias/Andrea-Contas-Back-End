@@ -19,7 +19,7 @@ export interface IClientesRepository {
     update(
         data?: ICreateClienteDTO,
         endereco?: ICreateEnderecoDTO
-    ): Promise<void>;
+    ): Promise<Cliente>;
 
     avatarUrl(cliente: Cliente): string;
     findEnderecoById(id: string): Promise<Endereco | null>;

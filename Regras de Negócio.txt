@@ -14,9 +14,9 @@
 [ x] Somente administradores devem ser capazes de editar cliente
 
 2- Conta
-[ ] Deve ser capaz de criar uma conta
-[ ] Deve ser vinculado a um cliente
-[ ] Deve ser vinculado a um usuário
+[ x] Deve ser capaz de criar uma conta
+[ x] Deve ser vinculado a um cliente
+[x ] Deve ser vinculado a um usuário
 [ ] Deve ser capaz de abater uma conta
 [ ] Ao abater uma conta, deve ser calculado se abateu todo valor devido, se ficou uma parte, se foi a mais
 [ ] Caso tenha recebido valor a mais, deve calcular o troco

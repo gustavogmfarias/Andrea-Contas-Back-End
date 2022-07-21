@@ -6,6 +6,7 @@
 git clone https://github.com/gustavogmfarias/Andrea-Contas-Back-End
 yarn
 docker-compose up
+yarn prisma migrate dev
 yarn seed (para alimentar o bd de usuário e cliente)
 yarn dev
 yarn dev:debug

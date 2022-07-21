@@ -17,6 +17,7 @@ class UpdateClienteUseCase {
     ) {}
 
     async execute(
+        lojista,
         {
             nome,
             sobrenome,
@@ -36,10 +37,11 @@ class UpdateClienteUseCase {
 
         await this.logProvider.create({
             logRepository: "CLIENTE",
-            descricao: `Cliente ${cliente.cpf} atualizado com sucesso por ${cliente.id}`,
+            descricao: `Cliente atualizado`,
             conteudoAnterior: JSON.stringify(clienteAnterior),
             conteudoNovo: JSON.stringify(cliente),
-            lojistaId: "3ce0eb2d-7db9-4228-a148-c411ebf6e454",
+            lojistaId: lojista,
+            modelEditadoId: cliente.id,
         });
 
         return cliente;

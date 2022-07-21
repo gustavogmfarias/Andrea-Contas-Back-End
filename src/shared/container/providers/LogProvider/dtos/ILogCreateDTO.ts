@@ -6,5 +6,5 @@ export interface ILogCreateDTO {
     conteudoAnterior: string;
     conteudoNovo: string;
     lojistaId: string;
-    contaId?: string;
+    modelEditadoId?: string;
 }

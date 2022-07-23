@@ -52,7 +52,7 @@ class CreateContasUseCase {
             valorParcela: valorInicial / numeroParcelas,
             valorAtual: valorInicial,
             dataVencimentoInicial,
-            dataVencimentoFinal: this.dateProvider.addMonths(numeroParcelas),
+            dataVencimentoFinal: this.dateProvider.addMonths(numeroParcelas), // corrigir data vencimento final receber o inciial
             fk_id_lojista,
             fk_id_cliente,
         });

@@ -10,7 +10,7 @@ class DeleteLojistaUseCase {
     ) {}
 
     async execute(id: string): Promise<void> {
-        const lojista = this.lojistasRepository.findById(id);
+        const lojista = await this.lojistasRepository.findById(id);
 
         if (!lojista) {
             throw new AppError("Lojista doesn't exists", 404);

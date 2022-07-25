@@ -4,7 +4,7 @@ export interface ILogCreateDTO {
     logRepository: LogRepository;
     descricao: string;
     conteudoAnterior: string;
-    conteudoNovo: string;
-    lojistaId: string;
-    modelEditadoId?: string;
+    conteudoAtualizado: string;
+    editadoPorLojistaId: string;
+    modelAtualizadoId: string;
 }

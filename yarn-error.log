@@ -763,7 +763,7 @@ Lockfile:
       es-to-primitive "^1.2.1"
       function-bind "^1.1.1"
       get-intrinsic "^1.1.1"
-      get-symbol-description "^1.0.0"
+      get-symbol-descricao "^1.0.0"
       has "^1.0.3"
       has-symbols "^1.0.3"
       internal-slot "^1.0.3"
@@ -1167,9 +1167,9 @@ Lockfile:
       has "^1.0.3"
       has-symbols "^1.0.1"
   
-  get-symbol-description@^1.0.0:
+  get-symbol-descricao@^1.0.0:
     version "1.0.0"
-    resolved "https://registry.yarnpkg.com/get-symbol-description/-/get-symbol-description-1.0.0.tgz#7fdb81c900101fbd564dd5f1a30af5aadc1e58d6"
+    resolved "https://registry.yarnpkg.com/get-symbol-descricao/-/get-symbol-descricao-1.0.0.tgz#7fdb81c900101fbd564dd5f1a30af5aadc1e58d6"
     integrity sha512-2EmdH1YvIQiZpltCNgkuiUnyukzxM/R6NDJX31Ke3BG1Nq5b0S2PhX59UKi9vZpPDQVdqn+1IcaAwnzTT5vCjw==
     dependencies:
       call-bind "^1.0.2"

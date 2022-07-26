@@ -26,8 +26,8 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(end_date_utc).diff(start_date_utc, "days");
     }
 
-    addMonths(months: number): Date {
-        return dayjs().add(months, "month").toDate();
+    addMonths(dataInicial: Date, months: number): Date {
+        return dayjs(dataInicial).add(months, "month").toDate();
     }
 
     addDays(days: number): Date {
@@ -36,6 +36,10 @@ class DayjsDateProvider implements IDateProvider {
 
     addHours(hours: number): Date {
         return dayjs().add(hours, "hour").toDate();
+    }
+
+    convertToUtc3Hours(horaInicial: Date): Date {
+        return dayjs(horaInicial).add(-3, "hour").toDate();
     }
 
     compareIfBefore(start_date: Date, end_date: Date): boolean {

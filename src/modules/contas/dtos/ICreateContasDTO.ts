@@ -1,4 +1,6 @@
 export interface ICreateContasDTO {
+    criadoEm?: Date;
+    editadoEm: Date;
     observacoes: string;
     numeroParcelas: number;
     numeroParcelasAtual?: number;

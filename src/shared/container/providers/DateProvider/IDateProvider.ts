@@ -5,7 +5,8 @@ interface IDateProvider {
     compareInDays(start_date: Date, end_date: Date): number;
     addDays(days: number): Date;
     addHours(hours: number): Date;
-    addMonths(months: number): Date;
+    convertToUtc3Hours(horaInicial: Date): Date;
+    addMonths(dataInicial: Date, months: number): Date;
     compareIfBefore(start_date: Date, end_date: Date): boolean;
 }
 

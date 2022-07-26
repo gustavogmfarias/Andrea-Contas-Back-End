@@ -5,6 +5,8 @@ import { IContasRepository } from "../IContasRepository";
 
 class ContasRepository implements IContasRepository {
     async create({
+        criadoEm,
+        editadoEm,
         observacoes,
         numeroParcelas,
         numeroParcelasAtual,
@@ -18,6 +20,8 @@ class ContasRepository implements IContasRepository {
     }: ICreateContasDTO): Promise<Conta> {
         const contaCriada = await prisma.conta.create({
             data: {
+                criadoEm,
+                editadoEm,
                 observacoes,
                 numeroParcelas,
                 numeroParcelasAtual,

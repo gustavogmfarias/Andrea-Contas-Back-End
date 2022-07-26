@@ -72,8 +72,8 @@ model Endereco {
 
 model Conta {
     id                    String      @id @default(uuid())
-    criadoEm              DateTime    @default(now()) @db.Timestamptz()
-    editadoEm             DateTime    @default(now()) @db.Timestamptz(3)
+    criadoEm              DateTime    
+    editadoEm             DateTime    
     observacoes           String
     numeroParcelas        Int
     numeroParcelasAtual   Int

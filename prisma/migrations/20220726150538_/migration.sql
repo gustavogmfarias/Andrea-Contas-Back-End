@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "logs" ALTER COLUMN "criadoEm" SET DATA TYPE TIMESTAMP(3);

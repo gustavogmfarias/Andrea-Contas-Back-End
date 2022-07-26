@@ -39,9 +39,9 @@ class UpdateClienteUseCase {
             logRepository: "CLIENTE",
             descricao: `Cliente atualizado`,
             conteudoAnterior: JSON.stringify(clienteAnterior),
-            conteudoNovo: JSON.stringify(cliente),
-            lojistaId: lojista,
-            modelEditadoId: cliente.id,
+            conteudoAtualizado: JSON.stringify(cliente),
+            editadoPorLojistaId: lojista,
+            modelAtualizadoId: cliente.id,
         });
 
         return cliente;

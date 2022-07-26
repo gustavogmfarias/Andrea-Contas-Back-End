@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "windows", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Lojista {
+    id       String @id @default(uuid())
+    username String @unique
+    nome     String
+    senha    String
+
+    lojista_token LojistaToken[]
+    pagamentos    Pagamento[]
+    Conta         Conta[]
+    Log           Log[]
+
+    @@map("lojistas")
+}
+
+model LojistaToken {
+    id            String   @id @default(uuid())
+    token         String
+    refresh_token String
+    lojista_id    String
+    lojista       Lojista  @relation(fields: [lojista_id], references: [id], onDelete: Cascade)
+    created_at    DateTime @default(now()) @db.Timestamptz(3)
+    expires_date  DateTime @db.Timestamptz(3)
+
+    @@map("lojista_tokens")
+}
+
+model Cliente {
+    id          String   @id @default(uuid())
+    criadoEm    DateTime @default(now()) @db.Timestamptz(3)
+    editadoEm   DateTime @default(now()) @db.Timestamptz(3)
+    nome        String
+    sobrenome   String
+    cpf         String   @unique
+    email       String
+    telefone    String
+    observacoes String
+    avatarUrl   String?
+    endereco    Endereco @relation(fields: [fk_id_endereco], references: [id], onDelete: Cascade)
+
+    fk_id_endereco String  @unique
+    Conta          Conta[]
+
+    @@map("clientes")
+}
+
+model Endereco {
+    id     String @id @default(uuid())
+    rua    String
+    bairro String
+    numero String
+    cidade String
+    estado String
+    cep    String
+
+    cliente Cliente?
+
+    @@map("enderecos")
+}
+
+model Conta {
+    id                    String      @id @default(uuid())
+    criadoEm              DateTime
+    editadoEm             DateTime
+    observacoes           String
+    numeroParcelas        Int
+    numeroParcelasAtual   Int
+    valorParcela          Float
+    valorInicial          Float
+    valorAtual            Float
+    dataVencimentoInicial DateTime
+    dataVencimentoFinal   DateTime
+    pagamentos            Pagamento[]
+    ativo                 Boolean     @default(true)
+    lojista               Lojista     @relation(fields: [fk_id_lojista], references: [id])
+    cliente               Cliente     @relation(fields: [fk_id_cliente], references: [id])
+    fk_id_lojista         String
+    fk_id_cliente         String
+
+    @@map("contas")
+}
+
+model Pagamento {
+    id             String   @id @default(uuid())
+    conta          Conta    @relation(fields: [fk_id_conta], references: [id])
+    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
+    dataPagamento  DateTime @default(now()) @db.Timestamptz(3)
+    fk_id_conta    String
+    fk_id_lojista  String
+    valorPagamento Float
+
+    @@map("pagamentos")
+}
+
+model Log {
+    id                  String        @id @default(uuid())
+    logRepository       LogRepository
+    descricao           String
+    criadoEm            DateTime      @default(now())
+    lojista             Lojista       @relation(fields: [editadoPorLojistaId], references: [id])
+    conteudoAnterior    String        @default("Sem conteúdo Anterior")
+    conteudoAtualizado  String
+    editadoPorLojistaId String
+    modelAtualizadoId   String
+
+    @@map("logs")
+}
+
+enum LogRepository {
+    CLIENTE
+    CONTA
+    LOJISTA
+}

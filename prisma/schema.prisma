@@ -31,16 +31,16 @@ model LojistaToken {
     refresh_token String
     lojista_id    String
     lojista       Lojista  @relation(fields: [lojista_id], references: [id], onDelete: Cascade)
-    created_at    DateTime @default(now())
-    expires_date  DateTime
+    created_at    DateTime @default(now()) @db.Timestamptz(3)
+    expires_date  DateTime @db.Timestamptz(3)
 
     @@map("lojista_tokens")
 }
 
 model Cliente {
     id          String   @id @default(uuid())
-    criadoEm    DateTime @default(now())
-    editadoEm   DateTime @default(now())
+    criadoEm    DateTime @default(now()) @db.Timestamptz(3)
+    editadoEm   DateTime @default(now()) @db.Timestamptz(3)
     nome        String
     sobrenome   String
     cpf         String   @unique
@@ -72,8 +72,8 @@ model Endereco {
 
 model Conta {
     id                    String      @id @default(uuid())
-    criadoEm              DateTime    @default(now())
-    editadoEm             DateTime    @default(now())
+    criadoEm              DateTime
+    editadoEm             DateTime
     observacoes           String
     numeroParcelas        Int
     numeroParcelasAtual   Int
@@ -88,13 +88,15 @@ model Conta {
     cliente               Cliente     @relation(fields: [fk_id_cliente], references: [id])
     fk_id_lojista         String
     fk_id_cliente         String
+
+    @@map("contas")
 }
 
 model Pagamento {
     id             String   @id @default(uuid())
     conta          Conta    @relation(fields: [fk_id_conta], references: [id])
     lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
-    dataPagamento  DateTime @default(now())
+    dataPagamento  DateTime @default(now()) @db.Timestamptz(3)
     fk_id_conta    String
     fk_id_lojista  String
     valorPagamento Float

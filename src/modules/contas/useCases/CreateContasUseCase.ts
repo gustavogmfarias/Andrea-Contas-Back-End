@@ -48,6 +48,8 @@ class CreateContasUseCase {
         }
 
         const contaCriada = await this.contasRepository.create({
+            criadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
+            editadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
             observacoes,
             numeroParcelas,
             numeroParcelasAtual: numeroParcelas,
@@ -55,7 +57,10 @@ class CreateContasUseCase {
             valorParcela: valorInicial / numeroParcelas,
             valorAtual: valorInicial,
             dataVencimentoInicial,
-            dataVencimentoFinal: this.dateProvider.addMonths(numeroParcelas),
+            dataVencimentoFinal: this.dateProvider.addMonths(
+                dataVencimentoInicial,
+                numeroParcelas
+            ),
             fk_id_lojista,
             fk_id_cliente,
         });

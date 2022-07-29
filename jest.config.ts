@@ -11,7 +11,7 @@ export default {
     // automock: false,
 
     // Stop running tests after `n` failures
-    bail: 0,
+    bail: false,
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
         prefix: "<rootDir>/src/",
     }),

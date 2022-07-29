@@ -19,10 +19,14 @@ class FindByNameClientesUseCase {
             page,
             per_page,
         });
+        let clienteEndereco;
 
         const clientesDTO = clientes.map((cliente) => {
             cliente.avatarUrl = this.clientesRepository.avatarUrl(cliente);
-            return ClienteMap.toDTO(cliente, cliente.endereco);
+            clienteEndereco = this.clientesRepository.findEnderecoById(
+                cliente.fk_id_endereco
+            );
+            return ClienteMap.toDTO(cliente, clienteEndereco);
         });
 
         return clientesDTO;

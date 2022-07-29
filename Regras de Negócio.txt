@@ -1,5 +1,5 @@
 1- Cliente
-[ ] não pode deletar cliente que tem conta em aberto
+[ x] não pode deletar cliente que tem conta em aberto
 [ x] Deve ser capaz de criar um cliente
 [x ] O Cliente deve ter Endereço
 [x ] O Endereço é criado no mesmo momento

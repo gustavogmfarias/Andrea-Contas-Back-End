@@ -162,6 +162,7 @@ export class ClientesRepository implements IClientesRepository {
                 email,
                 telefone,
                 observacoes,
+                criadoEm: new Date(),
                 editadoEm: new Date(),
                 avatarUrl,
             },

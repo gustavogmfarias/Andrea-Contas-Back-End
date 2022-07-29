@@ -5,7 +5,7 @@ import { Conta } from "@prisma/client";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { ICreateContasDTO } from "../dtos/ICreateContasDTO";
+import { ICreateContasDTO } from "../../dtos/ICreateContasDTO";
 
 @injectable()
 class CreateContasUseCase {
@@ -54,6 +54,7 @@ class CreateContasUseCase {
             valorParcela: valorInicial / numeroParcelas,
             valorAtual: valorInicial,
             dataVencimentoInicial,
+            dataVencimentoAtual: dataVencimentoInicial,
             dataVencimentoFinal: this.dateProvider.addMonths(
                 dataVencimentoInicial,
                 numeroParcelas

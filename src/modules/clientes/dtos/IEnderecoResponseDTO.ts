@@ -1,4 +1,5 @@
 interface IEnderecoResponseDTO {
+    id: string;
     rua: string;
     bairro: string;
     numero: string;

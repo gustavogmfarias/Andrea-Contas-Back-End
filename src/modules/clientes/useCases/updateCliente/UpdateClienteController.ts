@@ -4,7 +4,7 @@ import { UpdateClienteUseCase } from "./UpdateClienteUseCase";
 
 class UpdateClienteController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { lojista } = request.lojista;
+        const { id: lojista } = request.lojista;
         const { cpf } = request.params;
 
         const {

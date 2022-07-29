@@ -12,8 +12,8 @@ describe("Authenticate Lojista Controller", () => {
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
-        expect(responseToken).toHaveProperty("token");
-        expect(responseToken).toHaveProperty("refresh_token");
+        expect(responseToken.body).toHaveProperty("token");
+        expect(responseToken.body).toHaveProperty("refresh_token");
     });
 
     it("Should not be able to authenticate an inexistent user", async () => {

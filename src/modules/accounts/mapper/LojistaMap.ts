@@ -3,8 +3,9 @@ import { instanceToInstance } from "class-transformer";
 import { ILojistaResponseDTO } from "../dtos/ILojistaResponseDTO";
 
 class LojistaMap {
-    static toDTO({ username, nome }: Lojista): ILojistaResponseDTO {
+    static toDTO({ username, nome, id }: Lojista): ILojistaResponseDTO {
         const lojista = instanceToInstance({
+            id,
             username,
             nome,
         });

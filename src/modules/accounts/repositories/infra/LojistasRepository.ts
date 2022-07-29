@@ -9,14 +9,20 @@ import { prisma } from "@shared/database/prismaClient";
 import { IUpdateLojistaDTO } from "@modules/accounts/dtos/IUpdateLojistaDTO";
 
 export class LojistasRepository implements ILojistasRepository {
-    async create({ username, senha, nome }: ICreateLojistaDTO): Promise<void> {
-        await prisma.lojista.create({
+    async create({
+        username,
+        senha,
+        nome,
+    }: ICreateLojistaDTO): Promise<Lojista> {
+        const lojista = await prisma.lojista.create({
             data: {
                 username,
                 nome,
                 senha,
             },
         });
+
+        return lojista;
     }
 
     async update({

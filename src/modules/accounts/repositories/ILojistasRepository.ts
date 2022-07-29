@@ -4,7 +4,7 @@ import { IPaginationRequestDTO } from "@shared/dtos/IPaginationRequestDTO";
 import { IUpdateLojistaDTO } from "../dtos/IUpdateLojistaDTO";
 
 export interface ILojistasRepository {
-    create(data: ICreateLojistaDTO): Promise<void>;
+    create(data: ICreateLojistaDTO): Promise<Lojista>;
     delete(id: string): Promise<void>;
     listLojistas(data: IPaginationRequestDTO): Promise<Lojista[] | null>;
     findByUserName(username: string): Promise<Lojista | null>;

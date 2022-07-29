@@ -7,13 +7,13 @@ class CreateLojistaController {
         const { username, senha, nome } = request.body;
         const createLojistaUseCase = container.resolve(CreateLojistaUseCase);
 
-        await createLojistaUseCase.execute({
+        const lojista = await createLojistaUseCase.execute({
             username,
             nome,
             senha,
         });
 
-        return response.status(201).send();
+        return response.status(201).send(lojista);
     }
 }
 

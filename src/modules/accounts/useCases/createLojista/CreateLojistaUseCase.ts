@@ -1,6 +1,9 @@
+import { Lojista } from "@prisma/client";
 import { AppError } from "@shared/errors/AppError";
 import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
+import { LojistaMap } from "@modules/accounts/mapper/LojistaMap";
+import { ILojistaResponseDTO } from "@modules/accounts/dtos/ILojistaResponseDTO";
 import { ICreateLojistaDTO } from "../../dtos/ICreateLojistaDTO";
 import { ILojistasRepository } from "../../repositories/ILojistasRepository";
 
@@ -11,7 +14,11 @@ class CreateLojistaUseCase {
         private lojistasRepository: ILojistasRepository
     ) {}
 
-    async execute({ username, senha, nome }: ICreateLojistaDTO): Promise<void> {
+    async execute({
+        username,
+        senha,
+        nome,
+    }: ICreateLojistaDTO): Promise<ILojistaResponseDTO> {
         const lojistaAlreadyExists =
             await this.lojistasRepository.findByUserName(username);
 
@@ -21,11 +28,15 @@ class CreateLojistaUseCase {
 
         const passwordHash = await hash(senha, 12);
 
-        await this.lojistasRepository.create({
+        const lojista = await this.lojistasRepository.create({
             username,
             senha: passwordHash,
             nome,
         });
+
+        const lojistaDTO = LojistaMap.toDTO(lojista);
+
+        return lojistaDTO;
     }
 }
 

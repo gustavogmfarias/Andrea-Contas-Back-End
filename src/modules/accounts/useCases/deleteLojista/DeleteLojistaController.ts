@@ -9,7 +9,7 @@ class DeleteLojistaController {
 
         await deleteLojistaUseCase.execute(id);
 
-        return response.status(200).json("Lojista Deleted Successfully").send();
+        return response.status(200).send();
     }
 }
 

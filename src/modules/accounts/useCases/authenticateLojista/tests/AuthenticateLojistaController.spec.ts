@@ -2,7 +2,6 @@
  * @jest-environment ./prisma/prisma-environment-jest
  */
 
-import { AppError } from "@shared/errors/AppError";
 import { app } from "@shared/infra/http/app";
 import request from "supertest";
 

@@ -82,6 +82,7 @@ model Conta {
     valorAtual            Float
     dataVencimentoInicial DateTime
     dataVencimentoFinal   DateTime
+    dataVencimentoAtual   DateTime
     pagamentos            Pagamento[]
     ativo                 Boolean     @default(true)
     lojista               Lojista     @relation(fields: [fk_id_lojista], references: [id])
@@ -96,7 +97,7 @@ model Pagamento {
     id             String   @id @default(uuid())
     conta          Conta    @relation(fields: [fk_id_conta], references: [id])
     lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
-    dataPagamento  DateTime @default(now()) @db.Timestamptz(3)
+    dataPagamento  DateTime
     fk_id_conta    String
     fk_id_lojista  String
     valorPagamento Float

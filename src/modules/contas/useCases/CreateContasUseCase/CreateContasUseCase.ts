@@ -6,7 +6,7 @@ import { IDateProvider } from "@shared/container/providers/DateProvider/IDatePro
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
 import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { ICreateContasDTO } from "../dtos/ICreateContasDTO";
+import { ICreateContasDTO } from "../../dtos/ICreateContasDTO";
 
 @injectable()
 class CreateContasUseCase {
@@ -57,6 +57,7 @@ class CreateContasUseCase {
             valorParcela: valorInicial / numeroParcelas,
             valorAtual: valorInicial,
             dataVencimentoInicial,
+            dataVencimentoAtual: dataVencimentoInicial,
             dataVencimentoFinal: this.dateProvider.addMonths(
                 dataVencimentoInicial,
                 numeroParcelas

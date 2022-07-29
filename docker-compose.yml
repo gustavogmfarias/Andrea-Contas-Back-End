@@ -22,7 +22,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://docker:ignite@andrea-contas-database:5432/andrea-contas
     ports: 
-      - 8888:8888
+      - 9999:9999
       - 6000:6000
     volumes: 
       - .:/usr/app

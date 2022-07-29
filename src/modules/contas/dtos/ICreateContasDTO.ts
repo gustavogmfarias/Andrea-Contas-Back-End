@@ -1,6 +1,6 @@
 export interface ICreateContasDTO {
     criadoEm?: Date;
-    editadoEm: Date;
+    editadoEm?: Date;
     observacoes: string;
     numeroParcelas: number;
     numeroParcelasAtual?: number;
@@ -9,6 +9,7 @@ export interface ICreateContasDTO {
     valorAtual?: number;
     dataVencimentoInicial: Date;
     dataVencimentoFinal?: Date;
+    dataVencimentoAtual: Date;
     fk_id_lojista: string;
     fk_id_cliente: string;
 }

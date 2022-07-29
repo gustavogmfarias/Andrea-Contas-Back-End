@@ -21,6 +21,7 @@ class CreateContasController {
             numeroParcelas,
             valorInicial,
             dataVencimentoInicial,
+            dataVencimentoAtual: dataVencimentoInicial,
             fk_id_lojista: id,
             fk_id_cliente,
         });

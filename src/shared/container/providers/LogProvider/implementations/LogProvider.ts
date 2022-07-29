@@ -8,18 +8,18 @@ export class LogProvider implements ILogProvider {
         logRepository,
         descricao,
         conteudoAnterior,
-        conteudoAtualizado,
-        editadoPorLojistaId,
-        modelAtualizadoId,
+        conteudoNovo,
+        lojistaId,
+        modelEditadoId,
     }: ILogCreateDTO): Promise<Log> {
         const logCriado = await prisma.log.create({
             data: {
                 logRepository,
                 descricao,
                 conteudoAnterior,
-                conteudoAtualizado,
-                editadoPorLojistaId,
-                modelAtualizadoId,
+                conteudoNovo,
+                lojistaId,
+                modelEditadoId,
             },
         });
 

@@ -80,7 +80,7 @@ class RealizarPagamentoUseCase {
                 conteudoAnterior: JSON.stringify(contaASerAbatida),
                 conteudoNovo: JSON.stringify(contaAtualizada),
                 lojistaId: fk_id_lojista,
-                modelEditadoId: fk_id_conta,
+                modelAtualizadoId: fk_id_conta,
             });
 
             pagamentoRealizado = await this.contasRepository.realizarPagamento({
@@ -96,7 +96,7 @@ class RealizarPagamentoUseCase {
                 conteudoAnterior: JSON.stringify(pagamentoRealizado),
                 conteudoNovo: JSON.stringify(pagamentoRealizado),
                 lojistaId: fk_id_lojista,
-                modelEditadoId: pagamentoRealizado.id,
+                modelAtualizadoId: pagamentoRealizado.id,
             });
         }
         return pagamentoRealizado;

@@ -3,8 +3,8 @@ import { LogRepository } from "@prisma/client";
 export interface ILogCreateDTO {
     logRepository: LogRepository;
     descricao: string;
+    conteudoNovo: string;
     conteudoAnterior: string;
-    conteudoAtualizado: string;
-    editadoPorLojistaId: string;
+    lojistaId: string;
     modelAtualizadoId: string;
 }

@@ -70,8 +70,8 @@ class CreateContasUseCase {
             logRepository: "CONTA",
             descricao: `Criada uma conta`,
             conteudoAnterior: "Não se aplica",
-            conteudoAtualizado: JSON.stringify(contaCriada),
-            editadoPorLojistaId: fk_id_lojista,
+            conteudoNovo: JSON.stringify(contaCriada),
+            lojistaId: fk_id_lojista,
             modelAtualizadoId: fk_id_cliente,
         });
 

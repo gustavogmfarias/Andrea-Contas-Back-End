@@ -106,15 +106,15 @@ model Pagamento {
 }
 
 model Log {
-    id                  String        @id @default(uuid())
-    logRepository       LogRepository
-    descricao           String
-    criadoEm            DateTime      @default(now())
-    lojista             Lojista       @relation(fields: [editadoPorLojistaId], references: [id])
-    conteudoAnterior    String        @default("Sem conteúdo Anterior")
-    conteudoAtualizado  String
-    editadoPorLojistaId String
-    modelAtualizadoId   String
+    id                String        @id @default(uuid())
+    logRepository     LogRepository
+    descricao         String
+    criadoEm          DateTime      @default(now())
+    lojista           Lojista       @relation(fields: [lojistaId], references: [id])
+    conteudoAnterior  String        @default("Sem conteúdo Anterior")
+    conteudoNovo      String
+    lojistaId         String
+    modelAtualizadoId String
 
     @@map("logs")
 }

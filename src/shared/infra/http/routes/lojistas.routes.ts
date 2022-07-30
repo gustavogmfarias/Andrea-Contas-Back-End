@@ -7,6 +7,7 @@ import { DeleteLojistaController } from "@modules/accounts/useCases/deleteLojist
 import { UpdateLojistaController } from "@modules/accounts/useCases/updateLojista/UpdateLojistaController";
 import { ChangeOwnPasswordController } from "@modules/accounts/useCases/ChangeOwnPassword/ChangeOwnPasswordController";
 import { FindByLojistaIdController } from "@modules/accounts/useCases/findById/FindByLojistaIdController";
+import { FindByUserNameController } from "@modules/accounts/useCases/findByUserName/FindByUserNameController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const lojistasRoutes = Router();
@@ -17,6 +18,7 @@ const listLojistasController = new ListLojistasController();
 const deleteLojistaController = new DeleteLojistaController();
 const updateLojistaController = new UpdateLojistaController();
 const findByLojistaIdController = new FindByLojistaIdController();
+const findByUserNameController = new FindByUserNameController();
 const changeOwnPasswordController = new ChangeOwnPasswordController();
 
 lojistasRoutes.post("/", ensureAuthenticated, createLojistaController.handle);
@@ -33,6 +35,11 @@ lojistasRoutes.get(
     "/findbyid/:id",
     ensureAuthenticated,
     findByLojistaIdController.handle
+);
+lojistasRoutes.get(
+    "/findbyusername",
+    ensureAuthenticated,
+    findByUserNameController.handle
 );
 
 lojistasRoutes.delete(

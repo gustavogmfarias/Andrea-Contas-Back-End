@@ -12,7 +12,7 @@ class RefreshTokenController {
         const refreshTokenUseCase = container.resolve(RefreshTokenUseCase);
 
         const token = await refreshTokenUseCase.execute(refreshToken);
-        return response.json(token);
+        return response.status(200).send(token);
     }
 }
 

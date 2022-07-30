@@ -10,7 +10,7 @@ class ListLojistasController {
 
         const all = await listLojistasUseCase.execute({ page, per_page });
 
-        return response.json(all);
+        return response.status(201).send(all);
     }
 }
 

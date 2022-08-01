@@ -17,8 +17,8 @@ export class ClientesRepository implements IClientesRepository {
             avatarUrl,
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
-    ): Promise<void> {
-        await prisma.cliente.create({
+    ): Promise<Cliente> {
+        const cliente = await prisma.cliente.create({
             data: {
                 nome,
                 sobrenome,
@@ -39,6 +39,8 @@ export class ClientesRepository implements IClientesRepository {
                 },
             },
         });
+
+        return cliente;
     }
 
     async delete(cpf: string): Promise<void> {

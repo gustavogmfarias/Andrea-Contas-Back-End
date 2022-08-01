@@ -7,7 +7,7 @@ export interface IClientesRepository {
     create(
         data: ICreateClienteDTO,
         endereco: ICreateEnderecoDTO
-    ): Promise<void>;
+    ): Promise<Lojista>;
     delete(id: string): Promise<void>;
     listClientes(data: IPaginationRequestDTO): Promise<Cliente[] | null>;
     findByName(

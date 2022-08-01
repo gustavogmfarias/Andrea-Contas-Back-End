@@ -4,6 +4,8 @@ import { CreateClienteUseCase } from "./CreateClienteUseCase";
 
 class CreateClienteController {
     async handle(request: Request, response: Response): Promise<Response> {
+        const { id: lojista } = request.lojista;
+
         const {
             nome,
             sobrenome,
@@ -21,7 +23,8 @@ class CreateClienteController {
 
         const createClienteUseCase = container.resolve(CreateClienteUseCase);
 
-        await createClienteUseCase.execute(
+        const cliente = await createClienteUseCase.execute(
+            lojista,
             { nome, sobrenome, cpf, email, telefone, observacoes },
             {
                 bairro,
@@ -33,7 +36,7 @@ class CreateClienteController {
             }
         );
 
-        return response.status(201).send();
+        return response.status(201).send(cliente);
     }
 }
 

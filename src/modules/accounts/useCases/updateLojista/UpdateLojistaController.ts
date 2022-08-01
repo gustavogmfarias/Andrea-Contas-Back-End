@@ -10,7 +10,7 @@ class UpdateLojistaController {
 
         const updateLojistaUseCase = container.resolve(UpdateLojistaUseCase);
 
-        await updateLojistaUseCase.execute({
+        const lojistaAtualizado = await updateLojistaUseCase.execute({
             username,
             nome,
             senha,
@@ -18,7 +18,7 @@ class UpdateLojistaController {
             id,
         });
 
-        return response.status(200).json();
+        return response.status(200).send(lojistaAtualizado);
     }
 }
 

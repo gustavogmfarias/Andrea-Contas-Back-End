@@ -30,8 +30,8 @@ export class LojistasRepository implements ILojistasRepository {
         senha,
         nome,
         id,
-    }: IUpdateLojistaDTO): Promise<void> {
-        await prisma.lojista.update({
+    }: IUpdateLojistaDTO): Promise<Lojista> {
+        const lojista = await prisma.lojista.update({
             where: { id },
             data: {
                 username,
@@ -39,6 +39,8 @@ export class LojistasRepository implements ILojistasRepository {
                 nome,
             },
         });
+
+        return lojista;
     }
 
     async changeOwnPassword({ senha, id }: IUpdateLojistaDTO): Promise<void> {

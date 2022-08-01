@@ -9,6 +9,6 @@ export interface ILojistasRepository {
     listLojistas(data: IPaginationRequestDTO): Promise<Lojista[] | null>;
     findByUserName(username: string): Promise<Lojista | null>;
     findById(id: string): Promise<Lojista | null>;
-    update(data: IUpdateLojistaDTO): Promise<void>;
+    update(data: IUpdateLojistaDTO): Promise<Lojista>;
     changeOwnPassword(data: IUpdateLojistaDTO): Promise<void>;
 }

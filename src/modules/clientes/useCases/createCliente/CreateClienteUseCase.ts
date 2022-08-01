@@ -6,6 +6,7 @@ import { ICreateEnderecoDTO } from "@modules/clientes/dtos/ICreateEnderecoDTO";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
 import { Cliente } from "@prisma/client";
 import { ClienteMap } from "@modules/clientes/mapper/ClienteMap";
+import { IClienteResponseDTO } from "@modules/clientes/dtos/IClienteResponseDTO";
 
 @injectable()
 class CreateClienteUseCase {
@@ -28,41 +29,49 @@ class CreateClienteUseCase {
             avatarUrl,
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
-    ): Promise<Cliente> {
+    ): Promise<IClienteResponseDTO> {
         const clienteExists = await this.clientesRepository.findByCpf(cpf);
 
         if (clienteExists) {
             throw new AppError("Cliente already exists", 409);
         }
 
-        const cliente = await this.clientesRepository.create(
-            { nome, sobrenome, cpf, email, telefone, observacoes, avatarUrl },
-            { bairro, rua, cep, cidade, estado, numero }
-        );
+        let cliente;
+        let clienteEndereco;
 
-        let clienteDTO;
-        if (cliente) {
-            await this.logProvider.create({
-                logRepository: "CLIENTE",
-                descricao: `Cliente criado`,
-                conteudoAnterior: JSON.stringify(cliente),
-                conteudoNovo: JSON.stringify(cliente),
-                lojistaId: lojista,
-                modelAtualizadoId: cliente.id,
-            });
+        try {
+            cliente = await this.clientesRepository.create(
+                {
+                    nome,
+                    sobrenome,
+                    cpf,
+                    email,
+                    telefone,
+                    observacoes,
+                    avatarUrl,
+                },
+                { bairro, rua, cep, cidade, estado, numero }
+            );
 
-            const clienteEndereco =
-                await this.clientesRepository.findEnderecoById(
-                    cliente.fk_id_endereco
-                );
-
-            clienteDTO = await ClienteMap.toDTO(cliente, clienteEndereco);
-
-            return clienteDTO;
+            clienteEndereco = await this.clientesRepository.findEnderecoById(
+                cliente.fk_id_endereco
+            );
+        } catch {
+            throw new AppError("Cliente não pode ser cadastrado", 400);
         }
 
-        throw new AppError("Cliente não pode ser cadastrado", 400);
+        await this.logProvider.create({
+            logRepository: "CLIENTE",
+            descricao: `Cliente criado`,
+            conteudoAnterior: JSON.stringify(cliente),
+            conteudoNovo: JSON.stringify(cliente),
+            lojistaId: lojista,
+            modelAtualizadoId: cliente.id,
+        });
+
+        const clienteDTO = await ClienteMap.toDTO(cliente, clienteEndereco);
+
+        return clienteDTO;
     }
 }
-
 export { CreateClienteUseCase };

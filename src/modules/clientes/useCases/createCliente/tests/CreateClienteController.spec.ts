@@ -6,7 +6,7 @@ import { app } from "@shared/infra/http/app";
 import request from "supertest";
 
 describe("CLIENTE - Create Cliente Controller", () => {
-    it("Deve ser capaz de criar um lojista", async () => {
+    it("Deve ser capaz de criar um Cliente", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
@@ -14,11 +14,20 @@ describe("CLIENTE - Create Cliente Controller", () => {
         const { token } = responseToken.body;
 
         const response = await request(app)
-            .post("/lojistas")
+            .post("/clientes")
             .send({
-                nome: "mauricio",
-                username: "mauricio",
-                senha: "mauricio",
+                nome: "Mauricio",
+                sobrenome: "Goulart",
+                cpf: "777",
+                email: "mau@a.com",
+                telefone: "777",
+                observacoes: "filhao",
+                bairro: "cehab",
+                rua: "rua da cehab",
+                cep: "55",
+                cidade: "itaperuna",
+                estado: "rj",
+                numero: "22",
             })
             .set({ Authorization: `Bearer ${token}` });
 

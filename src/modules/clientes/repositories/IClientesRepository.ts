@@ -1,4 +1,4 @@
-import { Cliente, Endereco } from "@prisma/client";
+import { Cliente, Endereco, Lojista } from "@prisma/client";
 import { IPaginationRequestDTO } from "@shared/dtos/IPaginationRequestDTO";
 import { ICreateClienteDTO } from "../dtos/ICreateClienteDTO";
 import { ICreateEnderecoDTO } from "../dtos/ICreateEnderecoDTO";
@@ -7,7 +7,7 @@ export interface IClientesRepository {
     create(
         data: ICreateClienteDTO,
         endereco: ICreateEnderecoDTO
-    ): Promise<Lojista>;
+    ): Promise<Cliente>;
     delete(id: string): Promise<void>;
     listClientes(data: IPaginationRequestDTO): Promise<Cliente[] | null>;
     findByName(

@@ -25,4 +25,16 @@ export class LogProvider implements ILogProvider {
 
         return logCriado;
     }
+
+    async findById(id: string): Promise<Log> {
+        const log = await prisma.log.findUnique({ where: { id } });
+
+        return log;
+    }
+
+    async existeAlgum(): Promise<Log> {
+        const log = await prisma.log.findFirst();
+
+        return log;
+    }
 }

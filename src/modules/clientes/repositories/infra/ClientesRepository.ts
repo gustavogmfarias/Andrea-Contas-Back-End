@@ -124,7 +124,7 @@ export class ClientesRepository implements IClientesRepository {
     }
 
     async findByCpf(cpf: string): Promise<Cliente> {
-        const cliente = await prisma.cliente.findFirst({
+        const cliente = await prisma.cliente.findUnique({
             where: {
                 cpf,
             },

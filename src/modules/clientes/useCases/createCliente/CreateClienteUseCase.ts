@@ -30,6 +30,10 @@ class CreateClienteUseCase {
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
     ): Promise<IClienteResponseDTO> {
+        if (!cpf) {
+            throw new AppError("Não pode cadastrar um cliente sem cpf", 400);
+        }
+
         const clienteExists = await this.clientesRepository.findByCpf(cpf);
 
         if (clienteExists) {

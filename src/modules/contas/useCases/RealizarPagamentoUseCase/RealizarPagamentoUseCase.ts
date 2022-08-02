@@ -24,12 +24,12 @@ class RealizarPagamentoUseCase {
 
     async execute({
         dataPagamento,
-        fk_id_conta,
-        fk_id_lojista,
+        fkIdConta,
+        fkIdLojista,
         valorPagamento,
     }: IRealizarPagamentoDTO): Promise<Pagamento> {
         const contaASerAbatida = await this.contasRepository.findById(
-            fk_id_conta
+            fkIdConta
         );
 
         let pagamentoRealizado: Pagamento;
@@ -40,7 +40,7 @@ class RealizarPagamentoUseCase {
             valorAtual,
             dataVencimentoAtual,
             ativo,
-        } = await this.contasRepository.findById(fk_id_conta);
+        } = await this.contasRepository.findById(fkIdConta);
 
         if (ativo === false) {
             throw new AppError("Conta já inativada", 400);
@@ -63,7 +63,7 @@ class RealizarPagamentoUseCase {
             }
 
             const contaAtualizada = await this.contasRepository.update(
-                fk_id_conta,
+                fkIdConta,
                 {
                     editadoEm: this.dateProvider.dateNow(),
                     numeroParcelasAtual,
@@ -79,14 +79,14 @@ class RealizarPagamentoUseCase {
                 descricao: `Conta atualizado a partir de um Pagamento`,
                 conteudoAnterior: JSON.stringify(contaASerAbatida),
                 conteudoNovo: JSON.stringify(contaAtualizada),
-                lojistaId: fk_id_lojista,
-                modelAtualizadoId: fk_id_conta,
+                lojistaId: fkIdLojista,
+                modelAtualizadoId: fkIdConta,
             });
 
             pagamentoRealizado = await this.contasRepository.realizarPagamento({
                 dataPagamento,
-                fk_id_conta,
-                fk_id_lojista,
+                fkIdConta,
+                fkIdLojista,
                 valorPagamento,
             });
 
@@ -95,7 +95,7 @@ class RealizarPagamentoUseCase {
                 descricao: `Pagamento realizado`,
                 conteudoAnterior: JSON.stringify(pagamentoRealizado),
                 conteudoNovo: JSON.stringify(pagamentoRealizado),
-                lojistaId: fk_id_lojista,
+                lojistaId: fkIdLojista,
                 modelAtualizadoId: pagamentoRealizado.id,
             });
         }

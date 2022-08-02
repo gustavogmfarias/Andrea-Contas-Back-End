@@ -11,7 +11,7 @@ class CreateContasController {
             numeroParcelas,
             valorInicial,
             dataVencimentoInicial,
-            fk_id_cliente,
+            fkIdCliente,
         } = request.body;
 
         const createContaUseCase = container.resolve(CreateContasUseCase);
@@ -22,8 +22,8 @@ class CreateContasController {
             valorInicial,
             dataVencimentoInicial,
             dataVencimentoAtual: dataVencimentoInicial,
-            fk_id_lojista: id,
-            fk_id_cliente,
+            fkIdLojista: id,
+            fkIdCliente,
         });
 
         return response.status(201).send(contaCriada);

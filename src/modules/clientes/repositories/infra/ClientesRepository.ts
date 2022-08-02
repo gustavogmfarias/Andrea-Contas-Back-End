@@ -47,7 +47,7 @@ export class ClientesRepository implements IClientesRepository {
         const cliente = await prisma.cliente.findFirst({ where: { cpf } });
 
         await prisma.endereco.delete({
-            where: { id: cliente.fk_id_endereco },
+            where: { id: cliente.fkIdEndereco },
         });
     }
 
@@ -171,7 +171,7 @@ export class ClientesRepository implements IClientesRepository {
         });
 
         await prisma.endereco.update({
-            where: { id: cliente.fk_id_endereco },
+            where: { id: cliente.fkIdEndereco },
             data: { rua, bairro, numero, cidade, estado, cep },
         });
 

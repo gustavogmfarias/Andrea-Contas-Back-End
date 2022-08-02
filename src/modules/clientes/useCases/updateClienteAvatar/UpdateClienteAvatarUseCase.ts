@@ -22,7 +22,7 @@ class UpdateClienteAvatarUseCase {
     async execute({ cpf, avatar_file }: IRequest): Promise<void> {
         const cliente = await this.clientesRepository.findByCpf(cpf);
         const endereco = await this.clientesRepository.findEnderecoById(
-            cliente.fk_id_endereco
+            cliente.fkIdEndereco
         );
 
         const { nome, sobrenome, email, telefone, observacoes } = cliente;

@@ -24,7 +24,7 @@ class FindByNameClientesUseCase {
         const clientesDTO = clientes.map((cliente) => {
             cliente.avatarUrl = this.clientesRepository.avatarUrl(cliente);
             clienteEndereco = this.clientesRepository.findEnderecoById(
-                cliente.fk_id_endereco
+                cliente.fkIdEndereco
             );
             return ClienteMap.toDTO(cliente, clienteEndereco);
         });

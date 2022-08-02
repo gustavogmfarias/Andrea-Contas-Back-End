@@ -58,7 +58,7 @@ class CreateClienteUseCase {
             );
 
             clienteEndereco = await this.clientesRepository.findEnderecoById(
-                cliente.fk_id_endereco
+                cliente.fkIdEndereco
             );
         } catch {
             throw new AppError("Cliente não pode ser cadastrado", 400);

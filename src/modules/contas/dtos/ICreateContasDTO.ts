@@ -10,6 +10,6 @@ export interface ICreateContasDTO {
     dataVencimentoInicial: Date;
     dataVencimentoFinal?: Date;
     dataVencimentoAtual: Date;
-    fk_id_lojista: string;
-    fk_id_cliente: string;
+    fkIdLojista: string;
+    fkIdCliente: string;
 }

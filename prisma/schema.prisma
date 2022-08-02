@@ -50,10 +50,10 @@ model Cliente {
     telefone    String
     observacoes String
     avatarUrl   String?
-    endereco    Endereco @relation(fields: [fk_id_endereco], references: [id], onDelete: Cascade)
+    endereco    Endereco @relation(fields: [fkIdEndereco], references: [id], onDelete: Cascade)
 
-    fk_id_endereco String  @unique
-    Conta          Conta[]
+    fkIdEndereco String  @unique
+    Conta        Conta[]
 
     @@map("clientes")
 }
@@ -87,21 +87,21 @@ model Conta {
     dataVencimentoAtual   DateTime
     pagamentos            Pagamento[]
     ativo                 Boolean     @default(true)
-    lojista               Lojista     @relation(fields: [fk_id_lojista], references: [id])
-    cliente               Cliente     @relation(fields: [fk_id_cliente], references: [id])
-    fk_id_lojista         String
-    fk_id_cliente         String
+    lojista               Lojista     @relation(fields: [fkIdLojista], references: [id])
+    cliente               Cliente     @relation(fields: [fkIdCliente], references: [id])
+    fkIdLojista           String
+    fkIdCliente           String
 
     @@map("contas")
 }
 
 model Pagamento {
     id             String   @id @default(uuid())
-    conta          Conta    @relation(fields: [fk_id_conta], references: [id])
-    lojista        Lojista  @relation(fields: [fk_id_lojista], references: [id])
+    conta          Conta    @relation(fields: [fkIdConta], references: [id])
+    lojista        Lojista  @relation(fields: [fkIdLojista], references: [id])
     dataPagamento  DateTime
-    fk_id_conta    String
-    fk_id_lojista  String
+    fkIdConta      String
+    fkIdLojista    String
     valorPagamento Float
 
     @@map("pagamentos")

@@ -18,8 +18,8 @@ class ContasRepository implements IContasRepository {
         dataVencimentoInicial,
         dataVencimentoFinal,
         dataVencimentoAtual,
-        fk_id_lojista,
-        fk_id_cliente,
+        fkIdLojista,
+        fkIdCliente,
     }: ICreateContasDTO): Promise<Conta> {
         const contaCriada = await prisma.conta.create({
             data: {
@@ -34,8 +34,8 @@ class ContasRepository implements IContasRepository {
                 valorAtual,
                 dataVencimentoInicial,
                 dataVencimentoFinal,
-                fk_id_lojista,
-                fk_id_cliente,
+                fkIdLojista,
+                fkIdCliente,
             },
         });
 
@@ -82,12 +82,12 @@ class ContasRepository implements IContasRepository {
 
     async realizarPagamento({
         dataPagamento,
-        fk_id_conta,
-        fk_id_lojista,
+        fkIdConta,
+        fkIdLojista,
         valorPagamento,
     }: IRealizarPagamentoDTO): Promise<Pagamento> {
         const pagamentoRealizado = prisma.pagamento.create({
-            data: { dataPagamento, fk_id_conta, fk_id_lojista, valorPagamento },
+            data: { dataPagamento, fkIdConta, fkIdLojista, valorPagamento },
         });
 
         return pagamentoRealizado;

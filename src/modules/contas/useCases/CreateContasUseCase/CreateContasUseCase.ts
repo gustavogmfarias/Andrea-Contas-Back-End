@@ -28,11 +28,11 @@ class CreateContasUseCase {
         numeroParcelas,
         valorInicial,
         dataVencimentoInicial,
-        fk_id_lojista,
-        fk_id_cliente,
+        fkIdLojista,
+        fkIdCliente,
     }: ICreateContasDTO): Promise<Conta> {
         const clienteExists = await this.clientesRepository.findById(
-            fk_id_cliente
+            fkIdCliente
         );
 
         if (!clienteExists) {
@@ -40,7 +40,7 @@ class CreateContasUseCase {
         }
 
         const lojistaExists = await this.lojistasRepository.findById(
-            fk_id_lojista
+            fkIdLojista
         );
 
         if (!lojistaExists) {
@@ -62,8 +62,8 @@ class CreateContasUseCase {
                 dataVencimentoInicial,
                 numeroParcelas
             ),
-            fk_id_lojista,
-            fk_id_cliente,
+            fkIdLojista,
+            fkIdCliente,
         });
 
         const log = await this.logProvider.create({
@@ -71,8 +71,8 @@ class CreateContasUseCase {
             descricao: `Criada uma conta`,
             conteudoAnterior: "Não se aplica",
             conteudoNovo: JSON.stringify(contaCriada),
-            lojistaId: fk_id_lojista,
-            modelAtualizadoId: fk_id_cliente,
+            lojistaId: fkIdLojista,
+            modelAtualizadoId: fkIdCliente,
         });
 
         return contaCriada;

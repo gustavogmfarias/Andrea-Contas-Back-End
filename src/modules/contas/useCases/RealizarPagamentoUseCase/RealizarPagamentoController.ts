@@ -4,8 +4,8 @@ import { RealizarPagamentoUseCase } from "./RealizarPagamentoUseCase";
 
 class RealizarPagamentoController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { id: fk_id_lojista } = request.lojista;
-        const { idConta: fk_id_conta } = request.params;
+        const { id: fkIdLojista } = request.lojista;
+        const { idConta: fkIdConta } = request.params;
         const { dataPagamento, valorPagamento } = request.body;
 
         const realizarPagamentoUseCase = container.resolve(
@@ -14,8 +14,8 @@ class RealizarPagamentoController {
 
         const pagamentoRealizado = await realizarPagamentoUseCase.execute({
             dataPagamento,
-            fk_id_conta,
-            fk_id_lojista,
+            fkIdConta,
+            fkIdLojista,
             valorPagamento,
         });
 

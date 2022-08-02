@@ -38,7 +38,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(LojistaAtualizado.body.username).toBe("mauricio");
         expect(LojistaAtualizado.body.nome).toBe("mauricio");
         expect(tokenLojistaAtualizado.body).toHaveProperty("token");
-        expect(tokenLojistaAtualizado.body).toHaveProperty("refresh_token");
+        expect(tokenLojistaAtualizado.body).toHaveProperty("refreshToken");
     });
 
     it("Deve ser capaz de atualizar um Lojista por apenas o username", async () => {
@@ -111,7 +111,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
 
         expect(LojistaAtualizado.status).toBe(200);
         expect(tokenLojistaAtualizado.body).toHaveProperty("token");
-        expect(tokenLojistaAtualizado.body).toHaveProperty("refresh_token");
+        expect(tokenLojistaAtualizado.body).toHaveProperty("refreshToken");
     });
 
     it("Não deve ser capaz de atualizar a senha de um Lojista se a nova senha e a confirmação não forem iguais", async () => {

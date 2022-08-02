@@ -24,7 +24,16 @@ describe("LOJISTA - Change Own Password Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
+        const loginSenhaNova = await request(app)
+            .post("/sessions")
+            .send({ username: "gustavo", senha: "novaSenha" });
+
+        const lojista = response.body[0];
+        const log = response.body[1];
+
+        expect(loginSenhaNova.body).toHaveProperty("token");
         expect(response.status).toBe(200);
+        expect(log.descricao).toBe("Senha do Lojista atualizado");
     });
 
     it("Lojista precisa estar com token válido para trocar a própria senha", async () => {

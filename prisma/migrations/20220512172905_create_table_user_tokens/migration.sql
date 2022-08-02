@@ -2,9 +2,9 @@
 CREATE TABLE "user_tokens" (
     "id" TEXT NOT NULL,
     "token" TEXT NOT NULL,
-    "refresh_token" TEXT NOT NULL,
+    "refreshToken" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "end_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "user_tokens_pkey" PRIMARY KEY ("id")

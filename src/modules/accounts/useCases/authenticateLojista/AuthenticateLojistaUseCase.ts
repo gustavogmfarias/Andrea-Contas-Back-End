@@ -16,7 +16,7 @@ interface IRequest {
 interface IResponse {
     lojista: { nome: string; username: string };
     token: string;
-    refresh_token: string;
+    refreshToken: string;
 }
 
 @injectable()
@@ -35,9 +35,9 @@ class AuthenticateLojistaUseCase {
         const lojista = await this.lojistasRepository.findByUserName(username);
         const {
             expires_in_token,
-            secret_refresh_token,
+            secret_refreshToken,
             secret_token,
-            expires_in_refresh_token,
+            expires_in_refreshToken,
             expires_in_refresh_days,
         } = auth;
 
@@ -58,19 +58,19 @@ class AuthenticateLojistaUseCase {
             expiresIn: expires_in_token,
         });
 
-        const refresh_token = sign({ username }, secret_refresh_token, {
+        const refreshToken = sign({ username }, secret_refreshToken, {
             subject: lojista.id,
-            expiresIn: expires_in_refresh_token,
+            expiresIn: expires_in_refreshToken,
         });
 
-        const refresh_token_expires_date = this.dateProvider.addDays(
+        const refreshToken_expiresDate = this.dateProvider.addDays(
             expires_in_refresh_days
         );
 
         this.lojistasTokensRepository.create({
-            expires_date: refresh_token_expires_date,
-            refresh_token,
-            lojista_id: lojista.id,
+            expiresDate: refreshToken_expiresDate,
+            refreshToken,
+            lojistaId: lojista.id,
             token,
         });
 
@@ -80,7 +80,7 @@ class AuthenticateLojistaUseCase {
                 nome: lojista.nome,
                 username: lojista.username,
             },
-            refresh_token,
+            refreshToken,
         };
 
         return tokenReturn;

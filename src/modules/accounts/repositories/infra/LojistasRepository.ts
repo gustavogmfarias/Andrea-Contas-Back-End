@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { ICreateLojistaDTO } from "@modules/accounts/dtos/ICreateLojistaDTO";
 
-import { Cliente, Lojista } from "@prisma/client";
+import { Cliente, Log, Lojista } from "@prisma/client";
 
 import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
 
@@ -26,6 +26,7 @@ export class LojistasRepository implements ILojistasRepository {
     }
 
     async update({
+        editadoEm,
         username,
         senha,
         nome,
@@ -37,19 +38,25 @@ export class LojistasRepository implements ILojistasRepository {
                 username,
                 senha,
                 nome,
+                editadoEm,
             },
         });
 
         return lojista;
     }
 
-    async changeOwnPassword({ senha, id }: IUpdateLojistaDTO): Promise<void> {
-        await prisma.lojista.update({
+    async changeOwnPassword({
+        senha,
+        id,
+    }: IUpdateLojistaDTO): Promise<Lojista> {
+        const lojista = await prisma.lojista.update({
             where: { id },
             data: {
                 senha,
             },
         });
+
+        return lojista;
     }
 
     async listLojistas({ page, per_page }): Promise<Lojista[]> {

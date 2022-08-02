@@ -5,22 +5,22 @@
 
 */
 -- DropForeignKey
-ALTER TABLE "user_tokens" DROP CONSTRAINT "user_tokens_lojista_id_fkey";
+ALTER TABLE "user_tokens" DROP CONSTRAINT "user_tokens_lojistaId_fkey";
 
 -- DropTable
 DROP TABLE "user_tokens";
 
 -- CreateTable
-CREATE TABLE "lojista_tokens" (
+CREATE TABLE "lojistaTokens" (
     "id" TEXT NOT NULL,
     "token" TEXT NOT NULL,
-    "refresh_token" TEXT NOT NULL,
-    "lojista_id" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "expires_date" TIMESTAMP(3) NOT NULL,
+    "refreshToken" TEXT NOT NULL,
+    "lojistaId" TEXT NOT NULL,
+    "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expiresDate" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "lojista_tokens_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "lojistaTokens_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
-ALTER TABLE "lojista_tokens" ADD CONSTRAINT "lojista_tokens_lojista_id_fkey" FOREIGN KEY ("lojista_id") REFERENCES "lojistas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "lojistaTokens" ADD CONSTRAINT "lojistaTokens_lojistaId_fkey" FOREIGN KEY ("lojistaId") REFERENCES "lojistas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

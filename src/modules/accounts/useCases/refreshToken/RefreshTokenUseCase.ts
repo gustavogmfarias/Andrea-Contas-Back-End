@@ -14,7 +14,7 @@ interface IPayload {
 
 interface ITokenResponse {
     token: string;
-    refresh_token: string;
+    refreshToken: string;
 }
 
 @injectable()
@@ -29,13 +29,13 @@ class RefreshTokenUseCase {
     async execute(token: string): Promise<ITokenResponse> {
         const { username, sub } = verify(
             token,
-            auth.secret_refresh_token
+            auth.secret_refreshToken
         ) as IPayload;
-        const lojista_id = sub;
+        const lojistaId = sub;
 
         const lojistaToken =
             await this.lojistasTokensRepository.findByLojistaIdAndRefreshToken(
-                lojista_id,
+                lojistaId,
                 token
             );
 
@@ -45,28 +45,28 @@ class RefreshTokenUseCase {
 
         await this.lojistasTokensRepository.deleteById(lojistaToken.id);
 
-        const expires_date = this.dateProvider.addDays(
+        const expiresDate = this.dateProvider.addDays(
             auth.expires_in_refresh_days
         );
 
-        const refresh_token = sign({ username }, auth.secret_refresh_token, {
+        const refreshToken = sign({ username }, auth.secret_refreshToken, {
             subject: sub,
-            expiresIn: auth.expires_in_refresh_token,
+            expiresIn: auth.expires_in_refreshToken,
         });
 
         await this.lojistasTokensRepository.create({
-            expires_date,
-            refresh_token,
-            lojista_id,
+            expiresDate,
+            refreshToken,
+            lojistaId,
             token,
         });
 
         const newToken = sign({ username }, auth.secret_token, {
-            subject: lojista_id,
+            subject: lojistaId,
             expiresIn: auth.expires_in_token,
         });
 
-        return { refresh_token, token: newToken };
+        return { refreshToken, token: newToken };
     }
 }
 

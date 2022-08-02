@@ -3,19 +3,19 @@ import { LojistaToken } from "@prisma/client";
 
 interface ILojistasTokensRepository {
     create({
-        expires_date,
-        lojista_id,
-        refresh_token,
+        expiresDate,
+        lojistaId,
+        refreshToken,
     }: ICreateLojistaTokenDTO): Promise<LojistaToken>;
 
     findByLojistaIdAndRefreshToken(
-        lojista_id: string,
-        refresh_token: string
+        lojistaId: string,
+        refreshToken: string
     ): Promise<LojistaToken>;
 
     deleteById(id: string): Promise<void>;
 
-    findByRefreshToken(refresh_token: string): Promise<LojistaToken>;
+    findByRefreshToken(refreshToken: string): Promise<LojistaToken>;
 }
 
 export { ILojistasTokensRepository };

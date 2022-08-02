@@ -11,14 +11,14 @@ describe("LOJISTA - Refresh token", () => {
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
-        const { token, refresh_token } = responseToken.body;
+        const { token, refreshToken } = responseToken.body;
 
         const responseRefreshToken = await request(app)
             .post("/refresh-token")
-            .send({ refreshToken: refresh_token });
+            .send({ refreshToken: refreshToken });
 
         expect(responseRefreshToken.status).toBe(200);
-        expect(responseRefreshToken.body).toHaveProperty("refresh_token");
+        expect(responseRefreshToken.body).toHaveProperty("refreshToken");
         expect(responseRefreshToken.body).toHaveProperty("token");
     });
 

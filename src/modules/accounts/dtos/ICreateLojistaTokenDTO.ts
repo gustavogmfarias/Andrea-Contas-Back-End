@@ -1,7 +1,7 @@
 interface ICreateLojistaTokenDTO {
-    lojista_id: string;
-    expires_date: Date;
-    refresh_token: string;
+    lojistaId: string;
+    expiresDate: Date;
+    refreshToken: string;
     token: string;
 }
 

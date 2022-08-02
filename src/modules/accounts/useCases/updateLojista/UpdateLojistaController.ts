@@ -16,6 +16,7 @@ class UpdateLojistaController {
             senha,
             confirma_senha,
             id,
+            editadoEm: new Date(),
         });
 
         return response.status(200).send(lojistaAtualizado);

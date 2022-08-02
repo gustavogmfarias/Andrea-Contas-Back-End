@@ -12,29 +12,31 @@ datasource db {
 }
 
 model Lojista {
-    id       String @id @default(uuid())
-    username String @unique
-    nome     String
-    senha    String
+    id        String   @id @default(uuid())
+    username  String   @unique
+    nome      String
+    senha     String
+    criadoEm  DateTime @default(now()) @db.Timestamptz(3)
+    editadoEm DateTime @default(now()) @db.Timestamptz(3)
 
-    lojista_token LojistaToken[]
-    pagamentos    Pagamento[]
-    Conta         Conta[]
-    Log           Log[]
+    lojistaToken LojistaToken[]
+    pagamentos   Pagamento[]
+    Conta        Conta[]
+    Log          Log[]
 
     @@map("lojistas")
 }
 
 model LojistaToken {
-    id            String   @id @default(uuid())
-    token         String
-    refresh_token String
-    lojista_id    String
-    lojista       Lojista  @relation(fields: [lojista_id], references: [id], onDelete: Cascade)
-    created_at    DateTime @default(now()) @db.Timestamptz(3)
-    expires_date  DateTime @db.Timestamptz(3)
+    id           String   @id @default(uuid())
+    token        String
+    refreshToken String
+    lojistaId    String
+    lojista      Lojista  @relation(fields: [lojistaId], references: [id], onDelete: Cascade)
+    criadoEm     DateTime @default(now()) @db.Timestamptz(3)
+    expiresDate  DateTime @db.Timestamptz(3)
 
-    @@map("lojista_tokens")
+    @@map("lojistaTokens")
 }
 
 model Cliente {

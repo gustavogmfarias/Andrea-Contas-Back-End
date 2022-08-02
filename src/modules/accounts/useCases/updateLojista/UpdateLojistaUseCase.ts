@@ -15,6 +15,7 @@ class UpdateLojistaUseCase {
     ) {}
 
     async execute({
+        editadoEm,
         id,
         nome,
         username,
@@ -41,6 +42,7 @@ class UpdateLojistaUseCase {
             nome,
             username,
             senha: passwordHash,
+            editadoEm,
         });
 
         const lojistaDTO = LojistaMap.toDTO(lojista);

@@ -5,14 +5,14 @@ import { prisma } from "@shared/database/prismaClient";
 
 class LojistasTokensRepository implements ILojistasTokensRepository {
     async create({
-        expires_date,
-        lojista_id,
-        refresh_token,
+        expiresDate,
+        lojistaId,
+        refreshToken,
         token,
     }: ICreateLojistaTokenDTO): Promise<LojistaToken> {
         try {
             const lojistaToken = await prisma.lojistaToken.create({
-                data: { expires_date, lojista_id, refresh_token, token },
+                data: { expiresDate, lojistaId, refreshToken, token },
             });
 
             return lojistaToken;
@@ -22,11 +22,11 @@ class LojistasTokensRepository implements ILojistasTokensRepository {
     }
 
     async findByLojistaIdAndRefreshToken(
-        lojista_id: string,
-        refresh_token: string
+        lojistaId: string,
+        refreshToken: string
     ): Promise<LojistaToken> {
         const lojistaTokens = await prisma.lojistaToken.findFirst({
-            where: { lojista_id, refresh_token },
+            where: { lojistaId, refreshToken },
         });
 
         return lojistaTokens;
@@ -36,9 +36,9 @@ class LojistasTokensRepository implements ILojistasTokensRepository {
         await prisma.lojistaToken.delete({ where: { id } });
     }
 
-    async findByRefreshToken(refresh_token: string): Promise<LojistaToken> {
+    async findByRefreshToken(refreshToken: string): Promise<LojistaToken> {
         const lojistaToken = await prisma.lojistaToken.findFirst({
-            where: { refresh_token },
+            where: { refreshToken },
         });
         return lojistaToken;
     }

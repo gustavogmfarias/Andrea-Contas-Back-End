@@ -5,4 +5,5 @@ export interface IUpdateLojistaDTO {
     senha?: string;
     confirma_senha?: string;
     senha_antiga?: string;
+    editadoEm: Date;
 }

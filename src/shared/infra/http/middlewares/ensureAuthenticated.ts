@@ -24,15 +24,15 @@ export async function ensureAuthenticated(
     // vai dividir o array da seguinte forma: [0] => bearer e [1] => 1516151650wdffwqfqw24. Dessa forma o [, token] ele vai pegar o segundo com a variavel token.
 
     try {
-        const { sub: lojista_id } = verify(
-            // o sub: lojista_id é só um alias
+        const { sub: lojistaId } = verify(
+            // o sub: lojistaId é só um alias
             token,
             auth.secret_token
         ) as IPayload;
         // vai ter um retorno como IPayload
 
         request.lojista = {
-            id: lojista_id,
+            id: lojistaId,
         };
 
         next();

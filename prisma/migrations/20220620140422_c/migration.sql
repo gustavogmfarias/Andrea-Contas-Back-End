@@ -3,7 +3,7 @@
 
   - You are about to drop the column `user_id` on the `user_tokens` table. All the data in the column will be lost.
   - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-  - Added the required column `lojista_id` to the `user_tokens` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `lojistaId` to the `user_tokens` table without a default value. This is not possible if the table is not empty.
 
 */
 -- DropForeignKey
@@ -11,7 +11,7 @@ ALTER TABLE "user_tokens" DROP CONSTRAINT "user_tokens_user_id_fkey";
 
 -- AlterTable
 ALTER TABLE "user_tokens" DROP COLUMN "user_id",
-ADD COLUMN     "lojista_id" TEXT NOT NULL;
+ADD COLUMN     "lojistaId" TEXT NOT NULL;
 
 -- DropTable
 DROP TABLE "users";
@@ -55,7 +55,7 @@ CREATE TABLE "enderecos" (
 CREATE UNIQUE INDEX "clientes_fk_id_endereco_key" ON "clientes"("fk_id_endereco");
 
 -- AddForeignKey
-ALTER TABLE "user_tokens" ADD CONSTRAINT "user_tokens_lojista_id_fkey" FOREIGN KEY ("lojista_id") REFERENCES "lojistas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "user_tokens" ADD CONSTRAINT "user_tokens_lojistaId_fkey" FOREIGN KEY ("lojistaId") REFERENCES "lojistas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "clientes" ADD CONSTRAINT "clientes_fk_id_endereco_fkey" FOREIGN KEY ("fk_id_endereco") REFERENCES "enderecos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

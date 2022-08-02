@@ -20,7 +20,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
             .send({
                 senha_antiga: "gustavo",
                 senha: "novaSenha",
-                confirma_senha: "novaSenha",
+                confirmaSenha: "novaSenha",
             })
             .set({ Authorization: `Bearer ${token}` });
 
@@ -42,7 +42,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
             .send({
                 senha_antiga: "gustavo",
                 senha: "gustavo",
-                confirma_senha: "gustavo",
+                confirmaSenha: "gustavo",
             })
             .set({ Authorization: `Bearer senhaErrada` });
 
@@ -55,7 +55,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
             .send({
                 senha_antiga: "gustavo",
                 senha: "gustavo",
-                confirma_senha: "gustavo",
+                confirmaSenha: "gustavo",
             });
 
         expect(response.body.message).toBe("Token missing");
@@ -73,7 +73,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
             .send({
                 senha_antiga: "senhaErrada",
                 senha: "gustavo",
-                confirma_senha: "gustavo",
+                confirmaSenha: "gustavo",
             })
             .set({ Authorization: `Bearer ${token}` });
 
@@ -92,7 +92,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
             .send({
                 senha_antiga: "admin",
                 senha: "gustavo",
-                confirma_senha: "gustavoSenhaErrada",
+                confirmaSenha: "gustavoSenhaErrada",
             })
             .set({ Authorization: `Bearer ${token}` });
 

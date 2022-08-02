@@ -6,14 +6,14 @@ import { app } from "@shared/infra/http/app";
 import request from "supertest";
 
 describe("LOJISTA - Create Lojista Controller", () => {
-    it("Deve ser capaz de criar um lojista", async () => {
+    it("Deve ser capaz de criar um lojista e adicionar um Log", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
         const { token } = responseToken.body;
 
-        const response = await request(app)
+        const lojistaNovo = await request(app)
             .post("/lojistas")
             .send({
                 nome: "mauricio",
@@ -22,7 +22,16 @@ describe("LOJISTA - Create Lojista Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
-        expect(response.status).toBe(201);
+        const novoLojistaLogin = await request(app)
+            .post("/sessions")
+            .send({ username: "mauricio", senha: "mauricio" });
+
+        const log = lojistaNovo.body[1];
+
+        expect(novoLojistaLogin.body).toHaveProperty("token");
+
+        expect(lojistaNovo.status).toBe(201);
+        expect(log.descricao).toBe("Lojista Criado com Sucesso!");
     });
 
     it("Não deve ser capaz de criar um lojista com mesmo username", async () => {

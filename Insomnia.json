@@ -376,7 +376,7 @@
             "method": "PATCH",
             "body": {
                 "mimeType": "application/json",
-                "text": "\n{\n\t\"senha\": \"mauricinho\",\n\t\"confirma_senha\": \"mauricinho\",\n\t\"nome\": \"mauricinho\",\n\t\"username\": \"mauricinho\"\n}\n\n"
+                "text": "\n{\n\t\"senha\": \"mauricinho\",\n\t\"confirmaSenha\": \"mauricinho\",\n\t\"nome\": \"mauricinho\",\n\t\"username\": \"mauricinho\"\n}\n\n"
             },
             "parameters": [],
             "headers": [
@@ -475,7 +475,7 @@
             "method": "PATCH",
             "body": {
                 "mimeType": "application/json",
-                "text": "\n{\n\t\"senha_antiga\": \"mauricio\",\n\t\"senha\": \"gustavo\",\n\t\"confirma_senha\": \"gustavo\"\n\n}\n\n"
+                "text": "\n{\n\t\"senha_antiga\": \"mauricio\",\n\t\"senha\": \"gustavo\",\n\t\"confirmaSenha\": \"gustavo\"\n\n}\n\n"
             },
             "parameters": [],
             "headers": [

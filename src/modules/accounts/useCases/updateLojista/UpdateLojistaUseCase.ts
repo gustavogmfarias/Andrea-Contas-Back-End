@@ -2,7 +2,8 @@ import { ILojistaResponseDTO } from "@modules/accounts/dtos/ILojistaResponseDTO"
 import { IUpdateLojistaDTO } from "@modules/accounts/dtos/IUpdateLojistaDTO";
 import { LojistaMap } from "@modules/accounts/mapper/LojistaMap";
 import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
-import { Lojista } from "@prisma/client";
+import { Log, Lojista } from "@prisma/client";
+import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
 import { AppError } from "@shared/errors/AppError";
 import { hash } from "bcryptjs";
 import { injectable, inject } from "tsyringe";
@@ -11,33 +12,37 @@ import { injectable, inject } from "tsyringe";
 class UpdateLojistaUseCase {
     constructor(
         @inject("LojistasRepository")
-        private lojistasRepository: ILojistasRepository
+        private lojistasRepository: ILojistasRepository,
+        @inject("LogProvider") private logProvider: ILogProvider
     ) {}
 
-    async execute({
-        editadoEm,
-        id,
-        nome,
-        username,
-        senha,
-        confirma_senha,
-    }: IUpdateLojistaDTO): Promise<ILojistaResponseDTO> {
-        let lojista = await this.lojistasRepository.findById(id);
+    async execute(
+        lojistaId: string,
+        {
+            editadoEm,
+            id,
+            nome,
+            username,
+            senha,
+            confirmaSenha,
+        }: IUpdateLojistaDTO
+    ): Promise<(ILojistaResponseDTO | Log)[]> {
+        const lojistaBuscado = await this.lojistasRepository.findById(id);
         let passwordHash;
 
-        if (!lojista) {
+        if (!lojistaBuscado) {
             throw new AppError("Lojista doesn't exist", 404);
         }
 
-        if (senha && confirma_senha) {
-            if (senha === confirma_senha) {
+        if (senha && confirmaSenha) {
+            if (senha === confirmaSenha) {
                 passwordHash = await hash(senha, 12);
             } else {
                 throw new AppError("Passwords don't match", 401);
             }
         }
 
-        lojista = await this.lojistasRepository.update({
+        const lojistaAtualizado = await this.lojistasRepository.update({
             id,
             nome,
             username,
@@ -45,9 +50,19 @@ class UpdateLojistaUseCase {
             editadoEm,
         });
 
-        const lojistaDTO = LojistaMap.toDTO(lojista);
+        const lojistaBuscadoDTO = LojistaMap.toDTO(lojistaBuscado);
+        const lojistaAtualizadoDTO = LojistaMap.toDTO(lojistaAtualizado);
 
-        return lojistaDTO;
+        const log = await this.logProvider.create({
+            logRepository: "LOJISTA",
+            descricao: "Lojista atualizado com Sucesso!",
+            conteudoAnterior: JSON.stringify(lojistaBuscadoDTO),
+            conteudoNovo: JSON.stringify(lojistaAtualizadoDTO),
+            lojistaId,
+            modelAtualizadoId: lojistaBuscado.id,
+        });
+
+        return [lojistaAtualizadoDTO, log];
     }
 }
 

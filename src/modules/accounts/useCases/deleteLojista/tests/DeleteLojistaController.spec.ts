@@ -2,12 +2,11 @@
  * @jest-environment ./prisma/prisma-environment-jest
  */
 
-import { LojistasRepository } from "@modules/accounts/repositories/infra/LojistasRepository";
 import { app } from "@shared/infra/http/app";
 import request from "supertest";
 
 describe("LOJISTA - Delete Lojista Controller", () => {
-    it("Deve ser capaz de deletar um lojista", async () => {
+    it("Deve ser capaz de deletar um lojista e adicionar um log", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
@@ -23,13 +22,18 @@ describe("LOJISTA - Delete Lojista Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
-        const { id } = lojistaCriado.body;
+        const lojistaCriadoResponse = lojistaCriado.body[0];
+
+        const { id } = lojistaCriadoResponse;
 
         const response = await request(app)
             .delete(`/lojistas/delete/${id}`)
             .set({ Authorization: `Bearer ${token}` });
 
+        const log = response.body[1];
+
         expect(response.status).toBe(200);
+        expect(log.descricao).toBe("Lojista deletado com Sucesso!");
     });
 
     it("Não Deve ser capaz de deletar um lojista se não estiver logado", async () => {

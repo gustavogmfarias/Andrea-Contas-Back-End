@@ -20,7 +20,7 @@ class ChangeOwnPasswordUseCase {
         id,
         senha,
         senha_antiga,
-        confirma_senha,
+        confirmaSenha,
         editadoEm,
     }: IUpdateLojistaDTO): Promise<(ILojistaResponseDTO | Log)[]> {
         const lojistaAnterior = await this.lojistasRepository.findById(id);
@@ -37,7 +37,7 @@ class ChangeOwnPasswordUseCase {
             }
         }
 
-        if (senha === confirma_senha) {
+        if (senha === confirmaSenha) {
             passwordHash = await hash(senha, 12);
         } else {
             throw new AppError("Passwords don't match", 401);

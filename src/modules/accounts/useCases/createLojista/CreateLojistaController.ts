@@ -4,16 +4,17 @@ import { CreateLojistaUseCase } from "@modules/accounts/useCases/createLojista/C
 
 class CreateLojistaController {
     async handle(request: Request, response: Response): Promise<Response> {
+        const { id: lojistaId } = request.lojista;
         const { username, senha, nome } = request.body;
         const createLojistaUseCase = container.resolve(CreateLojistaUseCase);
 
-        const lojista = await createLojistaUseCase.execute({
+        const lojistaCriado = await createLojistaUseCase.execute(lojistaId, {
             username,
             nome,
             senha,
         });
 
-        return response.status(201).send(lojista);
+        return response.status(201).send(lojistaCriado);
     }
 }
 

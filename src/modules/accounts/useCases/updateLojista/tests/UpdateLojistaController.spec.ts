@@ -13,129 +13,201 @@ describe("LOJISTA - Update Lojista Controller", () => {
 
         const { token } = responseToken.body;
 
-        const LojistaBuscado = await request(app)
-            .get("/lojistas/findbyusername")
-            .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "gustavo" });
+        const lojistaNovo = await request(app)
+            .post("/lojistas")
+            .send({
+                nome: "mauricio",
+                username: "mauricio",
+                senha: "mauricio",
+            })
+            .set({ Authorization: `Bearer ${token}` });
 
-        const LojistaAtualizado = await request(app)
-            .patch(`/lojistas/update/${LojistaBuscado.body.id}`)
+        const lojistaAtualizado = await request(app)
+            .patch(`/lojistas/update/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` })
             .send({
-                username: "mauricio",
-                nome: "mauricio",
-                senha: "abc123",
-                confirma_senha: "abc123",
+                username: "tiago",
+                nome: "Tiago",
+                senha: "tiago123",
+                confirmaSenha: "tiago123",
             });
 
-        const tokenLojistaAtualizado = await request(app)
+        const tokenlojistaAtualizado = await request(app)
             .post("/sessions")
-            .send({ username: "mauricio", senha: "abc123" });
+            .send({ username: "tiago", senha: "tiago123" });
 
-        expect(LojistaBuscado.body.username).toBe("gustavo");
-        expect(LojistaBuscado.body.nome).toBe("gustavo");
-        expect(LojistaAtualizado.status).toBe(200);
-        expect(LojistaAtualizado.body.username).toBe("mauricio");
-        expect(LojistaAtualizado.body.nome).toBe("mauricio");
-        expect(tokenLojistaAtualizado.body).toHaveProperty("token");
-        expect(tokenLojistaAtualizado.body).toHaveProperty("refreshToken");
+        const lojistaAtualizadoBody = lojistaAtualizado.body[0];
+        const logBody = lojistaAtualizado.body[1];
+
+        expect(logBody.descricao).toBe("Lojista atualizado com Sucesso!");
+        expect(lojistaNovo.body[0].username).toBe("mauricio");
+        expect(lojistaNovo.body[0].nome).toBe("mauricio");
+        expect(lojistaAtualizado.status).toBe(200);
+        expect(lojistaAtualizadoBody.username).toBe("tiago");
+        expect(lojistaAtualizadoBody.nome).toBe("Tiago");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("token");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
+
+        await request(app)
+            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .set({ Authorization: `Bearer ${token}` });
     });
 
-    it("Deve ser capaz de atualizar um Lojista por apenas o username", async () => {
+    it("Deve ser capaz de atualizar apenas o username de um Lojista", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
         const { token } = responseToken.body;
 
-        const responseLojistaBuscado = await request(app)
-            .get("/lojistas/findbyusername")
-            .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "mauricio" });
+        const lojistaNovo = await request(app)
+            .post("/lojistas")
+            .send({
+                nome: "mauricio",
+                username: "mauricio",
+                senha: "mauricio",
+            })
+            .set({ Authorization: `Bearer ${token}` });
 
-        const responseLojistaAtualizado = await request(app)
-            .patch(`/lojistas/update/${responseLojistaBuscado.body.id}`)
+        const lojistaAtualizado = await request(app)
+            .patch(`/lojistas/update/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "gustavo" });
+            .send({
+                username: "tiago",
+            });
 
-        expect(responseLojistaBuscado.body.username).toBe("mauricio");
-        expect(responseLojistaAtualizado.status).toBe(200);
-        expect(responseLojistaAtualizado.body.username).toBe("gustavo");
+        const tokenlojistaAtualizado = await request(app)
+            .post("/sessions")
+            .send({ username: "tiago", senha: "mauricio" });
+
+        const lojistaAtualizadoBody = lojistaAtualizado.body[0];
+        const logBody = lojistaAtualizado.body[1];
+
+        expect(logBody.descricao).toBe("Lojista atualizado com Sucesso!");
+        expect(lojistaNovo.body[0].username).toBe("mauricio");
+        expect(lojistaAtualizado.status).toBe(200);
+        expect(lojistaAtualizadoBody.username).toBe("tiago");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("token");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
+
+        await request(app)
+            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .set({ Authorization: `Bearer ${token}` });
     });
 
-    it("Deve ser capaz de atualizar  apenas o nome de um Lojista", async () => {
+    it("Deve ser capaz de atualizar apenas o nome de um Lojista", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
         const { token } = responseToken.body;
 
-        const responseLojistaBuscado = await request(app)
-            .get("/lojistas/findbyusername")
-            .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "gustavo" });
+        const lojistaNovo = await request(app)
+            .post("/lojistas")
+            .send({
+                nome: "mauricio",
+                username: "mauricio",
+                senha: "mauricio",
+            })
+            .set({ Authorization: `Bearer ${token}` });
 
-        const responseLojistaAtualizado = await request(app)
-            .patch(`/lojistas/update/${responseLojistaBuscado.body.id}`)
+        const lojistaAtualizado = await request(app)
+            .patch(`/lojistas/update/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` })
-            .send({ nome: "gustavo" });
+            .send({
+                nome: "tiago",
+            });
 
-        expect(responseLojistaBuscado.body.nome).toBe("mauricio");
-        expect(responseLojistaAtualizado.status).toBe(200);
-        expect(responseLojistaAtualizado.body.nome).toBe("gustavo");
+        const tokenlojistaAtualizado = await request(app)
+            .post("/sessions")
+            .send({ username: "mauricio", senha: "mauricio" });
+
+        const lojistaAtualizadoBody = lojistaAtualizado.body[0];
+        const logBody = lojistaAtualizado.body[1];
+
+        expect(logBody.descricao).toBe("Lojista atualizado com Sucesso!");
+        expect(lojistaNovo.body[0].nome).toBe("mauricio");
+        expect(lojistaAtualizado.status).toBe(200);
+        expect(lojistaAtualizadoBody.nome).toBe("tiago");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("token");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
+
+        await request(app)
+            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .set({ Authorization: `Bearer ${token}` });
     });
 
     it("Deve ser capaz de atualizar apenas a senha de um Lojista", async () => {
         const responseToken = await request(app)
             .post("/sessions")
-            .send({ username: "gustavo", senha: "abc123" });
+            .send({ username: "admin", senha: "admin" });
 
         const { token } = responseToken.body;
 
-        const LojistaBuscado = await request(app)
-            .get("/lojistas/findbyusername")
-            .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "gustavo" });
+        const lojistaNovo = await request(app)
+            .post("/lojistas")
+            .send({
+                nome: "mauricio",
+                username: "mauricio",
+                senha: "mauricio",
+            })
+            .set({ Authorization: `Bearer ${token}` });
 
-        const LojistaAtualizado = await request(app)
-            .patch(`/lojistas/update/${LojistaBuscado.body.id}`)
+        const lojistaAtualizado = await request(app)
+            .patch(`/lojistas/update/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` })
             .send({
-                senha: "gustavo",
-                confirma_senha: "gustavo",
+                senha: "tiago",
+                confirmaSenha: "tiago",
             });
 
-        const tokenLojistaAtualizado = await request(app)
+        const tokenlojistaAtualizado = await request(app)
             .post("/sessions")
-            .send({ username: "gustavo", senha: "gustavo" });
+            .send({ username: "mauricio", senha: "tiago" });
 
-        expect(LojistaAtualizado.status).toBe(200);
-        expect(tokenLojistaAtualizado.body).toHaveProperty("token");
-        expect(tokenLojistaAtualizado.body).toHaveProperty("refreshToken");
+        const logBody = lojistaAtualizado.body[1];
+
+        expect(logBody.descricao).toBe("Lojista atualizado com Sucesso!");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("token");
+        expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
+
+        await request(app)
+            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .set({ Authorization: `Bearer ${token}` });
     });
 
     it("Não deve ser capaz de atualizar a senha de um Lojista se a nova senha e a confirmação não forem iguais", async () => {
         const responseToken = await request(app)
             .post("/sessions")
-            .send({ username: "gustavo", senha: "gustavo" });
+            .send({ username: "admin", senha: "admin" });
 
         const { token } = responseToken.body;
 
-        const LojistaBuscado = await request(app)
-            .get("/lojistas/findbyusername")
-            .set({ Authorization: `Bearer ${token}` })
-            .send({ username: "gustavo" });
+        const lojistaNovo = await request(app)
+            .post("/lojistas")
+            .send({
+                nome: "mauricio",
+                username: "mauricio",
+                senha: "mauricio",
+            })
+            .set({ Authorization: `Bearer ${token}` });
 
-        const LojistaAtualizado = await request(app)
-            .patch(`/lojistas/update/${LojistaBuscado.body.id}`)
+        const lojistaAtualizado = await request(app)
+            .patch(`/lojistas/update/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` })
             .send({
-                senha: "gustavo",
-                confirma_senha: "goulart",
+                senha: "tiago",
+                confirmaSenha: "gustavo",
             });
 
-        expect(LojistaAtualizado.status).toBe(401);
-        expect(LojistaAtualizado.body.message).toBe("Passwords don't match");
+        const lojistaAtualizadoBody = lojistaAtualizado.body;
+
+        expect(lojistaAtualizado.status).toBe(401);
+        expect(lojistaAtualizadoBody.message).toBe("Passwords don't match");
+
+        await request(app)
+            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .set({ Authorization: `Bearer ${token}` });
     });
 
     it("Não deve ser capaz de atualizar um lojista se ele não existe", async () => {
@@ -145,33 +217,31 @@ describe("LOJISTA - Update Lojista Controller", () => {
 
         const { token } = responseToken.body;
 
-        const responseLojistaAtualizado = await request(app)
+        const responselojistaAtualizado = await request(app)
             .patch(`/lojistas/update/idfalso111`)
             .set({ Authorization: `Bearer ${token}` })
             .send({ username: "gustavo" });
 
-        expect(responseLojistaAtualizado.status).toBe(404);
-        expect(responseLojistaAtualizado.body.message).toBe(
+        expect(responselojistaAtualizado.status).toBe(404);
+        expect(responselojistaAtualizado.body.message).toBe(
             "Lojista doesn't exist"
         );
     });
 
     it("Não deve ser capaz de atualizar um lojista se o token está inválido ou expirado", async () => {
-        const responseLojistaAtualizado = await request(app)
+        const responselojistaAtualizado = await request(app)
             .patch(`/lojistas/update/idfalso111`)
             .set({ Authorization: `Bearer tokenFalse111` })
             .send({ username: "gustavo" });
 
-        expect(responseLojistaAtualizado.body.message).toBe("Invalid Token");
+        expect(responselojistaAtualizado.body.message).toBe("Invalid Token");
     });
 
     it("Não deve ser capaz de atualizar um lojista se não estiver logado", async () => {
-        const responseLojistaAtualizado = await request(app)
+        const responselojistaAtualizado = await request(app)
             .patch(`/lojistas/update/idfalso111`)
             .send({ username: "gustavo" });
 
-        expect(responseLojistaAtualizado.body.message).toBe("Token missing");
+        expect(responselojistaAtualizado.body.message).toBe("Token missing");
     });
-
-    // it("Não deve ser capaz de atualizar a senha de  lojista se a senha e a confirmação de senha não são iguais", async () => {}
 });

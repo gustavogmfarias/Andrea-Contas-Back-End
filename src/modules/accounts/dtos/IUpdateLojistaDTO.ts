@@ -3,7 +3,7 @@ export interface IUpdateLojistaDTO {
     nome?: string;
     username?: string;
     senha?: string;
-    confirma_senha?: string;
-    senha_antiga?: string;
+    confirmaSenha?: string;
+    senhaAntiga?: string;
     editadoEm: Date;
 }

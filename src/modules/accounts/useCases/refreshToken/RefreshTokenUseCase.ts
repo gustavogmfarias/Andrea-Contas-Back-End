@@ -29,7 +29,7 @@ class RefreshTokenUseCase {
     async execute(token: string): Promise<ITokenResponse> {
         const { username, sub } = verify(
             token,
-            auth.secret_refreshToken
+            auth.secretRefreshToken
         ) as IPayload;
         const lojistaId = sub;
 
@@ -46,12 +46,12 @@ class RefreshTokenUseCase {
         await this.lojistasTokensRepository.deleteById(lojistaToken.id);
 
         const expiresDate = this.dateProvider.addDays(
-            auth.expires_in_refresh_days
+            auth.expiresInRefreshDays
         );
 
-        const refreshToken = sign({ username }, auth.secret_refreshToken, {
+        const refreshToken = sign({ username }, auth.secretRefreshToken, {
             subject: sub,
-            expiresIn: auth.expires_in_refreshToken,
+            expiresIn: auth.expiresInRefreshToken,
         });
 
         await this.lojistasTokensRepository.create({
@@ -61,9 +61,9 @@ class RefreshTokenUseCase {
             token,
         });
 
-        const newToken = sign({ username }, auth.secret_token, {
+        const newToken = sign({ username }, auth.secretToken, {
             subject: lojistaId,
-            expiresIn: auth.expires_in_token,
+            expiresIn: auth.expiresInToken,
         });
 
         return { refreshToken, token: newToken };

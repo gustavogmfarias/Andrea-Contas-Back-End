@@ -6,7 +6,7 @@ class ChangeOwnPasswordController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { id } = request.lojista;
 
-        const { senha, senha_antiga, confirmaSenha } = request.body;
+        const { senha, senhaAntiga, confirmaSenha } = request.body;
 
         const changeOwnPasswordUseCase = container.resolve(
             ChangeOwnPasswordUseCase
@@ -14,7 +14,7 @@ class ChangeOwnPasswordController {
 
         const lojistaAlterado = await changeOwnPasswordUseCase.execute({
             senha,
-            senha_antiga,
+            senhaAntiga,
             confirmaSenha,
             id,
             editadoEm: new Date(),

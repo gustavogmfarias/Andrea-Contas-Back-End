@@ -12,7 +12,7 @@ export interface IClientesRepository {
     listClientes(data: IPaginationRequestDTO): Promise<Cliente[] | null>;
     findByName(
         nome: string,
-        { page, per_page }: IPaginationRequestDTO
+        { page, perPage }: IPaginationRequestDTO
     ): Promise<Cliente[] | null>;
     findById(id: string): Promise<Cliente | null>;
     findByCpf(cpf: string): Promise<Cliente | null>;

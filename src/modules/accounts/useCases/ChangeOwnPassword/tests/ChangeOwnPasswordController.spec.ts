@@ -18,7 +18,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
         const response = await request(app)
             .patch("/lojistas/change-password")
             .send({
-                senha_antiga: "gustavo",
+                senhaAntiga: "gustavo",
                 senha: "novaSenha",
                 confirmaSenha: "novaSenha",
             })
@@ -40,7 +40,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
         const response = await request(app)
             .patch("/lojistas/change-password")
             .send({
-                senha_antiga: "gustavo",
+                senhaAntiga: "gustavo",
                 senha: "gustavo",
                 confirmaSenha: "gustavo",
             })
@@ -53,7 +53,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
         const response = await request(app)
             .patch("/lojistas/change-password")
             .send({
-                senha_antiga: "gustavo",
+                senhaAntiga: "gustavo",
                 senha: "gustavo",
                 confirmaSenha: "gustavo",
             });
@@ -71,7 +71,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
         const response = await request(app)
             .patch("/lojistas/change-password")
             .send({
-                senha_antiga: "senhaErrada",
+                senhaAntiga: "senhaErrada",
                 senha: "gustavo",
                 confirmaSenha: "gustavo",
             })
@@ -90,7 +90,7 @@ describe("LOJISTA - Change Own Password Controller", () => {
         const response = await request(app)
             .patch("/lojistas/change-password")
             .send({
-                senha_antiga: "admin",
+                senhaAntiga: "admin",
                 senha: "gustavo",
                 confirmaSenha: "gustavoSenhaErrada",
             })

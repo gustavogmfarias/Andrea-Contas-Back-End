@@ -6,9 +6,9 @@ class ListLojistasController {
     async handle(request: Request, response: Response): Promise<Response> {
         const listLojistasUseCase = container.resolve(ListLojistasUseCase);
 
-        const { per_page, page } = request.query;
+        const { perPage, page } = request.query;
 
-        const all = await listLojistasUseCase.execute({ page, per_page });
+        const all = await listLojistasUseCase.execute({ page, perPage });
 
         return response.status(201).send(all);
     }

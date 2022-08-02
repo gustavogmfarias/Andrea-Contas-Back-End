@@ -34,11 +34,11 @@ class AuthenticateLojistaUseCase {
         // verificar se o usuario existe
         const lojista = await this.lojistasRepository.findByUserName(username);
         const {
-            expires_in_token,
-            secret_refreshToken,
-            secret_token,
-            expires_in_refreshToken,
-            expires_in_refresh_days,
+            expiresInToken,
+            secretRefreshToken,
+            secretToken,
+            expiresInRefreshToken,
+            expiresInRefreshDays,
         } = auth;
 
         if (!lojista) {
@@ -53,22 +53,21 @@ class AuthenticateLojistaUseCase {
         }
 
         // gerar jswonwebtoken
-        const token = sign({ username }, secret_token, {
+        const token = sign({ username }, secretToken, {
             subject: lojista.id,
-            expiresIn: expires_in_token,
+            expiresIn: expiresInToken,
         });
 
-        const refreshToken = sign({ username }, secret_refreshToken, {
+        const refreshToken = sign({ username }, secretRefreshToken, {
             subject: lojista.id,
-            expiresIn: expires_in_refreshToken,
+            expiresIn: expiresInRefreshToken,
         });
 
-        const refreshToken_expiresDate = this.dateProvider.addDays(
-            expires_in_refresh_days
-        );
+        const refreshTokenExpiresDate =
+            this.dateProvider.addDays(expiresInRefreshDays);
 
         this.lojistasTokensRepository.create({
-            expiresDate: refreshToken_expiresDate,
+            expiresDate: refreshTokenExpiresDate,
             refreshToken,
             lojistaId: lojista.id,
             token,

@@ -59,10 +59,10 @@ export class LojistasRepository implements ILojistasRepository {
         return lojista;
     }
 
-    async listLojistas({ page, per_page }): Promise<Lojista[]> {
+    async listLojistas({ page, perPage }): Promise<Lojista[]> {
         let lojistas: Lojista[];
 
-        if (!page || !per_page) {
+        if (!page || !perPage) {
             lojistas = await prisma.lojista.findMany({
                 orderBy: {
                     id: "desc",
@@ -70,8 +70,8 @@ export class LojistasRepository implements ILojistasRepository {
             });
         } else {
             lojistas = await prisma.lojista.findMany({
-                take: Number(per_page),
-                skip: (Number(page) - 1) * Number(per_page),
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
                 orderBy: {
                     id: "desc",
                 },

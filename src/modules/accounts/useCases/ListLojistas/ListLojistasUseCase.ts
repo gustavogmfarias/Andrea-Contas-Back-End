@@ -11,11 +11,11 @@ class ListLojistasUseCase {
         private lojistasRepository: ILojistasRepository
     ) {}
 
-    async execute({ page, per_page }): Promise<ILojistaResponseDTO[]> {
+    async execute({ page, perPage }): Promise<ILojistaResponseDTO[]> {
         try {
             const lojistas = await this.lojistasRepository.listLojistas({
                 page,
-                per_page,
+                perPage,
             });
 
             const lojistasDTO = lojistas.map((lojista) => {

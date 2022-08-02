@@ -27,7 +27,7 @@ export async function ensureAuthenticated(
         const { sub: lojistaId } = verify(
             // o sub: lojistaId é só um alias
             token,
-            auth.secret_token
+            auth.secretToken
         ) as IPayload;
         // vai ter um retorno como IPayload
 

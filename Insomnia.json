@@ -241,7 +241,7 @@
                 },
                 {
                     "id": "pair_3c98c8da54ad43349279cd9148c85b4c",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -260,7 +260,7 @@
                 },
                 {
                     "id": "pair_bdf6022c5e2a48e6b1f677c2c157116a",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -301,7 +301,7 @@
                 },
                 {
                     "id": "pair_3c98c8da54ad43349279cd9148c85b4c",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -320,7 +320,7 @@
                 },
                 {
                     "id": "pair_bdf6022c5e2a48e6b1f677c2c157116a",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -475,7 +475,7 @@
             "method": "PATCH",
             "body": {
                 "mimeType": "application/json",
-                "text": "\n{\n\t\"senha_antiga\": \"mauricio\",\n\t\"senha\": \"gustavo\",\n\t\"confirmaSenha\": \"gustavo\"\n\n}\n\n"
+                "text": "\n{\n\t\"senhaAntiga\": \"mauricio\",\n\t\"senha\": \"gustavo\",\n\t\"confirmaSenha\": \"gustavo\"\n\n}\n\n"
             },
             "parameters": [],
             "headers": [
@@ -553,7 +553,7 @@
                 },
                 {
                     "id": "pair_3c98c8da54ad43349279cd9148c85b4c",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -572,7 +572,7 @@
                 },
                 {
                     "id": "pair_bdf6022c5e2a48e6b1f677c2c157116a",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }
@@ -619,7 +619,7 @@
                 },
                 {
                     "id": "pair_bdf6022c5e2a48e6b1f677c2c157116a",
-                    "name": "per_page",
+                    "name": "perPage",
                     "value": "",
                     "description": ""
                 }

@@ -19,16 +19,16 @@ class ChangeOwnPasswordUseCase {
     async execute({
         id,
         senha,
-        senha_antiga,
+        senhaAntiga,
         confirmaSenha,
         editadoEm,
     }: IUpdateLojistaDTO): Promise<(ILojistaResponseDTO | Log)[]> {
         const lojistaAnterior = await this.lojistasRepository.findById(id);
         let passwordHash;
 
-        if (senha_antiga) {
+        if (senhaAntiga) {
             const passwordMatch = await compare(
-                senha_antiga,
+                senhaAntiga,
                 lojistaAnterior.senha
             );
 

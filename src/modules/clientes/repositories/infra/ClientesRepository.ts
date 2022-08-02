@@ -53,11 +53,11 @@ export class ClientesRepository implements IClientesRepository {
 
     async listClientes({
         page,
-        per_page,
+        perPage,
     }: IPaginationRequestDTO): Promise<Cliente[] | null> {
         let clientes: Cliente[];
 
-        if (!page || !per_page) {
+        if (!page || !perPage) {
             clientes = await prisma.cliente.findMany({
                 orderBy: {
                     id: "desc",
@@ -66,8 +66,8 @@ export class ClientesRepository implements IClientesRepository {
             });
         } else {
             clientes = await prisma.cliente.findMany({
-                take: Number(per_page),
-                skip: (Number(page) - 1) * Number(per_page),
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
                 orderBy: {
                     id: "desc",
                 },
@@ -80,11 +80,11 @@ export class ClientesRepository implements IClientesRepository {
 
     async findByName(
         nome: string,
-        { page, per_page }: IPaginationRequestDTO
+        { page, perPage }: IPaginationRequestDTO
     ): Promise<Cliente[] | null> {
         let clientes: Cliente[];
 
-        if (!page || !per_page) {
+        if (!page || !perPage) {
             clientes = await prisma.cliente.findMany({
                 where: {
                     nome: {
@@ -105,8 +105,8 @@ export class ClientesRepository implements IClientesRepository {
                 },
                 include: { endereco: true },
                 orderBy: { nome: "desc" },
-                take: Number(per_page),
-                skip: (Number(page) - 1) * Number(per_page),
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
             });
         }
 

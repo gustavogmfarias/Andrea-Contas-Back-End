@@ -43,7 +43,7 @@ describe("LOJISTA - List Lojistas Controller", () => {
         const { token } = responseToken.body;
 
         const response = await request(app)
-            .get(`/lojistas?page=1&per_page=1`)
+            .get(`/lojistas?page=1&perPage=1`)
             .set({ Authorization: `Bearer ${token}` });
 
         expect(response.status).toBe(201);

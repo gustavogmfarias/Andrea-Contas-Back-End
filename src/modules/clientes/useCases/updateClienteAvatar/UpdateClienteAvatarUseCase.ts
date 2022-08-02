@@ -6,7 +6,7 @@ import { IClientesRepository } from "../../repositories/IClientesRepository";
 
 interface IRequest {
     cpf: string;
-    avatar_file: string;
+    avatarFile: string;
     avatarUrl?: string;
 }
 
@@ -19,7 +19,7 @@ class UpdateClienteAvatarUseCase {
         private storageProvider: IStorageProvider
     ) {}
 
-    async execute({ cpf, avatar_file }: IRequest): Promise<void> {
+    async execute({ cpf, avatarFile }: IRequest): Promise<void> {
         const cliente = await this.clientesRepository.findByCpf(cpf);
         const endereco = await this.clientesRepository.findEnderecoById(
             cliente.fkIdEndereco
@@ -36,9 +36,9 @@ class UpdateClienteAvatarUseCase {
             await this.storageProvider.delete(cliente.avatarUrl, "avatar");
         }
 
-        await this.storageProvider.save(avatar_file, "avatar");
+        await this.storageProvider.save(avatarFile, "avatar");
 
-        const avatarUrl = avatar_file;
+        const avatarUrl = avatarFile;
 
         await this.clientesRepository.update(
             { nome, sobrenome, cpf, email, telefone, observacoes, avatarUrl },

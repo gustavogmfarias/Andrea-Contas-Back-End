@@ -5,7 +5,7 @@ import { FindByNameClientesUseCase } from "./FindByNameClientesUseCase";
 
 interface IRequest {
     page?: number;
-    per_page?: number;
+    perPage?: number;
     nome?: string;
 }
 
@@ -17,11 +17,11 @@ class FindByNameClientesController {
 
         const { nome }: IRequest = request.body;
 
-        const { page, per_page }: IRequest = request.query;
+        const { page, perPage }: IRequest = request.query;
 
         const all = await findByNameClientesUseCase.execute(nome, {
             page,
-            per_page,
+            perPage,
         });
 
         return response.json(all);

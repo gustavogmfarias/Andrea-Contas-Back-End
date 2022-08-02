@@ -10,10 +10,10 @@ class ListClientesUseCase {
         private clientesRepository: IClientesRepository
     ) {}
 
-    async execute({ page, per_page }): Promise<IClienteResponseDTO[]> {
+    async execute({ page, perPage }): Promise<IClienteResponseDTO[]> {
         const clientes = await this.clientesRepository.listClientes({
             page,
-            per_page,
+            perPage,
         });
 
         let clienteEndereco;

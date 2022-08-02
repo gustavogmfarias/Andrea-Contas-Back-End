@@ -13,11 +13,11 @@ class FindByNameClientesUseCase {
 
     async execute(
         nome: string,
-        { page, per_page }: IPaginationRequestDTO
+        { page, perPage }: IPaginationRequestDTO
     ): Promise<IClienteResponseDTO[] | null> {
         const clientes = await this.clientesRepository.findByName(nome, {
             page,
-            per_page,
+            perPage,
         });
         let clienteEndereco;
 

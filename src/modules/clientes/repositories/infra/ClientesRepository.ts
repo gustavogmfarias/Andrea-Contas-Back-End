@@ -1,5 +1,5 @@
 import { ICreateEnderecoDTO } from "@modules/clientes/dtos/ICreateEnderecoDTO";
-import { Cliente, Endereco } from "@prisma/client";
+import { Cliente, Conta, Endereco } from "@prisma/client";
 import { prisma } from "../../../../shared/database/prismaClient";
 import { IPaginationRequestDTO } from "../../../../shared/dtos/IPaginationRequestDTO";
 import { ICreateClienteDTO } from "../../dtos/ICreateClienteDTO";
@@ -43,8 +43,8 @@ export class ClientesRepository implements IClientesRepository {
         return cliente;
     }
 
-    async delete(cpf: string): Promise<void> {
-        const cliente = await prisma.cliente.findFirst({ where: { cpf } });
+    async delete(id: string): Promise<void> {
+        const cliente = await prisma.cliente.findUnique({ where: { id } });
 
         await prisma.endereco.delete({
             where: { id: cliente.fkIdEndereco },
@@ -111,6 +111,17 @@ export class ClientesRepository implements IClientesRepository {
         }
 
         return clientes;
+    }
+
+    async findClienteContaAtiva(id: string): Promise<Conta | null> {
+        const conta = await prisma.conta.findFirst({
+            where: {
+                fkIdCliente: id,
+                ativo: true,
+            },
+        });
+
+        return conta;
     }
 
     async findById(id: string): Promise<Cliente | null> {

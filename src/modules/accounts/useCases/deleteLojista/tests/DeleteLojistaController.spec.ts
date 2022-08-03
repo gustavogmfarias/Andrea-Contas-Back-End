@@ -27,7 +27,7 @@ describe("LOJISTA - Delete Lojista Controller", () => {
         const { id } = lojistaCriadoResponse;
 
         const response = await request(app)
-            .delete(`/lojistas/delete/${id}`)
+            .delete(`/lojistas/${id}`)
             .set({ Authorization: `Bearer ${token}` });
 
         const log = response.body[1];
@@ -54,7 +54,7 @@ describe("LOJISTA - Delete Lojista Controller", () => {
 
         const { id } = lojistaCriado.body;
 
-        const response = await request(app).delete(`/lojistas/delete/${id}`);
+        const response = await request(app).delete(`/lojistas/${id}`);
 
         expect(response.body.message).toBe("Token missing");
     });
@@ -78,7 +78,7 @@ describe("LOJISTA - Delete Lojista Controller", () => {
         const { id } = lojistaCriado.body;
 
         const response = await request(app)
-            .delete(`/lojistas/delete/${id}`)
+            .delete(`/lojistas/${id}`)
             .set({ Authorization: `Bearer 1111` });
         expect(response.body.message).toBe("Invalid Token");
     });

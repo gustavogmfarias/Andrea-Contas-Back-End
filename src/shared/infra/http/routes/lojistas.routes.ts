@@ -43,7 +43,7 @@ lojistasRoutes.get(
 );
 
 lojistasRoutes.delete(
-    "/delete/:id",
+    "/:id",
     ensureAuthenticated,
     deleteLojistaController.handle
 );

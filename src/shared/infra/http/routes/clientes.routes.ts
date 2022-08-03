@@ -26,7 +26,7 @@ const findClienteByCpfController = new FindClienteByCpfController();
 
 clientesRoutes.post("/", ensureAuthenticated, createClienteController.handle);
 clientesRoutes.delete(
-    "/:cpf",
+    "/:id",
     ensureAuthenticated,
     deleteClienteController.handle
 );

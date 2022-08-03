@@ -30,7 +30,7 @@ describe("CLIENTE - Find Cliente by  Id Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
-        const { id } = clienteCriado.body;
+        const { id } = clienteCriado.body[0];
 
         const responsePorId = await request(app)
             .get(`/clientes/findbyid/${id}`)

@@ -49,7 +49,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
 
         await request(app)
-            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .delete(`/lojistas/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` });
     });
 
@@ -91,7 +91,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
 
         await request(app)
-            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .delete(`/lojistas/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` });
     });
 
@@ -133,7 +133,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
 
         await request(app)
-            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .delete(`/lojistas/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` });
     });
 
@@ -172,7 +172,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(tokenlojistaAtualizado.body).toHaveProperty("refreshToken");
 
         await request(app)
-            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .delete(`/lojistas/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` });
     });
 
@@ -206,7 +206,7 @@ describe("LOJISTA - Update Lojista Controller", () => {
         expect(lojistaAtualizadoBody.message).toBe("Passwords don't match");
 
         await request(app)
-            .delete(`/lojistas/delete/${lojistaNovo.body[0].id}`)
+            .delete(`/lojistas/${lojistaNovo.body[0].id}`)
             .set({ Authorization: `Bearer ${token}` });
     });
 

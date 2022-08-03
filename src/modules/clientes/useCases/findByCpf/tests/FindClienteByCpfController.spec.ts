@@ -30,7 +30,7 @@ describe("CLIENTE - Find Cliente by  Cpf Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
-        const { cpf } = clienteCriado.body;
+        const { cpf } = clienteCriado.body[0];
 
         const responsePorCpf = await request(app)
             .get(`/clientes/findbycpf/${cpf}`)

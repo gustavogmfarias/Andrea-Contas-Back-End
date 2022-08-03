@@ -4,7 +4,7 @@ import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
 import { ICreateEnderecoDTO } from "@modules/clientes/dtos/ICreateEnderecoDTO";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
-import { Cliente } from "@prisma/client";
+import { Log } from "@prisma/client";
 import { ClienteMap } from "@modules/clientes/mapper/ClienteMap";
 import { IClienteResponseDTO } from "@modules/clientes/dtos/IClienteResponseDTO";
 
@@ -29,7 +29,7 @@ class CreateClienteUseCase {
             avatarUrl,
         }: ICreateClienteDTO,
         { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
-    ): Promise<IClienteResponseDTO> {
+    ): Promise<(IClienteResponseDTO | Log)[]> {
         if (!cpf) {
             throw new AppError("Não pode cadastrar um cliente sem cpf", 400);
         }
@@ -64,9 +64,9 @@ class CreateClienteUseCase {
             throw new AppError("Cliente não pode ser cadastrado", 400);
         }
 
-        await this.logProvider.create({
+        const log = await this.logProvider.create({
             logRepository: "CLIENTE",
-            descricao: `Cliente criado`,
+            descricao: `Cliente criado com sucesso!`,
             conteudoAnterior: JSON.stringify(cliente),
             conteudoNovo: JSON.stringify(cliente),
             lojistaId: lojista,
@@ -75,7 +75,7 @@ class CreateClienteUseCase {
 
         const clienteDTO = await ClienteMap.toDTO(cliente, clienteEndereco);
 
-        return clienteDTO;
+        return [clienteDTO, log];
     }
 }
 export { CreateClienteUseCase };

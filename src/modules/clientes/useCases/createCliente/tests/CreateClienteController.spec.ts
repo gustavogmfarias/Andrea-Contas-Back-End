@@ -8,7 +8,7 @@ import request from "supertest";
 
 describe("CLIENTE - Create Cliente Controller", () => {
     const logProvider = new LogProvider();
-    it("Deve ser capaz de criar um Cliente", async () => {
+    it("Deve ser capaz de criar um Cliente e gravar um log", async () => {
         const responseToken = await request(app)
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
@@ -33,9 +33,13 @@ describe("CLIENTE - Create Cliente Controller", () => {
             })
             .set({ Authorization: `Bearer ${token}` });
 
+        const clienteBody = response.body[0];
+        const logBody = response.body[1];
+
         expect(response.status).toBe(201);
-        expect(response.body.nome).toBe("Mauricio");
-        expect(response.body.endereco.rua).toBe("rua da cehab");
+        expect(clienteBody.nome).toBe("Mauricio");
+        expect(clienteBody.endereco.rua).toBe("rua da cehab");
+        expect(logBody.descricao).toBe("Cliente criado com sucesso!");
     });
 
     it("Não deve ser capaz de criar um cliente sem endereco", async () => {
@@ -167,5 +171,3 @@ describe("CLIENTE - Create Cliente Controller", () => {
         expect(response.body.message).toBe("Token missing");
     });
 });
-
-// Ao criar um cliente deve ficar salvo um log

@@ -32,7 +32,7 @@ clientesRoutes.delete(
 );
 
 clientesRoutes.patch(
-    "/update/:cpf",
+    "/:id",
     ensureAuthenticated,
     updateClienteController.handle
 );
@@ -59,7 +59,7 @@ clientesRoutes.get(
 clientesRoutes.get("/", ensureAuthenticated, listClientesController.handle);
 
 clientesRoutes.patch(
-    "/avatar/:cpf",
+    "/avatar/:id",
     ensureAuthenticated,
     uploadAvatar.single("avatar"),
     updateClienteAvatarController.handle

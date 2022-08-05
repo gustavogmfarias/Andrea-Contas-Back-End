@@ -22,7 +22,7 @@ class FindClienteByIdUseCase {
             cliente.fkIdEndereco
         );
 
-        const clienteDTO = ClienteMap.toDTO(cliente, endereco);
+        const clienteDTO = ClienteMap.updateToDTO(cliente, endereco);
 
         return clienteDTO;
     }

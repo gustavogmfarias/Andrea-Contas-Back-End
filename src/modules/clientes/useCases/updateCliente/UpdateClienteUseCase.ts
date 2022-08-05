@@ -1,12 +1,12 @@
 import { IClientesRepository } from "@modules/clientes/repositories/IClientesRepository";
 import { ICreateClienteDTO } from "@modules/clientes/dtos/ICreateClienteDTO";
-import { Cliente } from "@prisma/client";
 import { AppError } from "@shared/errors/AppError";
-import { hash } from "bcryptjs";
 import { injectable, inject } from "tsyringe";
 import { ICreateEnderecoDTO } from "@modules/clientes/dtos/ICreateEnderecoDTO";
-import { prisma } from "@shared/database/prismaClient";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
+import { ClienteMap } from "@modules/clientes/mapper/ClienteMap";
+import { IClienteResponseDTO } from "@modules/clientes/dtos/IClienteResponseDTO";
+import { Log } from "@prisma/client";
 
 @injectable()
 class UpdateClienteUseCase {
@@ -17,8 +17,9 @@ class UpdateClienteUseCase {
     ) {}
 
     async execute(
-        lojista,
+        lojistaId: string,
         {
+            id,
             nome,
             sobrenome,
             cpf,
@@ -26,25 +27,60 @@ class UpdateClienteUseCase {
             telefone,
             observacoes,
         }: ICreateClienteDTO,
-        { rua, bairro, numero, cidade, estado, cep }: ICreateEnderecoDTO
-    ): Promise<Cliente> {
-        const clienteAnterior = await this.clientesRepository.findByCpf(cpf);
+        { bairro, rua, cep, cidade, estado, numero }: ICreateEnderecoDTO
+    ): Promise<(IClienteResponseDTO | Log)[]> {
+        const clienteAnterior = await this.clientesRepository.findById(id);
+        let clienteAtualizado;
+        let clienteEndereco;
 
-        const cliente = await this.clientesRepository.update(
-            { nome, sobrenome, cpf, email, telefone, observacoes },
-            { rua, bairro, numero, cidade, estado, cep }
-        );
+        if (!clienteAnterior) {
+            throw new AppError("Cliente doesn't exist", 404);
+        }
 
-        await this.logProvider.create({
+        try {
+            clienteAtualizado = await this.clientesRepository.update(
+                {
+                    id,
+                    nome,
+                    sobrenome,
+                    cpf,
+                    email,
+                    telefone,
+                    observacoes,
+                },
+                { bairro, rua, cep, cidade, estado, numero }
+            );
+
+            clienteEndereco = await this.clientesRepository.findEnderecoById(
+                clienteAtualizado.fkIdEndereco
+            );
+        } catch (err) {
+            return err.message;
+            throw new AppError("Cliente não pode ser atualizado", 400);
+        }
+
+        const enderecoClienteAtualizado =
+            await this.clientesRepository.findEnderecoById(
+                clienteAnterior.fkIdEndereco
+            );
+
+        const log = await this.logProvider.create({
             logRepository: "CLIENTE",
-            descricao: `Cliente atualizado`,
+            descricao: `Cliente atualizado com sucesso!`,
             conteudoAnterior: JSON.stringify(clienteAnterior),
-            conteudoNovo: JSON.stringify(cliente),
-            lojistaId: lojista,
-            modelAtualizadoId: cliente.id,
+            conteudoNovo: JSON.stringify(clienteAtualizado),
+            lojistaId,
+            modelAtualizadoId: id,
         });
 
-        return cliente;
+        const clienteDTO = ClienteMap.updateToDTO(
+            clienteAtualizado,
+            enderecoClienteAtualizado
+        );
+        clienteDTO.avatarUrl =
+            this.clientesRepository.avatarUrl(clienteAtualizado);
+
+        return [clienteDTO, log];
     }
 }
 

@@ -5,7 +5,7 @@ import { ICreateClienteDTO } from "@modules/clientes/dtos/ICreateClienteDTO";
 import { IClientesRepository } from "../../repositories/IClientesRepository";
 
 interface IRequest {
-    cpf: string;
+    id: string;
     avatarFile: string;
     avatarUrl?: string;
 }
@@ -19,13 +19,13 @@ class UpdateClienteAvatarUseCase {
         private storageProvider: IStorageProvider
     ) {}
 
-    async execute({ cpf, avatarFile }: IRequest): Promise<void> {
-        const cliente = await this.clientesRepository.findByCpf(cpf);
+    async execute({ id, avatarFile }: IRequest): Promise<void> {
+        const cliente = await this.clientesRepository.findById(id);
         const endereco = await this.clientesRepository.findEnderecoById(
             cliente.fkIdEndereco
         );
 
-        const { nome, sobrenome, email, telefone, observacoes } = cliente;
+        const { nome, cpf, sobrenome, email, telefone, observacoes } = cliente;
         const { rua, bairro, numero, cidade, estado, cep } = endereco;
 
         if (!cliente) {
@@ -40,11 +40,19 @@ class UpdateClienteAvatarUseCase {
 
         const avatarUrl = avatarFile;
 
-        await this.clientesRepository.update(
-            { nome, sobrenome, cpf, email, telefone, observacoes, avatarUrl },
-            { rua, bairro, numero, cidade, estado, cep }
+        const clienteAtualizado = await this.clientesRepository.update(
+            {
+                id,
+                nome,
+                sobrenome,
+                cpf,
+                email,
+                telefone,
+                observacoes,
+                avatarUrl,
+            },
+            { bairro, rua, cep, cidade, estado, numero }
         );
     }
 }
-
 export { UpdateClienteAvatarUseCase };

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add ts-node-dev@latest
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add mz
 
 PATH: 
   C:\Program Files\PowerShell\7;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Users\gusta\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\gusta\AppData\Local\Programs\Python\Python310\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\OpenJDK\openjdk-11.0.13_8\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;d:\Program Files\Git\cmd;C:\Program Files\PowerShell\7\;C:\Users\gusta\AppData\Local\Microsoft\WindowsApps;C:\Users\gusta\AppData\Roaming\npm;C:\Users\gusta\AppData\Local\Yarn\bin;C:\Users\gusta\AppData\Local\GitHubDesktop\bin;d:\Program Files\Docker Toolbox
@@ -25,7 +25,7 @@ npm manifest:
       "scripts": {
           "dev": "ts-node-dev  -r tsconfig-paths/register --exit-child --transpile-only --poll --ignore-watch node_modules --respawn   src/shared/infra/http/server.ts",
           "dev:debug": "ts-node-dev -r tsconfig-paths/register --files --transpile-only --respawn --inspect=4321 --project tsconfig.json src/shared/infra/http/server-debug.ts",
-          "test": "jest  --runInBand --detectOpenHandles",
+          "test": "jest --runInBand",
           "seed": "ts-node-dev prisma/seed.ts"
       },
       "dependencies": {
@@ -45,12 +45,12 @@ npm manifest:
           "multer": "^1.4.4",
           "pg": "^8.7.3",
           "reflect-metadata": "^0.1.13",
+          "supertest": "^6.2.4",
           "ts-jest": "^28.0.7",
           "ts-node": "^10.9.1",
           "tsyringe": "^4.6.0",
           "typescript": "^4.6.4",
-          "uuid": "^8.3.2",
-          "supertest": "^6.2.4"
+          "uuid": "^8.3.2"
       },
       "devDependencies": {
           "@types/bcryptjs": "^2.4.2",
@@ -72,7 +72,7 @@ npm manifest:
           "jest": "^28.1.3",
           "prettier": "^2.6.2",
           "prisma": "^4.1.0",
-          "ts-node-dev": "^1.1.8",
+          "ts-node-dev": "^2.0.0",
           "tsconfig-paths": "^4.0.0"
       }
   }
@@ -3338,7 +3338,7 @@ Lockfile:
     dependencies:
       brace-expansion "^1.1.7"
   
-  minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
+  minimist@^1.2.0, minimist@^1.2.6:
     version "1.2.6"
     resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
     integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -4048,7 +4048,7 @@ Lockfile:
       buffer-from "^1.0.0"
       source-map "^0.6.0"
   
-  source-map-support@^0.5.12, source-map-support@^0.5.17:
+  source-map-support@^0.5.12:
     version "0.5.21"
     resolved "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.21.tgz#04fe7c7f9e1ed2d662233c28cb2b35b9f63f6e4f"
     integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
@@ -4296,23 +4296,23 @@ Lockfile:
       semver "7.x"
       yargs-parser "^21.0.1"
   
-  ts-node-dev@^1.1.8:
-    version "1.1.8"
-    resolved "https://registry.npmjs.org/ts-node-dev/-/ts-node-dev-1.1.8.tgz#95520d8ab9d45fffa854d6668e2f8f9286241066"
-    integrity sha512-Q/m3vEwzYwLZKmV6/0VlFxcZzVV/xcgOt+Tx/VjaaRHyiBcFlV0541yrT09QjzzCxlDZ34OzKjrFAynlmtflEg==
+  ts-node-dev@^2.0.0:
+    version "2.0.0"
+    resolved "https://registry.npmjs.org/ts-node-dev/-/ts-node-dev-2.0.0.tgz#bdd53e17ab3b5d822ef519928dc6b4a7e0f13065"
+    integrity sha512-ywMrhCfH6M75yftYvrvNarLEY+SUXtUvU8/0Z6llrHQVBx12GiFk5sStF8UdfE/yfzk9IAq7O5EEbTQsxlBI8w==
     dependencies:
       chokidar "^3.5.1"
       dynamic-dedupe "^0.3.0"
-      minimist "^1.2.5"
+      minimist "^1.2.6"
       mkdirp "^1.0.4"
       resolve "^1.0.0"
       rimraf "^2.6.1"
       source-map-support "^0.5.12"
       tree-kill "^1.2.2"
-      ts-node "^9.0.0"
+      ts-node "^10.4.0"
       tsconfig "^7.0.0"
   
-  ts-node@^10.9.1:
+  ts-node@^10.4.0, ts-node@^10.9.1:
     version "10.9.1"
     resolved "https://registry.npmjs.org/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
     integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
@@ -4329,18 +4329,6 @@ Lockfile:
       diff "^4.0.1"
       make-error "^1.1.1"
       v8-compile-cache-lib "^3.0.1"
-      yn "3.1.1"
-  
-  ts-node@^9.0.0:
-    version "9.1.1"
-    resolved "https://registry.npmjs.org/ts-node/-/ts-node-9.1.1.tgz#51a9a450a3e959401bda5f004a72d54b936d376d"
-    integrity sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==
-    dependencies:
-      arg "^4.1.0"
-      create-require "^1.1.0"
-      diff "^4.0.1"
-      make-error "^1.1.1"
-      source-map-support "^0.5.17"
       yn "3.1.1"
   
   tsconfig-paths@^3.14.1:

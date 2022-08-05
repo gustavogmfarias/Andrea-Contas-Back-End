@@ -156,6 +156,7 @@ export class ClientesRepository implements IClientesRepository {
 
     async update(
         {
+            id,
             nome,
             sobrenome,
             cpf,
@@ -167,7 +168,7 @@ export class ClientesRepository implements IClientesRepository {
         { rua, bairro, numero, cidade, estado, cep }: ICreateEnderecoDTO
     ): Promise<Cliente> {
         const cliente = await prisma.cliente.update({
-            where: { cpf },
+            where: { id },
             data: {
                 nome,
                 sobrenome,
@@ -175,7 +176,6 @@ export class ClientesRepository implements IClientesRepository {
                 email,
                 telefone,
                 observacoes,
-                criadoEm: new Date(),
                 editadoEm: new Date(),
                 avatarUrl,
             },

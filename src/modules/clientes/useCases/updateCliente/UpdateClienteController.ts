@@ -4,10 +4,11 @@ import { UpdateClienteUseCase } from "./UpdateClienteUseCase";
 
 class UpdateClienteController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { id: lojista } = request.lojista;
-        const { cpf } = request.params;
+        const { id: lojistaId } = request.lojista;
+        const { id } = request.params;
 
         const {
+            cpf,
             nome,
             sobrenome,
             email,
@@ -23,13 +24,13 @@ class UpdateClienteController {
 
         const updateClienteUseCase = container.resolve(UpdateClienteUseCase);
 
-        await updateClienteUseCase.execute(
-            lojista,
-            { nome, sobrenome, cpf, email, telefone, observacoes },
+        const clienteAtualizado = await updateClienteUseCase.execute(
+            lojistaId,
+            { nome, sobrenome, cpf, id, email, telefone, observacoes },
             { rua, bairro, numero, cidade, estado, cep }
         );
 
-        return response.status(200).json();
+        return response.status(200).send(clienteAtualizado);
     }
 }
 

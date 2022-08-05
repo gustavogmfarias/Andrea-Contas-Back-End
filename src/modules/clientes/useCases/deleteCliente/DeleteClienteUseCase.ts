@@ -3,6 +3,7 @@ import { ClienteMap } from "@modules/clientes/mapper/ClienteMap";
 import { IClientesRepository } from "@modules/clientes/repositories/IClientesRepository";
 import { Log } from "@prisma/client";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
+import { IStorageProvider } from "@shared/container/providers/StorageProvider/IStorageProvider";
 import { AppError } from "@shared/errors/AppError";
 import { injectable, inject } from "tsyringe";
 
@@ -11,7 +12,9 @@ class DeleteClienteUseCase {
     constructor(
         @inject("ClientesRepository")
         private clientesRepository: IClientesRepository,
-        @inject("LogProvider") private logProvider: ILogProvider
+        @inject("LogProvider") private logProvider: ILogProvider,
+        @inject("StorageProvider")
+        private storageProvider: IStorageProvider
     ) {}
 
     async execute(
@@ -39,7 +42,7 @@ class DeleteClienteUseCase {
                 clienteDeletado.fkIdEndereco
             );
 
-        const clienteDeletadoDTO = ClienteMap.toDTO(
+        const clienteDeletadoDTO = ClienteMap.updateToDTO(
             clienteDeletado,
             enderecoClienteDeletado
         );
@@ -48,6 +51,13 @@ class DeleteClienteUseCase {
             await this.clientesRepository.delete(id);
         } catch (err) {
             throw new AppError("CLient hasn't deleted successful");
+        }
+
+        if (clienteDeletado.avatarUrl) {
+            await this.storageProvider.delete(
+                clienteDeletado.avatarUrl,
+                "avatar"
+            );
         }
 
         const log = await this.logProvider.create({

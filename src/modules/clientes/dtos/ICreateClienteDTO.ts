@@ -1,4 +1,5 @@
 export interface ICreateClienteDTO {
+    id?: string;
     nome: string;
     sobrenome: string;
     cpf: string;

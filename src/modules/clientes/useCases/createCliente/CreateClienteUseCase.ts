@@ -73,7 +73,10 @@ class CreateClienteUseCase {
             modelAtualizadoId: cliente.id,
         });
 
-        const clienteDTO = await ClienteMap.toDTO(cliente, clienteEndereco);
+        const clienteDTO = await ClienteMap.updateToDTO(
+            cliente,
+            clienteEndereco
+        );
 
         return [clienteDTO, log];
     }

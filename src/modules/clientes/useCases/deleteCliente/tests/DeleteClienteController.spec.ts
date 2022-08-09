@@ -2,10 +2,14 @@
  * @jest-environment ./prisma/prisma-environment-jest
  */
 
+import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { app } from "@shared/infra/http/app";
 import request from "supertest";
 
 describe("LOJISTA - Delete Cliente Controller", () => {
+    const dateProvider = new DayjsDateProvider();
+    const dataAtual = dateProvider.dateNow();
+
     it("Deve ser capaz de deletar um cliente e adicionar um log", async () => {
         const responseToken = await request(app)
             .post("/sessions")
@@ -82,7 +86,7 @@ describe("LOJISTA - Delete Cliente Controller", () => {
                 observacoes: "conta 1",
                 numeroParcelas: 12,
                 valorInicial: 120,
-                dataVencimentoInicial: "2022-07-26T10:10:19.832Z",
+                dataVencimentoInicial: dateProvider.addHours(1),
                 fkIdCliente: id,
             })
             .set({ Authorization: `Bearer ${token}` });

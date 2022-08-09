@@ -110,7 +110,7 @@ describe("CONTAS - Create Contas Controller", () => {
         expect(contaBody.numeroParcelasAtual).toBe(12);
     });
 
-    it("Deve ser capaz de criar uma conta e a data de vencimento final deve ser a data atual de vencimento inicial acrescida de um mês", async () => {
+    it("Deve ser capaz de criar uma conta e a data de vencimento final deve ser a data atual de vencimento inicial acrescida do numero de parcelas", async () => {
         const dataVencimentoInicial = dateProvider.addHours(1);
 
         const conta = await request(app)
@@ -134,5 +134,26 @@ describe("CONTAS - Create Contas Controller", () => {
         expect(
             dateProvider.convertToString(contaBody.dataVencimentoFinal)
         ).toBe(dateProvider.convertToString(dataVencimentoFinal));
+    });
+
+    it("Deve ser capaz de criar uma conta e a data de vencimento atual deve ser a data do vencimento vencimento inicial", async () => {
+        const dataVencimentoInicial = dateProvider.addHours(1);
+
+        const conta = await request(app)
+            .post("/contas")
+            .send({
+                observacoes: "Conta de Teste",
+                numeroParcelas: 12,
+                valorInicial: 120,
+                dataVencimentoInicial,
+                fkIdCliente: clienteBody.id,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        const contaBody = conta.body[0];
+
+        expect(
+            dateProvider.convertToString(contaBody.dataVencimentoAtual)
+        ).toBe(dateProvider.convertToString(dataVencimentoInicial));
     });
 });

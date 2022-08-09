@@ -16,7 +16,11 @@
 2- Conta
 [ x] Deve ser capaz de criar uma conta
 [ x] Deve ser vinculado a um cliente
-[x ] Deve ser vinculado a um usuário
+[x ] Deve ser vinculado a um lojista
+[ x ] A data inicial da conta não pode ser menor que o dia atual
+[  ] valor da parcela deve estar de acordo com o número de parcelas
+[  ] a data final da parcela deve estar de acordo com o numero de parcelas
+[  ] deve ser capaz de verificar se uma conta está inadimplente
 [ ] Deve ser capaz de abater uma conta
 [ ] Ao abater uma conta, deve ser calculado se abateu todo valor devido, se ficou uma parte, se foi a mais
 [ ] Caso tenha recebido valor a mais, deve calcular o troco

@@ -1,7 +1,7 @@
 import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRepository";
 import { IClientesRepository } from "@modules/clientes/repositories/IClientesRepository";
 import { IContasRepository } from "@modules/contas/repositories/IContasRepository";
-import { Conta } from "@prisma/client";
+import { Conta, Log } from "@prisma/client";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
 import { AppError } from "@shared/errors/AppError";
@@ -30,7 +30,7 @@ class CreateContasUseCase {
         dataVencimentoInicial,
         fkIdLojista,
         fkIdCliente,
-    }: ICreateContasDTO): Promise<Conta> {
+    }: ICreateContasDTO): Promise<(Conta | Log)[]> {
         const clienteExists = await this.clientesRepository.findById(
             fkIdCliente
         );
@@ -45,6 +45,18 @@ class CreateContasUseCase {
 
         if (!lojistaExists) {
             throw new AppError("Lojista doesn't exist", 400);
+        }
+
+        if (
+            this.dateProvider.compareIfBefore(
+                dataVencimentoInicial,
+                this.dateProvider.dateNow()
+            )
+        ) {
+            throw new AppError(
+                "Data de venciamento não pode ser menor que a data atual!",
+                400
+            );
         }
 
         const contaCriada = await this.contasRepository.create({
@@ -68,14 +80,14 @@ class CreateContasUseCase {
 
         const log = await this.logProvider.create({
             logRepository: "CONTA",
-            descricao: `Criada uma conta`,
-            conteudoAnterior: "Não se aplica",
+            descricao: `Conta Criada com Sucesso!`,
+            conteudoAnterior: JSON.stringify(contaCriada),
             conteudoNovo: JSON.stringify(contaCriada),
             lojistaId: fkIdLojista,
             modelAtualizadoId: fkIdCliente,
         });
 
-        return contaCriada;
+        return [contaCriada, log];
     }
 }
 

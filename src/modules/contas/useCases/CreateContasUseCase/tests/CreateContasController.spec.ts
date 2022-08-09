@@ -156,4 +156,35 @@ describe("CONTAS - Create Contas Controller", () => {
             dateProvider.convertToString(contaBody.dataVencimentoAtual)
         ).toBe(dateProvider.convertToString(dataVencimentoInicial));
     });
+
+    it("Não deve ser capaz de criar uma conta se o token for inválido ou expirado", async () => {
+        const dataVencimentoInicial = dateProvider.addHours(1);
+
+        const conta = await request(app)
+            .post("/contas")
+            .send({
+                observacoes: "Conta de Teste",
+                numeroParcelas: 12,
+                valorInicial: 120,
+                dataVencimentoInicial,
+                fkIdCliente: clienteBody.id,
+            })
+            .set({ Authorization: `Bearer 1111` });
+        expect(conta.status).toBe(401);
+        expect(conta.body.message).toBe("Invalid Token");
+    });
+
+    it("Não deve ser capaz de criar uma conta se o Lojista não estiver logado", async () => {
+        const dataVencimentoInicial = dateProvider.addHours(1);
+        const conta = await request(app).post("/contas").send({
+            observacoes: "Conta de Teste",
+            numeroParcelas: 12,
+            valorInicial: 120,
+            dataVencimentoInicial,
+            fkIdCliente: clienteBody.id,
+        });
+
+        expect(conta.status).toBe(401);
+        expect(conta.body.message).toBe("Token missing");
+    });
 });

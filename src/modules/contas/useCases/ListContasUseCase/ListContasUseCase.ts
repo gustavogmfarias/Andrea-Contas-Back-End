@@ -28,7 +28,7 @@ class ListContasUseCase {
         let dataAtual;
 
         if (endDate) {
-            endDate = this.dateProvider.addDays(endDate, 1);
+            endDate = this.dateProvider.addDaysToDate(endDate, 1);
         }
 
         if (inadimplentes) {

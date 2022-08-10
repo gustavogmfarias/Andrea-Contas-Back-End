@@ -4,7 +4,8 @@ interface IDateProvider {
     onlyDate(date: Date): string;
     dateNow(): Date;
     compareInDays(startDate: Date, endDate: Date): number;
-    addDays(date: Date, days: number): Date;
+    addDays(days: number): Date;
+    addDaysToDate(date: Date, days: number): Date;
     addHours(hours: number): Date;
     convertToUtc3Hours(horaInicial: Date): Date;
     addMonths(dataInicial: Date, months: number): Date;

@@ -43,7 +43,11 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(dataInicial).add(months, "month").toDate();
     }
 
-    addDays(date: Date, days: number): Date {
+    addDays(days: number): Date {
+        return dayjs().add(days, "days").toDate();
+    }
+
+    addDaysToDate(date: Date, days: number): Date {
         return dayjs(date).add(days, "days").toDate();
     }
 

@@ -1,8 +1,10 @@
 import { ICreateContasDTO } from "@modules/contas/dtos/ICreateContasDTO";
+import { IListContasDTO } from "@modules/contas/dtos/IListContasDTO";
 import { IRealizarPagamentoDTO } from "@modules/contas/dtos/IRealizarPagamentoDTO";
 import { IUpdateContasDTO } from "@modules/contas/dtos/IUpdateContasDTO";
 import { Conta, Pagamento } from "@prisma/client";
 import { prisma } from "@shared/database/prismaClient";
+import { IPaginationRequestDTO } from "@shared/dtos/IPaginationRequestDTO";
 import { IContasRepository } from "../IContasRepository";
 
 class ContasRepository implements IContasRepository {
@@ -91,6 +93,59 @@ class ContasRepository implements IContasRepository {
         });
 
         return pagamentoRealizado;
+    }
+
+    async list(
+        {
+            startDate,
+            endDate,
+            inadimplentes,
+            dataAtual,
+            ativo,
+            cliente,
+            lojista,
+        }: IListContasDTO,
+        { page, perPage }: IPaginationRequestDTO
+    ): Promise<Conta[]> {
+        let contas: Conta[];
+
+        if (!page || !perPage) {
+            contas = await prisma.conta.findMany({
+                where: {
+                    ativo,
+                    fkIdCliente: cliente,
+                    fkIdLojista: lojista,
+                    criadoEm: { gte: startDate, lte: endDate },
+                    dataVencimentoAtual: {
+                        gte: "2018-08-10T00:00:00.598Z",
+                        lte: dataAtual,
+                    },
+                },
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        } else {
+            contas = await prisma.conta.findMany({
+                where: {
+                    ativo,
+                    fkIdCliente: cliente,
+                    fkIdLojista: lojista,
+                    criadoEm: { gte: startDate, lte: endDate },
+                    dataVencimentoAtual: {
+                        gte: "2018-08-10T00:00:00.598Z",
+                        lte: dataAtual,
+                    },
+                },
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        }
+
+        return contas;
     }
 }
 

@@ -1,7 +1,12 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
 
 import { IDateProvider } from "../IDateProvider";
+
+dayjs.extend(customParseFormat);
+dayjs.extend(LocalizedFormat);
 
 dayjs.extend(utc);
 
@@ -20,6 +25,10 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(date).toISOString();
     }
 
+    onlyDate(date: Date): string {
+        return dayjs(date).format("L");
+    }
+
     dateNow(): Date {
         return dayjs().toDate();
     }
@@ -34,8 +43,8 @@ class DayjsDateProvider implements IDateProvider {
         return dayjs(dataInicial).add(months, "month").toDate();
     }
 
-    addDays(days: number): Date {
-        return dayjs().add(days, "days").toDate();
+    addDays(date: Date, days: number): Date {
+        return dayjs(date).add(days, "days").toDate();
     }
 
     addHours(hours: number): Date {

@@ -20,24 +20,33 @@
 [ x ] A data inicial da conta não pode ser menor que o dia atual
 [x  ] valor da parcela deve estar de acordo com o número de parcelas
 [  x] a data final da parcela deve estar de acordo com o numero de parcelas
-[  ] deve ser capaz de verificar se uma conta está inadimplente
+[ x ] deve ser capaz de verificar se uma conta está inadimplente
+[ x ] deve ser capaz de listar as contas
+[x ] deve ser capaz de listar as contas por período
+[x ] deve ser capaz de listar as contas por cliente
+[ x] deve ser capaz de listar as contas se ativa\desativada
+[ x] deve ser capaz de listar contas por lojista
+[ ] Deve ser capaz de ver todo histórico de movimentações em uma conta
+
+
+
+3- Abater conta
 [ ] Deve ser capaz de abater uma conta
 [ ] Ao abater uma conta, deve ser calculado se abateu todo valor devido, se ficou uma parte, se foi a mais
 [ ] Caso tenha recebido valor a mais, deve calcular o troco
 [ ] Se foi recebido valor a menos, deve ser recalculado o valor restante e refeito as contas das parcelas
 [ ] Deve ficar o histórico de quem recebeu o abatimento de uma conta
-[ ] Deve ser capaz de ver todo histórico de movimentações em uma conta
 
 
-3- Relatório Total de Clientes
+4- Relatório Total de Clientes
 [ ] Deve ser capaz de contabilizar o total de clientes da loja
 
 4- Relatório Total de Clientes Adimplentes
-[ ] Deve ser capaz de contabilizar o total de clientes adimplentes
+[ ] Deve ser capaz de contabilizar o total de clientes inadimplentes
 
 
-4- Relatório Total de Clientes Inadimplentes
-[ ] Deve ser capaz de contabilizar o total de clientes inadimplentes 
+4- Relatório Total de Clientes Ininadimplentes
+[ ] Deve ser capaz de contabilizar o total de clientes ininadimplentes 
 
 5- Relatório Total a Receber
 [ ] Deve ser capaz de calcular o valor total a receber entre períodos

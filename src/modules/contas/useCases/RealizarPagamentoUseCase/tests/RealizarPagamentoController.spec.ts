@@ -272,6 +272,35 @@ describe("CLIENTE - List Clientes Controller", () => {
         // fkIdCliente: clienteBodyA.id,
     });
 
+    it("Deve ser capaz de relizar um pagamento no valor inferior de uma parcela de uma conta e deixar um log e recalcular o valor da parcela atual", async () => {
+        const pagamento = await request(app)
+            .post(`/contas/realizarpagamento/${contaBodyC.id}`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 1,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        const contaAbatidaC = await request(app)
+            .get(`/contas/findbyid/${contaBodyC.id}`)
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        expect(pagamento.status).toBe(201);
+        expect(pagamento.body).toHaveLength(3);
+
+        expect(pagamento.body[2].descricao).toBe("Pagamento realizado");
+        expect(contaAbatidaC.body.valorAtual).toBe(99);
+        expect(contaAbatidaC.body.valorParcela).toBe(11);
+
+        expect(contaAbatidaC.body.numeroParcelasAtual).toBe(9);
+
+        // observacoes: "ContaC",
+        // numeroParcelas: 10,
+        // valorInicial: 100,
+        // dataVencimentoInicial: dateProvider.addDays(1),
+        // fkIdCliente: clienteBodyC.id,
+    });
+
     // it("Deve ser capaz de listar todas as contas por page", async () => {
     //     const contasA = await request(app)
     //         .get("/contas?page=1&perPage=1")

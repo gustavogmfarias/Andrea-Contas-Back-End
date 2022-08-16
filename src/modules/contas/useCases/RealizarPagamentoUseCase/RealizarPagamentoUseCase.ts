@@ -115,6 +115,71 @@ class RealizarPagamentoUseCase {
                 modelAtualizadoId: pagamentoRealizado.id,
             });
         }
+
+        if (valorParcela > valorPagamento) {
+            numeroParcelasAtual -= 1;
+            valorAtual -= valorPagamento;
+            valorParcela = valorAtual / numeroParcelasAtual;
+            dataVencimentoAtual = await this.dateProvider.addMonths(
+                dataVencimentoAtual,
+                1
+            );
+
+            if (valorAtual === 0) {
+                ativo = false;
+            }
+
+            const contaAtualizada = await this.contasRepository.update(
+                fkIdConta,
+                {
+                    editadoEm: this.dateProvider.dateNow(),
+                    numeroParcelasAtual,
+                    valorParcela,
+                    dataVencimentoAtual,
+                    ativo,
+                    valorAtual,
+                }
+            );
+
+            await this.logProvider.create({
+                logRepository: "CONTA",
+                descricao: `Conta atualizado a partir de um Pagamento`,
+                conteudoAnterior: JSON.stringify(contaASerAbatida),
+                conteudoNovo: JSON.stringify(contaAtualizada),
+                lojistaId: fkIdLojista,
+                modelAtualizadoId: fkIdConta,
+            });
+
+            pagamentoRealizado = await this.contasRepository.realizarPagamento({
+                dataPagamento,
+                fkIdConta,
+                fkIdLojista,
+                valorPagamento,
+            });
+
+            const contaAbatida = await this.contasRepository.findById(
+                fkIdConta
+            );
+
+            logContaAbatida = await this.logProvider.create({
+                logRepository: "CONTA",
+                descricao: `Pagamento realizado`,
+                conteudoAnterior: JSON.stringify(contaASerAbatida),
+                conteudoNovo: JSON.stringify(contaAbatida),
+                lojistaId: fkIdLojista,
+                modelAtualizadoId: contaASerAbatida.id,
+            });
+
+            logPagamento = await this.logProvider.create({
+                logRepository: "CONTA",
+                descricao: `Pagamento realizado`,
+                conteudoAnterior: JSON.stringify(pagamentoRealizado),
+                conteudoNovo: JSON.stringify(pagamentoRealizado),
+                lojistaId: fkIdLojista,
+                modelAtualizadoId: pagamentoRealizado.id,
+            });
+        }
+
         return [pagamentoRealizado, logContaAbatida, logPagamento];
     }
 }

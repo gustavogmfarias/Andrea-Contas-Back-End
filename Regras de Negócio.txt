@@ -14,6 +14,7 @@
 [ x] Somente administradores devem ser capazes de editar cliente
 
 2- Conta
+[ ] Deve ser capaz de ver todo histórico de movimentações em uma conta
 [ x] Deve ser capaz de criar uma conta
 [ x] Deve ser vinculado a um cliente
 [x ] Deve ser vinculado a um lojista
@@ -26,16 +27,15 @@
 [x ] deve ser capaz de listar as contas por cliente
 [ x] deve ser capaz de listar as contas se ativa\desativada
 [ x] deve ser capaz de listar contas por lojista
-[ ] Deve ser capaz de ver todo histórico de movimentações em uma conta
 
 
 
 3- Abater conta
-[ ] Deve ser capaz de abater uma conta
-[ ] Ao abater uma conta, deve ser calculado se abateu todo valor devido, se ficou uma parte, se foi a mais
-[ ] Caso tenha recebido valor a mais, deve calcular o troco
-[ ] Se foi recebido valor a menos, deve ser recalculado o valor restante e refeito as contas das parcelas
-[ ] Deve ficar o histórico de quem recebeu o abatimento de uma conta
+[x ] Deve ser capaz de abater uma conta
+[ x] Ao abater uma conta, deve ser calculado se abateu todo valor devido, se ficou uma parte, se foi a mais
+[x ] Caso tenha recebido valor a mais, deve calcular o troco
+[ x] Se foi recebido valor a menos, deve ser recalculado o valor restante e refeito as contas das parcelas
+[ x] Deve ficar o histórico de quem recebeu o abatimento de uma conta
 
 
 4- Relatório Total de Clientes

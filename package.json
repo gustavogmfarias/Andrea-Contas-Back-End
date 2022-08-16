@@ -7,7 +7,7 @@
         "dev": "ts-node-dev  -r tsconfig-paths/register --exit-child --transpile-only --poll --ignore-watch node_modules --respawn   src/shared/infra/http/server.ts",
         "dev:debug": "ts-node-dev -r tsconfig-paths/register --files --transpile-only --respawn --inspect=4321 --project tsconfig.json src/shared/infra/http/server-debug.ts",
         "test": "jest --runInBand",
-        "seed": "ts-node-dev prisma/seed.ts"
+        "seed": "ts-node-dev -r tsconfig-paths/register prisma/seed.ts"
     },
     "dependencies": {
         "@prisma/client": "^3.14.0",

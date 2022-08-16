@@ -12,6 +12,8 @@ describe("CLIENTE - List Clientes Controller", () => {
     const dateProvider = new DayjsDateProvider();
     const dataAtual = dateProvider.dateNow();
     let lojistaToken;
+    let lojistaAId;
+    let lojistaBId;
     let clienteA;
     let clienteB;
     let clienteC;
@@ -37,7 +39,28 @@ describe("CLIENTE - List Clientes Controller", () => {
             .post("/sessions")
             .send({ username: "admin", senha: "admin" });
 
+        const lojistaA = await request(app)
+            .get(`/lojistas/findbyusername/`)
+            .send({
+                username: "admin",
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
         lojistaToken = lojista.body.token;
+        lojistaAId = lojistaA.body.id;
+
+        const lojistaB = await request(app)
+            .post("/sessions")
+            .send({ username: "gustavo", senha: "gustavo" });
+
+        const lojistaBBuscado = await request(app)
+            .get(`/lojistas/findbyusername/`)
+            .send({
+                username: "gustavo",
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        lojistaBId = lojistaBBuscado.body.id;
 
         clienteA = await request(app)
             .post("/clientes")
@@ -182,13 +205,25 @@ describe("CLIENTE - List Clientes Controller", () => {
         // ContaF: erro da ta anterior
     });
 
-    it("Deve ser capaz de listar todas as contas", async () => {
+    it("Deve ser capaz de listar todas as contas por page", async () => {
         const contas = await request(app)
             .get("/contas")
             .set({ Authorization: `Bearer ${lojistaToken}` });
 
         expect(contas.status).toBe(200);
         expect(contas.body).toHaveLength(5);
+    });
+
+    it("Deve ser capaz de listar todas as contas por page", async () => {
+        const contasA = await request(app)
+            .get("/contas?page=1&perPage=1")
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+        const contasB = await request(app)
+            .get("/contas?page=1&perPage=2")
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+        expect(contasA.status).toBe(200);
+        expect(contasA.body).toHaveLength(1);
+        expect(contasB.body).toHaveLength(2);
     });
 
     it("Deve ser capaz de listar as contas por cliente", async () => {
@@ -215,32 +250,82 @@ describe("CLIENTE - List Clientes Controller", () => {
         expect(contasC.body).toHaveLength(1);
     });
 
-    // it("Não deve ser capaz de listar os clientes se não estiver logado", async () => {
-    //     const response = await request(app).get("/clientes");
+    it("Deve ser capaz de listar as contas por período", async () => {
+        const contasA = await request(app)
+            .get("/contas")
+            .send({
+                startDate: contaBodyA.criadoEm,
+                endDate: contaBodyA.criadoEm,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     expect(response.body.message).toBe("Token missing");
-    // });
+        expect(contasA.status).toBe(200);
+        expect(contasA.body).toHaveLength(5);
+    });
 
-    // it("Não deve ser capaz de listar os clientes se o token estiver inválido ou expirado", async () => {
-    //     const response = await request(app)
-    //         .get("/clientes")
-    //         .set({ Authorization: `Bearer 111` });
+    it("Deve ser capaz de listar as contas inadimplentes", async () => {
+        const contasA = await request(app)
+            .get("/contas")
+            .send({
+                inadimplentes: true,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     expect(response.body.message).toBe("Invalid Token");
-    // });
+        expect(contasA.status).toBe(200);
+        expect(contasA.body).toHaveLength(0);
+    });
 
-    // it("Deve ser capaz de listar os clientes por pagina", async () => {
-    //     const responseToken = await request(app)
-    //         .post("/sessions")
-    //         .send({ username: "admin", senha: "admin" });
+    it("Deve ser capaz de listar as contas ativas ou não", async () => {
+        const contasA = await request(app)
+            .get("/contas")
+            .send({
+                ativo: true,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     const { token } = responseToken.body;
+        const contasB = await request(app)
+            .get("/contas")
+            .send({
+                ativo: false,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     const response = await request(app)
-    //         .get(`/clientes?page=1&perPage=1`)
-    //         .set({ Authorization: `Bearer ${token}` });
+        expect(contasA.status).toBe(200);
+        expect(contasA.body).toHaveLength(5);
+        expect(contasB.body).toHaveLength(0);
+    });
 
-    //     expect(response.status).toBe(200);
-    //     expect(response.body).toHaveLength(1);
-    // });
+    it("Deve ser capaz de listar as contas por lojista", async () => {
+        const contasA = await request(app)
+            .get("/contas")
+            .send({
+                lojista: lojistaAId,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        const contasB = await request(app)
+            .get("/contas")
+            .send({
+                lojista: lojistaBId,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        expect(contasA.status).toBe(200);
+        expect(contasA.body).toHaveLength(5);
+        expect(contasB.body).toHaveLength(0);
+    });
+
+    it("Não deve ser capaz de listar as se não estiver logado", async () => {
+        const response = await request(app).get("/contas");
+
+        expect(response.body.message).toBe("Token missing");
+    });
+
+    it("Não deve ser capaz de listar as contas se o token estiver inválido ou expirado", async () => {
+        const response = await request(app)
+            .get("/contas")
+            .set({ Authorization: `Bearer 111` });
+
+        expect(response.body.message).toBe("Invalid Token");
+    });
 });

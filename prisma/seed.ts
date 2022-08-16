@@ -58,48 +58,6 @@ async function main() {
         },
     });
 
-    const conta1 = await prisma.conta.create({
-        data: {
-            criadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
-            editadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
-            observacoes: "Conta 1",
-            numeroParcelas: 12,
-            numeroParcelasAtual: 12,
-            valorInicial: 120,
-            valorParcela: 10,
-            valorAtual: 120,
-            dataVencimentoInicial: this.dateProvider.addDays(30),
-            dataVencimentoAtual: this.dateProvider.addDays(30),
-            dataVencimentoFinal: this.dateProvider.addMonths(
-                this.dateProvider.addDays(30),
-                12
-            ),
-            fkIdLojista: lojista1.id,
-            fkIdCliente: cliente1.id,
-        },
-    });
-
-    const conta2 = await prisma.conta.create({
-        data: {
-            criadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
-            editadoEm: this.dateProvider.convertToUtc3Hours(new Date()),
-            observacoes: "Conta 1",
-            numeroParcelas: 10,
-            numeroParcelasAtual: 10,
-            valorInicial: 100,
-            valorParcela: 10,
-            valorAtual: 100,
-            dataVencimentoInicial: this.dateProvider.addDays(30),
-            dataVencimentoAtual: this.dateProvider.addDays(30),
-            dataVencimentoFinal: this.dateProvider.addMonths(
-                this.dateProvider.addDays(30),
-                10
-            ),
-            fkIdLojista: lojista2.id,
-            fkIdCliente: cliente2.id,
-        },
-    });
-
     console.log(`Seeding finished.`);
 }
 

@@ -202,11 +202,11 @@ describe("CLIENTE - List Clientes Controller", () => {
         // Cliente A: 2 conta
         // Cliente B: 2 conta
         // Cliente C: 1 conta
-        // ContaF: erro da ta anterior
+        // ContaF: erro data anterior
         // conta D: 20 reais / 2 parcelas
     });
 
-    it("Deve ser capaz de relizar um pagamento no mesmo valor de uma parcela de uma conta e deixar um log e trocar a data de vencimento atual", async () => {
+    it("Deve ser capaz de realizar um pagamento no mesmo valor de uma parcela de uma conta e deixar um log e trocar a data de vencimento atual", async () => {
         const pagamento = await request(app)
             .post(`/contas/realizarpagamento/${contaBodyA.id}`)
             .send({
@@ -239,7 +239,7 @@ describe("CLIENTE - List Clientes Controller", () => {
         //         fkIdCliente: clienteBodyA.id,
     });
 
-    it("Deve ser capaz de relizar um pagamento e inativar uma conta caso o valor atual seja zero", async () => {
+    it("Deve ser capaz de realizar um pagamento e inativar uma conta caso o valor atual seja zero", async () => {
         const pagamento1 = await request(app)
             .post(`/contas/realizarpagamento/${contaBodyD.id}`)
             .send({
@@ -272,7 +272,7 @@ describe("CLIENTE - List Clientes Controller", () => {
         // fkIdCliente: clienteBodyA.id,
     });
 
-    it("Deve ser capaz de relizar um pagamento no valor inferior de uma parcela de uma conta e deixar um log e recalcular o valor da parcela atual", async () => {
+    it("Deve ser capaz de realizar um pagamento no valor inferior de uma parcela de uma conta e deixar um log e recalcular o valor da parcela atual", async () => {
         const pagamento = await request(app)
             .post(`/contas/realizarpagamento/${contaBodyC.id}`)
             .send({
@@ -301,118 +301,93 @@ describe("CLIENTE - List Clientes Controller", () => {
         // fkIdCliente: clienteBodyC.id,
     });
 
-    // it("Deve ser capaz de listar todas as contas por page", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas?page=1&perPage=1")
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
-    //     const contasB = await request(app)
-    //         .get("/contas?page=1&perPage=2")
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(1);
-    //     expect(contasB.body).toHaveLength(2);
-    // });
+    it("Deve ser capaz de realizar um pagamento no valor superior de uma parcela de uma conta e deixar um log e recalcular o valor da parcela atual", async () => {
+        const pagamento = await request(app)
+            .post(`/contas/realizarpagamento/${contaBodyE.id}`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 53,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    // it("Deve ser capaz de listar as contas por cliente", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas")
-    //         .send({ cliente: clienteBodyA.id })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        const contaAbatidaE = await request(app)
+            .get(`/contas/findbyid/${contaBodyE.id}`)
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     const contasB = await request(app)
-    //         .get("/contas")
-    //         .send({ cliente: clienteBodyB.id })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        expect(pagamento.status).toBe(201);
+        expect(pagamento.body).toHaveLength(3);
 
-    //     const contasC = await request(app)
-    //         .get("/contas")
-    //         .send({ cliente: clienteBodyC.id })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        expect(pagamento.body[2].descricao).toBe("Pagamento realizado");
+        expect(contaAbatidaE.body.valorAtual).toBe(27);
+        expect(contaAbatidaE.body.valorParcela).toBe(3);
 
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(2);
-    //     expect(contasB.status).toBe(200);
-    //     expect(contasB.body).toHaveLength(2);
-    //     expect(contasC.status).toBe(200);
-    //     expect(contasC.body).toHaveLength(1);
-    // });
+        expect(contaAbatidaE.body.numeroParcelasAtual).toBe(9);
 
-    // it("Deve ser capaz de listar as contas por período", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             startDate: contaBodyA.criadoEm,
-    //             endDate: contaBodyA.criadoEm,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        // observacoes: "ContaE",
+        // numeroParcelas: 10,
+        // valorInicial: 80,
+        // dataVencimentoInicial: dateProvider.addDays(5),
+        // fkIdCliente: clienteBodyB.id,
+    });
 
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(5);
-    // });
+    it("Não deve ser capaz de realizar um pagamento se não estiver logado", async () => {
+        const response = await request(app)
+            .post(`/contas/realizarpagamento/${contaBodyE.id}`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 53,
+            });
 
-    // it("Deve ser capaz de listar as contas inadimplentes", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             inadimplentes: true,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        expect(response.body.message).toBe("Token missing");
+    });
 
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(0);
-    // });
+    it("Não deve ser capaz de realizar um pagamento se o token estiver inválido ou expirado", async () => {
+        const response = await request(app)
+            .post(`/contas/realizarpagamento/${contaBodyE.id}`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 53,
+            })
+            .set({ Authorization: `Bearer 111` });
 
-    // it("Deve ser capaz de listar as contas ativas ou não", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             ativo: true,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        expect(response.body.message).toBe("Invalid Token");
+    });
 
-    //     const contasB = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             ativo: false,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+    it("Não deve ser capaz de realizar um pagamento se uma conta estiver inativa", async () => {
+        const pagamento1 = await request(app)
+            .post(`/contas/realizarpagamento/${contaBodyD.id}`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 10,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(5);
-    //     expect(contasB.body).toHaveLength(0);
-    // });
+        expect(pagamento1.status).toBe(400);
+        expect(pagamento1.body.message).toBe("Conta já inativada");
 
-    // it("Deve ser capaz de listar as contas por lojista", async () => {
-    //     const contasA = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             lojista: lojistaAId,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+        // observacoes: "ContaD",
+        // numeroParcelas: 2,
+        // valorInicial: 20,
+        // dataVencimentoInicial: dateProvider.addDays(4),
+        // fkIdCliente: clienteBodyA.id,
+    });
 
-    //     const contasB = await request(app)
-    //         .get("/contas")
-    //         .send({
-    //             lojista: lojistaBId,
-    //         })
-    //         .set({ Authorization: `Bearer ${lojistaToken}` });
+    it("Não deve ser capaz de realizar um pagamento se uma conta não existe", async () => {
+        const pagamento1 = await request(app)
+            .post(`/contas/realizarpagamento/1111`)
+            .send({
+                dataPagamento: new Date(),
+                valorPagamento: 10,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
 
-    //     expect(contasA.status).toBe(200);
-    //     expect(contasA.body).toHaveLength(5);
-    //     expect(contasB.body).toHaveLength(0);
-    // });
+        expect(pagamento1.status).toBe(404);
+        expect(pagamento1.body.message).toBe("Conta não existe");
 
-    // it("Não deve ser capaz de listar as se não estiver logado", async () => {
-    //     const response = await request(app).get("/contas");
-
-    //     expect(response.body.message).toBe("Token missing");
-    // });
-
-    // it("Não deve ser capaz de listar as contas se o token estiver inválido ou expirado", async () => {
-    //     const response = await request(app)
-    //         .get("/contas")
-    //         .set({ Authorization: `Bearer 111` });
-
-    //     expect(response.body.message).toBe("Invalid Token");
-    // });
+        // observacoes: "ContaD",
+        // numeroParcelas: 2,
+        // valorInicial: 20,
+        // dataVencimentoInicial: dateProvider.addDays(4),
+        // fkIdCliente: clienteBodyA.id,
+    });
 });

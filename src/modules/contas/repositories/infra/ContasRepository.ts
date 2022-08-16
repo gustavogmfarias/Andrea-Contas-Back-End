@@ -72,7 +72,7 @@ class ContasRepository implements IContasRepository {
         return contaEditada;
     }
 
-    async findById(id: string): Promise<Conta> {
+    async findById(id: string): Promise<Conta | null> {
         const conta = await prisma.conta.findUnique({
             where: {
                 id,

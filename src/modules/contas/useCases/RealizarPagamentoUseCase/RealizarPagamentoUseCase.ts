@@ -35,6 +35,10 @@ class RealizarPagamentoUseCase {
             fkIdConta
         );
 
+        if (!contaASerAbatida) {
+            throw new AppError("Conta não existe", 404);
+        }
+
         let pagamentoRealizado: Pagamento;
 
         let {
@@ -47,10 +51,6 @@ class RealizarPagamentoUseCase {
 
         if (ativo === false) {
             throw new AppError("Conta já inativada", 400);
-        }
-
-        if (!contaASerAbatida) {
-            throw new AppError("Conta não existe", 404);
         }
 
         if (valorParcela === valorPagamento) {
@@ -114,9 +114,7 @@ class RealizarPagamentoUseCase {
                 lojistaId: fkIdLojista,
                 modelAtualizadoId: pagamentoRealizado.id,
             });
-        }
-
-        if (valorParcela > valorPagamento) {
+        } else {
             numeroParcelasAtual -= 1;
             valorAtual -= valorPagamento;
             valorParcela = valorAtual / numeroParcelasAtual;

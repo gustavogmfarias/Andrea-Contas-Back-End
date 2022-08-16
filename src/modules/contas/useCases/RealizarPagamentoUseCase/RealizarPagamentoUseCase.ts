@@ -3,7 +3,7 @@ import { ILojistasRepository } from "@modules/accounts/repositories/ILojistasRep
 import { IClientesRepository } from "@modules/clientes/repositories/IClientesRepository";
 import { IRealizarPagamentoDTO } from "@modules/contas/dtos/IRealizarPagamentoDTO";
 import { IContasRepository } from "@modules/contas/repositories/IContasRepository";
-import { Conta, Pagamento } from "@prisma/client";
+import { Conta, Log, Pagamento } from "@prisma/client";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { ILogProvider } from "@shared/container/providers/LogProvider/ILogProvider";
 import { AppError } from "@shared/errors/AppError";
@@ -27,7 +27,10 @@ class RealizarPagamentoUseCase {
         fkIdConta,
         fkIdLojista,
         valorPagamento,
-    }: IRealizarPagamentoDTO): Promise<Pagamento> {
+    }: IRealizarPagamentoDTO): Promise<(Pagamento | Log)[]> {
+        let logPagamento: Log;
+        let logContaAbatida: Log;
+
         const contaASerAbatida = await this.contasRepository.findById(
             fkIdConta
         );
@@ -90,7 +93,20 @@ class RealizarPagamentoUseCase {
                 valorPagamento,
             });
 
-            await this.logProvider.create({
+            const contaAbatida = await this.contasRepository.findById(
+                fkIdConta
+            );
+
+            logContaAbatida = await this.logProvider.create({
+                logRepository: "CONTA",
+                descricao: `Pagamento realizado`,
+                conteudoAnterior: JSON.stringify(contaASerAbatida),
+                conteudoNovo: JSON.stringify(contaAbatida),
+                lojistaId: fkIdLojista,
+                modelAtualizadoId: contaASerAbatida.id,
+            });
+
+            logPagamento = await this.logProvider.create({
                 logRepository: "CONTA",
                 descricao: `Pagamento realizado`,
                 conteudoAnterior: JSON.stringify(pagamentoRealizado),
@@ -99,7 +115,7 @@ class RealizarPagamentoUseCase {
                 modelAtualizadoId: pagamentoRealizado.id,
             });
         }
-        return pagamentoRealizado;
+        return [pagamentoRealizado, logContaAbatida, logPagamento];
     }
 }
 export { RealizarPagamentoUseCase };

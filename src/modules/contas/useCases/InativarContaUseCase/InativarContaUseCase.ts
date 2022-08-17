@@ -20,6 +20,10 @@ class InativarContaUseCase {
             throw new AppError("Conta não encontrada", 404);
         }
 
+        if (conta.ativo === false) {
+            throw new AppError("Conta já inativada", 400);
+        }
+
         const contaInativada = await this.contasRepository.inativarConta(id);
 
         const logContaInativada = await this.logProvider.create({

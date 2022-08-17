@@ -27,7 +27,7 @@ contasRoutes.post(
     ensureAuthenticated,
     realizarPagamentoController.handle
 );
-contasRoutes.post(
+contasRoutes.patch(
     "/inativarConta/:idConta",
     ensureAuthenticated,
     inativarContaController.handle

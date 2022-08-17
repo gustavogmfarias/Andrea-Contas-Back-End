@@ -10,5 +10,6 @@ export interface IContasRepository {
     update(id: string, data: IUpdateContasDTO): Promise<Conta>;
     list(data: IListContasDTO, pag: IPaginationRequestDTO): Promise<Conta[]>;
     findById(id: string): Promise<Conta | null>;
+    inativarConta(id: string): Promise<Conta>;
     realizarPagamento(data: IRealizarPagamentoDTO): Promise<Pagamento>;
 }

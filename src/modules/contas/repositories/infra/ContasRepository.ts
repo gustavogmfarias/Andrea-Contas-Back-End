@@ -95,6 +95,17 @@ class ContasRepository implements IContasRepository {
         return pagamentoRealizado;
     }
 
+    async inativarConta(id: string): Promise<Conta> {
+        const contaInativada = await prisma.conta.update({
+            where: {
+                id,
+            },
+            data: { ativo: false },
+        });
+
+        return contaInativada;
+    }
+
     async list(
         {
             startDate,

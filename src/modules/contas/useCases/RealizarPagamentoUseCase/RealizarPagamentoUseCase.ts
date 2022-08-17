@@ -117,13 +117,15 @@ class RealizarPagamentoUseCase {
         } else {
             numeroParcelasAtual -= 1;
             valorAtual -= valorPagamento;
-            valorParcela = valorAtual / numeroParcelasAtual;
+            valorParcela = Number(
+                (valorAtual / numeroParcelasAtual).toFixed(2)
+            );
             dataVencimentoAtual = await this.dateProvider.addMonths(
                 dataVencimentoAtual,
                 1
             );
 
-            if (valorAtual === 0) {
+            if (valorAtual <= 0) {
                 ativo = false;
             }
 

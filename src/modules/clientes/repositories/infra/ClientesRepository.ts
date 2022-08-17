@@ -62,7 +62,7 @@ export class ClientesRepository implements IClientesRepository {
                 orderBy: {
                     id: "desc",
                 },
-                include: { endereco: true },
+                include: { endereco: true, Conta: true },
             });
         } else {
             clientes = await prisma.cliente.findMany({

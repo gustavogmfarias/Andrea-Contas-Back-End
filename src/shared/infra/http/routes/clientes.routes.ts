@@ -10,6 +10,7 @@ import { FindByNameClientesController } from "@modules/clientes/useCases/findByN
 import { UpdateClienteAvatarController } from "@modules/clientes/useCases/updateClienteAvatar/UpdateClienteAvatarController";
 import { FindClienteByIdController } from "@modules/clientes/useCases/findById/FindClienteByIdController";
 import { FindClienteByCpfController } from "@modules/clientes/useCases/findByCpf/FindClienteByCpfController";
+import { GetTotalClientesController } from "@modules/clientes/useCases/GetTotalClientes/GetTotalClientesController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const clientesRoutes = Router();
@@ -23,6 +24,7 @@ const updateClienteController = new UpdateClienteController();
 const updateClienteAvatarController = new UpdateClienteAvatarController();
 const findClienteByIdController = new FindClienteByIdController();
 const findClienteByCpfController = new FindClienteByCpfController();
+const getTotalClientesController = new GetTotalClientesController();
 
 clientesRoutes.post("/", ensureAuthenticated, createClienteController.handle);
 clientesRoutes.delete(
@@ -38,6 +40,11 @@ clientesRoutes.patch(
 );
 
 clientesRoutes.get("/", ensureAuthenticated, listClientesController.handle);
+clientesRoutes.get(
+    "/gettotalclientes",
+    ensureAuthenticated,
+    getTotalClientesController.handle
+);
 clientesRoutes.get(
     "/findbyname",
     ensureAuthenticated,

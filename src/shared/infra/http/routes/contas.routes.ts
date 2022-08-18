@@ -15,7 +15,6 @@ const findContaByIdController = new FindContaByIdController();
 const inativarContaController = new InativarContaController();
 
 contasRoutes.post("/", ensureAuthenticated, createContasController.handle);
-contasRoutes.post("/criacontastest", createContasController.handle);
 contasRoutes.get("/", ensureAuthenticated, listContasController.handle);
 contasRoutes.get(
     "/findbyid/:id",

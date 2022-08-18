@@ -11,6 +11,7 @@ import { UpdateClienteAvatarController } from "@modules/clientes/useCases/update
 import { FindClienteByIdController } from "@modules/clientes/useCases/findById/FindClienteByIdController";
 import { FindClienteByCpfController } from "@modules/clientes/useCases/findByCpf/FindClienteByCpfController";
 import { GetTotalClientesController } from "@modules/clientes/useCases/GetTotalClientes/GetTotalClientesController";
+import { GetTotalClientesAdimplentesController } from "@modules/clientes/useCases/GetTotalClientesAdimplentes/GetTotalClientesAdimplentesController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const clientesRoutes = Router();
@@ -25,6 +26,8 @@ const updateClienteAvatarController = new UpdateClienteAvatarController();
 const findClienteByIdController = new FindClienteByIdController();
 const findClienteByCpfController = new FindClienteByCpfController();
 const getTotalClientesController = new GetTotalClientesController();
+const getTotalClientesAdimplentesController =
+    new GetTotalClientesAdimplentesController();
 
 clientesRoutes.post("/", ensureAuthenticated, createClienteController.handle);
 clientesRoutes.delete(
@@ -44,6 +47,11 @@ clientesRoutes.get(
     "/gettotalclientes",
     ensureAuthenticated,
     getTotalClientesController.handle
+);
+clientesRoutes.get(
+    "/gettotalclientesadimplentes",
+    ensureAuthenticated,
+    getTotalClientesAdimplentesController.handle
 );
 clientesRoutes.get(
     "/findbyname",

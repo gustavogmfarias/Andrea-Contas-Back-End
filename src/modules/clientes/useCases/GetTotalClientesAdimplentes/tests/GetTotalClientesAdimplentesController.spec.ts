@@ -218,7 +218,6 @@ describe("CLIENTE - Get total de Clientes Adimplentes Controller", () => {
         const clientesAdimplentes = await request(app)
             .get("/clientes/gettotalclientesadimplentes")
             .set({ Authorization: `Bearer ${lojistaToken}` });
-        console.log(clientesAdimplentes.body);
         expect(clientesAdimplentes.status).toBe(200);
         expect(clientesAdimplentes.body).toBe("4"); // 2 clientes adimplentes criados no seed + 2 adimplentes criados aqui no teste
     });

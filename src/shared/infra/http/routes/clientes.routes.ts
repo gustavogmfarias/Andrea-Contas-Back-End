@@ -12,6 +12,7 @@ import { FindClienteByIdController } from "@modules/clientes/useCases/findById/F
 import { FindClienteByCpfController } from "@modules/clientes/useCases/findByCpf/FindClienteByCpfController";
 import { GetTotalClientesController } from "@modules/clientes/useCases/GetTotalClientes/GetTotalClientesController";
 import { GetTotalClientesAdimplentesController } from "@modules/clientes/useCases/GetTotalClientesAdimplentes/GetTotalClientesAdimplentesController";
+import { GetTotalClientesInadimplentesController } from "@modules/clientes/useCases/GetTotalClientesInadimplentes/GetTotalClientesInadimplentesController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const clientesRoutes = Router();
@@ -28,6 +29,8 @@ const findClienteByCpfController = new FindClienteByCpfController();
 const getTotalClientesController = new GetTotalClientesController();
 const getTotalClientesAdimplentesController =
     new GetTotalClientesAdimplentesController();
+const getTotalClientesInadimplentesController =
+    new GetTotalClientesInadimplentesController();
 
 clientesRoutes.post("/", ensureAuthenticated, createClienteController.handle);
 clientesRoutes.delete(
@@ -52,6 +55,12 @@ clientesRoutes.get(
     "/gettotalclientesadimplentes",
     ensureAuthenticated,
     getTotalClientesAdimplentesController.handle
+);
+
+clientesRoutes.get(
+    "/gettotalclientesinadimplentes",
+    ensureAuthenticated,
+    getTotalClientesInadimplentesController.handle
 );
 clientesRoutes.get(
     "/findbyname",

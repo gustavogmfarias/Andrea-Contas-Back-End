@@ -9,7 +9,7 @@ import { prisma } from "@shared/database/prismaClient";
 
 /* eslint-disable prefer-destructuring */
 
-describe("CLIENTE - Get total de Clientes Adimplentes Controller", () => {
+describe("CLIENTE - Get total de Clientes Inadimplentes Controller", () => {
     const dateProvider = new DayjsDateProvider();
     const dataAtual = dateProvider.dateNow();
     let lojistaToken;
@@ -214,27 +214,26 @@ describe("CLIENTE - Get total de Clientes Adimplentes Controller", () => {
         // ContaF: inadimplente
     });
 
-    it("Deve ser capaz de retornar o total de clientes adimplentes", async () => {
-        const clientesAdimplentes = await request(app)
-            .get("/clientes/gettotalclientesadimplentes")
+    it("Deve ser capaz de retornar o total de clientes inadimplentes", async () => {
+        const clientesInadimplentes = await request(app)
+            .get("/clientes/gettotalclientesinadimplentes")
             .set({ Authorization: `Bearer ${lojistaToken}` });
-        console.log(clientesAdimplentes.body);
-        expect(clientesAdimplentes.status).toBe(200);
-        expect(clientesAdimplentes.body).toBe("4"); // 2 clientes adimplentes criados no seed + 2 adimplentes criados aqui no teste
+        expect(clientesInadimplentes.status).toBe(200);
+        expect(clientesInadimplentes.body).toBe("1"); // 2 clientes adimplentes criados no seed + 2 adimplentes criados aqui no teste
     });
 
     it("Não deve ser capaz de retornar o total de clientes adimplentes se não estiver logado", async () => {
-        const clientesAdimplentes = await request(app).get(
-            "/clientes/gettotalclientesadimplentes"
+        const clientesInadimplentes = await request(app).get(
+            "/clientes/gettotalclientesinadimplentes"
         );
-        expect(clientesAdimplentes.body.message).toBe("Token missing");
+        expect(clientesInadimplentes.body.message).toBe("Token missing");
     });
 
     it("Não deve ser capaz de retornar o total de clientes adimplentes se o token estiver inválido ou expirado", async () => {
-        const clientesAdimplentes = await request(app)
-            .get("/clientes/gettotalclientesadimplentes")
+        const clientesInadimplentes = await request(app)
+            .get("/clientes/gettotalclientesinadimplentes")
             .set({ Authorization: `Bearer 111` });
 
-        expect(clientesAdimplentes.body.message).toBe("Invalid Token");
+        expect(clientesInadimplentes.body.message).toBe("Invalid Token");
     });
 });

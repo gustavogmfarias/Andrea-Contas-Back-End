@@ -42,11 +42,11 @@
 [ x] Deve ser capaz de contabilizar o total de clientes da loja
 
 4- Relatório Total de Clientes Adimplentes
-[ ] Deve ser capaz de contabilizar o total de clientes inadimplentes
+[ ]x Deve ser capaz de contabilizar o total de clientes inadimplentes
 
 
 4- Relatório Total de Clientes Ininadimplentes
-[ ] Deve ser capaz de contabilizar o total de clientes ininadimplentes 
+[ x] Deve ser capaz de contabilizar o total de clientes ininadimplentes 
 
 5- Relatório Total a Receber
 [ ] Deve ser capaz de calcular o valor total a receber entre períodos

@@ -158,6 +158,51 @@ class ContasRepository implements IContasRepository {
 
         return contas;
     }
+
+    async listParcelas(
+        {
+            startDate,
+            endDate,
+            inadimplentes,
+            dataAtual,
+            ativo,
+            cliente,
+            lojista,
+        }: IListContasDTO,
+        { page, perPage }: IPaginationRequestDTO
+    ): Promise<Conta[]> {
+        let contas: Conta[];
+
+        if (!page || !perPage) {
+            contas = await prisma.conta.findMany({
+                where: {
+                    ativo,
+                    fkIdCliente: cliente,
+                    fkIdLojista: lojista,
+                    dataVencimentoAtual: { gte: startDate, lte: endDate },
+                },
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        } else {
+            contas = await prisma.conta.findMany({
+                where: {
+                    ativo,
+                    fkIdCliente: cliente,
+                    fkIdLojista: lojista,
+                    dataVencimentoAtual: { gte: startDate, lte: endDate },
+                },
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
+                orderBy: {
+                    id: "desc",
+                },
+            });
+        }
+
+        return contas;
+    }
 }
 
 export { ContasRepository };

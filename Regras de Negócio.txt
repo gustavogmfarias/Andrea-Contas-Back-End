@@ -49,10 +49,10 @@
 [ x] Deve ser capaz de contabilizar o total de clientes ininadimplentes 
 
 5- Relatório Total a Receber
-[ ] Deve ser capaz de calcular o valor total a receber entre períodos
+[ x] Deve ser capaz de calcular o valor total a receber entre períodos
 
-6- Relatório saldo devedor
-[ ] Deve ser capaz de calcular o saldo devedor total da empresa entre períodos
+6- Relatório saldo Inadimplente
+[x ] Deve ser capaz de calcular o saldo devedor total da empresa entre períodos
 
 7- Boletim da Empresa
 [ ] Deve ser capaz de emitir um boletim com os dados de arrecadação total, total de vendas, adiplência, inadiplência entre períods

@@ -9,7 +9,7 @@ import request from "supertest";
 
 /* eslint-disable prefer-destructuring */
 
-describe("CLIENTE - List Clientes Controller", () => {
+describe("CONTAS - Get Total a Receber Controller", () => {
     const dateProvider = new DayjsDateProvider();
     const dataAtual = dateProvider.dateNow();
     let lojistaToken;

@@ -6,6 +6,7 @@ import { FindContaByIdController } from "@modules/contas/useCases/FindContaByIdU
 import { InativarContaController } from "@modules/contas/useCases/InativarContaUseCase/InativarContaController";
 import { GetTotalAReceberController } from "@modules/contas/useCases/GetTotalAReceber/GetTotalAReceberController";
 import { GetTotalParcelasAReceberController } from "@modules/contas/useCases/GetTotalParcelasAReceber/GetTotalParcelasAReceberController";
+import { GerarBoletimController } from "@modules/contas/useCases/GerarBoletim/GerarBoletimController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const contasRoutes = Router();
@@ -16,6 +17,7 @@ const listContasController = new ListContasController();
 const getTotalParcelasAReceberController =
     new GetTotalParcelasAReceberController();
 const getTotalAReceberController = new GetTotalAReceberController();
+const gerarBoletimController = new GerarBoletimController();
 const findContaByIdController = new FindContaByIdController();
 const inativarContaController = new InativarContaController();
 
@@ -30,6 +32,11 @@ contasRoutes.get(
     "/gettotalparcelasareceber",
     ensureAuthenticated,
     getTotalParcelasAReceberController.handle
+);
+contasRoutes.get(
+    "/gerarboletim",
+    ensureAuthenticated,
+    gerarBoletimController.handle
 );
 contasRoutes.get(
     "/findbyid/:id",

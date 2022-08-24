@@ -9,7 +9,7 @@ import { prisma } from "@shared/database/prismaClient";
 
 /* eslint-disable prefer-destructuring */
 
-describe("CLIENTE - Get total de Clientes Inadimplentes Controller", () => {
+describe("CONTAS - Gerar Boletim  Controller", () => {
     const dateProvider = new DayjsDateProvider();
     const dataAtual = dateProvider.dateNow();
     let lojistaToken;
@@ -34,6 +34,8 @@ describe("CLIENTE - Get total de Clientes Inadimplentes Controller", () => {
     let contaBodyE;
     let contaF;
     let contaBodyF;
+    let contaG;
+    let contaBodyG;
 
     beforeAll(async () => {
         const lojista = await request(app)
@@ -206,34 +208,58 @@ describe("CLIENTE - Get total de Clientes Inadimplentes Controller", () => {
             data: { dataVencimentoAtual: dateProvider.addDays(-2) },
         });
 
+        contaG = await request(app)
+            .post("/contas")
+            .send({
+                observacoes: "ContaG",
+                numeroParcelas: 10,
+                valorInicial: 80,
+                dataVencimentoInicial: dateProvider.addDays(2),
+                fkIdCliente: clienteBodyA.id,
+            })
+            .set({ Authorization: `Bearer ${lojistaToken}` });
+
+        contaBodyG = contaG.body[0];
+
+        const contaGInativa = await prisma.conta.update({
+            where: { id: contaBodyG.id },
+            data: { ativo: false },
+        });
+
         // Cliente A: 2 conta
         // Cliente B: 2 conta
         // Cliente C: 1 conta
-        // Total contas: 6 | 5 adimplentes e 1 inadimplente
+        // Total contas: 7 | 5 adimplentes e 1 inadimplente, 1 inativa
         // total clientes: 3 | inadimplentes: 1 (A) | adimplentes: 2 (b e c) + 2 clientes criados no seed
         // ContaF: inadimplente
+        // ContaG: inativa
     });
 
-    it("Deve ser capaz de retornar o total de clientes inadimplentes", async () => {
-        const clientesInadimplentes = await request(app)
-            .get("/clientes/gettotalclientesinadimplentes")
+    it("Deve ser capaz de retornar o boletim total", async () => {
+        const boletim = await request(app)
+            .get("/contas/gerarboletim")
             .set({ Authorization: `Bearer ${lojistaToken}` });
-        expect(clientesInadimplentes.status).toBe(200);
-        expect(clientesInadimplentes.body).toBe("1"); // 2 clientes adimplentes criados no seed + 2 adimplentes criados aqui no teste
+        expect(boletim.status).toBe(200);
+        expect(boletim.body.faturamentoTotal).toBe("620.00");
+        expect(boletim.body.clientesAdimplentes).toBe(4); // 2 clientes adimplentes criados no seed + 2 adimplentes criados aqui no teste
+        expect(boletim.body.clientesInadimplentes).toBe(1);
+        expect(boletim.body.totalContas).toBe(7);
+        expect(boletim.body.contasAtivas).toBe(6);
+        expect(boletim.body.contasInativas).toBe(1);
+        expect(boletim.body.contasAdimplentes).toBe(5);
+        expect(boletim.body.contasInadimplentes).toBe(1);
     });
 
-    it("Não deve ser capaz de retornar o total de clientes inadimplentes se não estiver logado", async () => {
-        const clientesInadimplentes = await request(app).get(
-            "/clientes/gettotalclientesinadimplentes"
-        );
-        expect(clientesInadimplentes.body.message).toBe("Token missing");
+    it("Não deve ser capaz de retornar o boletim de contas se não estiver logado", async () => {
+        const boletim = await request(app).get("/contas/gerarboletim");
+        expect(boletim.body.message).toBe("Token missing");
     });
 
-    it("Não deve ser capaz de retornar o total de clientes inadimplentes se o token estiver inválido ou expirado", async () => {
-        const clientesInadimplentes = await request(app)
-            .get("/clientes/gettotalclientesinadimplentes")
+    it("Não deve ser capaz de retornar o total de clientes adimplentes se o token estiver inválido ou expirado", async () => {
+        const boletim = await request(app)
+            .get("/contas/gerarboletim")
             .set({ Authorization: `Bearer 111` });
 
-        expect(clientesInadimplentes.body.message).toBe("Invalid Token");
+        expect(boletim.body.message).toBe("Invalid Token");
     });
 });

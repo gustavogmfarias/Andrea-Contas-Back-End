@@ -55,7 +55,7 @@
 [x ] Deve ser capaz de calcular o saldo devedor total da empresa entre períodos
 
 7- Boletim da Empresa
-[ ] Deve ser capaz de emitir um boletim com os dados de arrecadação total, total de vendas, adiplência, inadiplência entre períods
+[x ] Deve ser capaz de emitir um boletim com os dados de arrecadação total, total de vendas, adiplência, inadiplência entre períods
 
 8- Profile Cliente
 [ ] Deve ser capaz de mostrar os dados completos do cliente

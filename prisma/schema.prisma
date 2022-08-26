@@ -52,8 +52,9 @@ model Cliente {
     avatarUrl   String?
     endereco    Endereco @relation(fields: [fkIdEndereco], references: [id], onDelete: Cascade)
 
-    fkIdEndereco String  @unique
+    fkIdEndereco String      @unique
     Conta        Conta[]
+    Pagamento    Pagamento[]
 
     @@map("clientes")
 }
@@ -97,11 +98,14 @@ model Conta {
 
 model Pagamento {
     id             String   @id @default(uuid())
+    criadoEm       DateTime @default(now())
     conta          Conta    @relation(fields: [fkIdConta], references: [id])
     lojista        Lojista  @relation(fields: [fkIdLojista], references: [id])
+    cliente        Cliente  @relation(fields: [fkIdCliente], references: [id])
     dataPagamento  DateTime
     fkIdConta      String
     fkIdLojista    String
+    fkIdCliente    String
     valorPagamento Float
 
     @@map("pagamentos")

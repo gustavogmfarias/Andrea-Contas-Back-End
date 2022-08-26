@@ -1,5 +1,6 @@
 import { ICreateContasDTO } from "@modules/contas/dtos/ICreateContasDTO";
 import { IListContasDTO } from "@modules/contas/dtos/IListContasDTO";
+import { IListPagamentosDTO } from "@modules/contas/dtos/IListPagamentosDTO";
 import { IRealizarPagamentoDTO } from "@modules/contas/dtos/IRealizarPagamentoDTO";
 import { IUpdateContasDTO } from "@modules/contas/dtos/IUpdateContasDTO";
 import { Conta, Pagamento } from "@prisma/client";
@@ -87,9 +88,16 @@ class ContasRepository implements IContasRepository {
         fkIdConta,
         fkIdLojista,
         valorPagamento,
+        fkIdCliente,
     }: IRealizarPagamentoDTO): Promise<Pagamento> {
         const pagamentoRealizado = prisma.pagamento.create({
-            data: { dataPagamento, fkIdConta, fkIdLojista, valorPagamento },
+            data: {
+                dataPagamento,
+                fkIdConta,
+                fkIdLojista,
+                valorPagamento,
+                fkIdCliente,
+            },
         });
 
         return pagamentoRealizado;
@@ -133,7 +141,7 @@ class ContasRepository implements IContasRepository {
                     },
                 },
                 orderBy: {
-                    id: "desc",
+                    criadoEm: "desc",
                 },
             });
         } else {
@@ -151,7 +159,7 @@ class ContasRepository implements IContasRepository {
                 take: Number(perPage),
                 skip: (Number(page) - 1) * Number(perPage),
                 orderBy: {
-                    id: "desc",
+                    criadoEm: "desc",
                 },
             });
         }
@@ -202,6 +210,76 @@ class ContasRepository implements IContasRepository {
         }
 
         return contas;
+    }
+
+    async listPagamentos(
+        {
+            startDate,
+            endDate,
+            fkIdConta,
+            fkIdLojista,
+            fkIdCliente,
+        }: IListPagamentosDTO,
+        { page, perPage }: IPaginationRequestDTO
+    ): Promise<Pagamento[]> {
+        let pagamentos: Pagamento[];
+
+        if (!page || !perPage) {
+            pagamentos = await prisma.pagamento.findMany({
+                where: {
+                    fkIdConta,
+                    fkIdLojista,
+                    fkIdCliente,
+                    dataPagamento: { gte: startDate, lte: endDate },
+                },
+                orderBy: {
+                    criadoEm: "desc",
+                },
+            });
+        } else {
+            pagamentos = await prisma.pagamento.findMany({
+                where: {
+                    fkIdLojista,
+                    fkIdConta,
+                    dataPagamento: { gte: startDate, lte: endDate },
+                },
+                take: Number(perPage),
+                skip: (Number(page) - 1) * Number(perPage),
+                orderBy: {
+                    criadoEm: "desc",
+                },
+            });
+        }
+
+        return pagamentos;
+    }
+
+    async ultimoPagamento({
+        fkIdCliente,
+    }: IListPagamentosDTO): Promise<Pagamento> {
+        const pagamento = await prisma.pagamento.findFirst({
+            where: {
+                fkIdCliente,
+            },
+            orderBy: {
+                criadoEm: "desc",
+            },
+        });
+
+        return pagamento;
+    }
+
+    async ultimaConta({ cliente }: IListContasDTO): Promise<Conta> {
+        const conta = await prisma.conta.findFirst({
+            where: {
+                fkIdCliente: cliente,
+            },
+            orderBy: {
+                criadoEm: "desc",
+            },
+        });
+
+        return conta;
     }
 }
 

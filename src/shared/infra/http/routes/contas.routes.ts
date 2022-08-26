@@ -7,6 +7,7 @@ import { InativarContaController } from "@modules/contas/useCases/InativarContaU
 import { GetTotalAReceberController } from "@modules/contas/useCases/GetTotalAReceber/GetTotalAReceberController";
 import { GetTotalParcelasAReceberController } from "@modules/contas/useCases/GetTotalParcelasAReceber/GetTotalParcelasAReceberController";
 import { GerarBoletimController } from "@modules/contas/useCases/GerarBoletim/GerarBoletimController";
+import { ListPagamentosController } from "@modules/contas/useCases/ListPagamentosUseCase/ListPagamentosController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const contasRoutes = Router();
@@ -14,6 +15,7 @@ const contasRoutes = Router();
 const createContasController = new CreateContasController();
 const realizarPagamentoController = new RealizarPagamentoController();
 const listContasController = new ListContasController();
+const listPagamentosController = new ListPagamentosController();
 const getTotalParcelasAReceberController =
     new GetTotalParcelasAReceberController();
 const getTotalAReceberController = new GetTotalAReceberController();
@@ -23,6 +25,11 @@ const inativarContaController = new InativarContaController();
 
 contasRoutes.post("/", ensureAuthenticated, createContasController.handle);
 contasRoutes.get("/", ensureAuthenticated, listContasController.handle);
+contasRoutes.get(
+    "/pagamentos",
+    ensureAuthenticated,
+    listPagamentosController.handle
+);
 contasRoutes.get(
     "/gettotalareceber",
     ensureAuthenticated,
@@ -43,6 +50,7 @@ contasRoutes.get(
     ensureAuthenticated,
     findContaByIdController.handle
 );
+
 contasRoutes.post(
     "/realizarPagamento/:idConta",
     ensureAuthenticated,

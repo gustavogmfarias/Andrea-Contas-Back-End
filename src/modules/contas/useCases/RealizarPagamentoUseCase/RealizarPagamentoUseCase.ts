@@ -47,6 +47,7 @@ class RealizarPagamentoUseCase {
             valorAtual,
             dataVencimentoAtual,
             ativo,
+            fkIdCliente,
         } = await this.contasRepository.findById(fkIdConta);
 
         if (ativo === false) {
@@ -91,6 +92,7 @@ class RealizarPagamentoUseCase {
                 fkIdConta,
                 fkIdLojista,
                 valorPagamento,
+                fkIdCliente,
             });
 
             const contaAbatida = await this.contasRepository.findById(
@@ -155,6 +157,7 @@ class RealizarPagamentoUseCase {
                 fkIdConta,
                 fkIdLojista,
                 valorPagamento,
+                fkIdCliente,
             });
 
             const contaAbatida = await this.contasRepository.findById(

@@ -58,10 +58,10 @@
 [x ] Deve ser capaz de emitir um boletim com os dados de arrecadação total, total de vendas, adiplência, inadiplência entre períods
 
 8- Profile Cliente
-[ ] Deve ser capaz de mostrar os dados completos do cliente
-[ ] Deve ser capaz de mostrar todo o histórico de movimentações do cliente
-[ ] Deve ser capaz de mostrar a última compra do cliente
-[ ] Deve ser capaz de mostrar o saldo devedor do cliente, caso haja
-[ ] Deve ser capaz de mostrar o valor total de contas do cliente
+[xx ] Deve ser capaz de mostrar os dados completos do cliente
+[ x] Deve ser capaz de mostrar todo o histórico de movimentações do cliente
+[x ] Deve ser capaz de mostrar a última compra do cliente
+[ x] Deve ser capaz de mostrar o saldo devedor do cliente, caso haja
+[ x] Deve ser capaz de mostrar o valor total de contas do cliente
 
 

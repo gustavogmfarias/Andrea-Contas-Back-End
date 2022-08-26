@@ -129,6 +129,8 @@ class RealizarPagamentoUseCase {
 
             if (valorAtual <= 0) {
                 ativo = false;
+                valorAtual = 0;
+                valorParcela = 0;
             }
 
             const contaAtualizada = await this.contasRepository.update(

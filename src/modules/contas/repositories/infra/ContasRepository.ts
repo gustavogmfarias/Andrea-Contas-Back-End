@@ -143,6 +143,7 @@ class ContasRepository implements IContasRepository {
                 orderBy: {
                     criadoEm: "desc",
                 },
+                include: { cliente: true },
             });
         } else {
             contas = await prisma.conta.findMany({
